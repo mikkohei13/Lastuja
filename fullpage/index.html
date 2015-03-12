@@ -34,6 +34,7 @@
 
       padding: 15vh 20px 20px 7vw;
       box-sizing: border-box;
+      cursor: pointer;
     }
     .poem
     {
@@ -69,6 +70,7 @@
       width: 100vw;
 
       box-sizing: border-box;
+      cursor: pointer;
     }
 
     </style>
@@ -114,12 +116,17 @@
     $( '#img1' ).click(function() {
       $('html, body').animate({
           scrollTop: $("#img2").offset().top
-      }, 500);
+      }, 600);
     });
     $( '#img2' ).click(function() {
       $('html, body').animate({
           scrollTop: $(".textdiv").offset().top
-      }, 500);
+      }, 600);
+    });
+    $( '.textdiv' ).click(function() {
+      $('html, body').animate({
+          scrollTop: $("#img1").offset().top
+      }, 800);
     });
     </script>
   </body>
