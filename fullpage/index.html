@@ -3,12 +3,13 @@
 <html>
   <head>
     <title>Full page photos</title>
-    <script src=""></script>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400italic,400' rel='stylesheet' type='text/css'>
     <style>
     body
     {
       margin: 0;
       padding: 0;
+      font-family: 'Merriweather', serif;
     }
     #content
     {
@@ -21,17 +22,44 @@
 
       height: 100vh;
       width: 100vw;
+
+      padding: 15vh 20px 20px 7vw;
+      box-sizing: border-box;
     }
     .imagediv
     {
       
     }
+    .poem
+    {
+      font-size: 200%;
+      color: #fff;
+      padding: 20px;
+      background-color:rgba(0, 0, 0, 0.3);
+      display: inline-block; /* div to adjust to content width */
+    }
+    .poem p
+    {
+      margin: 0;
+    }
+    .poem .cite
+    {
+      margin: 0.5em 0 0 1em;
+      font-size: 70%;
+      color:rgba(255,255,255, 0.8);
+    }
+    .name
+    {
+      font-style: italic;
+    }
+
     .textdiv
     {
       padding: 20px;
       font-size: 200%;
       line-height: 130%;
     }
+
     </style>
   </head>
   <body>
