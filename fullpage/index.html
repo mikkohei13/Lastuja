@@ -4,6 +4,7 @@
   <head>
     <title>Full page photos</title>
     <link href='http://fonts.googleapis.com/css?family=Merriweather:400italic,400' rel='stylesheet' type='text/css'>
+    <script src="../_common/vendor/jquery.min.js"></script>
     <style>
     body
     {
@@ -37,9 +38,10 @@
     .poem
     {
       font-size: 200%;
+      line-height: 140%;
       color: #fff;
       padding: 20px;
-      background-color:rgba(0, 0, 0, 0.3);
+      background-color:rgba(0, 0, 0, 0.4);
       display: inline-block; /* div to adjust to content width */
     }
     .poem p
@@ -59,9 +61,14 @@
 
     .textdiv
     {
-      padding: 20px;
-      font-size: 200%;
-      line-height: 130%;
+      padding: 7vh;
+      font-size: 170%;
+      line-height: 170%;
+
+      height: 100vh;
+      width: 100vw;
+
+      box-sizing: border-box;
     }
 
     </style>
@@ -103,7 +110,17 @@
 
     </div>
 
-    <script type="text/javascript">
+    <script>
+    $( '#img1' ).click(function() {
+      $('html, body').animate({
+          scrollTop: $("#img2").offset().top
+      }, 500);
+    });
+    $( '#img2' ).click(function() {
+      $('html, body').animate({
+          scrollTop: $(".textdiv").offset().top
+      }, 500);
+    });
     </script>
   </body>
 </html>
