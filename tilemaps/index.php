@@ -3,14 +3,17 @@
 <head>
 	<title>Espoon hakkuusuunnitelmat</title>
 	<meta charset="utf-8" />
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
 	<style>
 	body
 	{
 		padding: 0;
 		margin: 0;
+	}
+	html, body, #map
+	{
+    	height: 100%;
 	}
 	#map
 	{
@@ -57,6 +60,8 @@
 		});
 
 		map.addControl(layersControl);
+
+		map.locate({setView: true, maxZoom: 16});
 	</script>
 </body>
 </html>
