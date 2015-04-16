@@ -96,16 +96,7 @@
 			collapsed: false
 		});
 
-		map.addControl(layersControl);
-
-		map.locate({setView: true, maxZoom: 16, watch: true, maximumAge: 10000})
-			.on('locationfound', function(e) {
-				$( "#btn" ).text( "Paikanna" );
-//				$( "#btn" ).css( "background-color", "red" );
-        	})
-	       .on('locationerror', function(e){
-	            console.log(e);
-		    });
+//		map.addControl(layersControl);
 
 		// http://gis.stackexchange.com/questions/90225/how-to-add-a-floating-crosshairs-icon-above-leaflet-map
 		// Add in a crosshair for the map
@@ -115,7 +106,17 @@
 		    iconAnchor:   [22, 22], // point of the icon which will correspond to marker's location
 		});
 		crosshair = new L.marker(map.getCenter(), {icon: crosshairIcon, clickable:false});
-		crosshair.addTo(map);
+
+
+		map.locate({setView: true, maxZoom: 16, watch: true, maximumAge: 10000})
+			.on('locationfound', function(e) {
+				crosshair.addTo(map);
+				$( "#btn" ).text( "Paikanna" );
+//				$( "#btn" ).css( "font-weight", "bold" );
+        	})
+	       .on('locationerror', function(e){
+	            console.log(e);
+		    });
 
 		// Move the crosshair to the center of the map when the user pans
 		map.on('move', function(e) {
@@ -138,11 +139,12 @@
 			}
 			*/
 			$( "#btn" ).text( "Paikannetaan..." );
+			$( "#btn" ).css( "font-weight", "normal" );
 
 		  	map.locate({ setView: true, maxZoom: 16, watch: true, maximumAge: 10000 })
 			  	.on('locationfound', function(e) {
 					$( "#btn" ).text( "Paikanna" );
-//					$( "#btn" ).css( "background-color", "red" );
+//					$( "#btn" ).css( "font-weight", "bold" );
 	        	})
 		       .on('locationerror', function(e){
 		            console.log(e);
