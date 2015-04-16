@@ -131,21 +131,21 @@
 			}
 			*/
 
-		  	map.locate({setView: true, maxZoom: 16, watch: true, maximumAge: 10000})
-			  	.on('locationfound', function(e){
-	            var marker = L.marker([e.latitude, e.longitude]).bindPopup('Olet täällä');
-	            var circle = L.circle([e.latitude, e.longitude], e.accuracy/2, {
-	                weight: 1,
-	                color: 'blue',
-	                fillColor: '#cacaca',
-	                fillOpacity: 0.01
-	            });
-	            map.addLayer(marker);
-	            map.addLayer(circle);
-	        })
-	       .on('locationerror', function(e){
-	            console.log(e);
-	        });
+		  	map.locate({ setView: true, maxZoom: 16, watch: true, maximumAge: 10000 })
+			  	.on('locationfound', function(e) {
+		            var marker = L.marker([e.latitude, e.longitude]).bindPopup('Olet täällä');
+		            var circle = L.circle([e.latitude, e.longitude], e.accuracy/2, {
+		                weight: 1,
+		                color: 'blue',
+		                fillColor: '#cacaca',
+		                fillOpacity: 0.01
+		            });
+		            map.addLayer(marker);
+		            map.addLayer(circle);
+	        	})
+		       .on('locationerror', function(e){
+		            console.log(e);
+		        });
 		});
 	</script>
 </body>
