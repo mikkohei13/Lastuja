@@ -24,6 +24,7 @@
 		text-align: center;
 		margin: 1em;
 		display: block;
+		cursor: pointer;
 	  background: #3498db;
 	  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
 	  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
