@@ -58,7 +58,7 @@
 </head>
 <body>
 	<div id="map"></div>
-	<a id="btn" src="#">Paikanna</a>
+	<a id="btn" src="#">Paikannetaan...</a>
 	<p class="info">Saat paikannuksen nopeimmin, jos pidät GPS:n koko ajan päällä.</p>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -98,7 +98,14 @@
 
 		map.addControl(layersControl);
 
-		map.locate({setView: true, maxZoom: 16, watch: true, maximumAge: 10000});
+		map.locate({setView: true, maxZoom: 16, watch: true, maximumAge: 10000})
+			.on('locationfound', function(e) {
+				$( "#btn" ).text( "Paikanna" );
+//				$( "#btn" ).css( "background-color", "red" );
+        	})
+	       .on('locationerror', function(e){
+	            console.log(e);
+		    });
 
 		// http://gis.stackexchange.com/questions/90225/how-to-add-a-floating-crosshairs-icon-above-leaflet-map
 		// Add in a crosshair for the map
@@ -130,18 +137,12 @@
 	            map.removeLayer(circle);
 			}
 			*/
+			$( "#btn" ).text( "Paikannetaan..." );
 
 		  	map.locate({ setView: true, maxZoom: 16, watch: true, maximumAge: 10000 })
 			  	.on('locationfound', function(e) {
-		            var marker = L.marker([e.latitude, e.longitude]).bindPopup('Olet täällä');
-		            var circle = L.circle([e.latitude, e.longitude], e.accuracy/2, {
-		                weight: 1,
-		                color: 'blue',
-		                fillColor: '#cacaca',
-		                fillOpacity: 0.01
-		            });
-		            map.addLayer(marker);
-		            map.addLayer(circle);
+					$( "#btn" ).text( "Paikanna" );
+//					$( "#btn" ).css( "background-color", "red" );
 	        	})
 		       .on('locationerror', function(e){
 		            console.log(e);
