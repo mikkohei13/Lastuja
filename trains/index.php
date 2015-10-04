@@ -56,6 +56,8 @@ usort($trains, function($a, $b) {
     return $b['speed'] - $a['speed'];
 });
 
+$trainCount = count($trains);
+
 //echo "<pre>"; print_r ($trains); exit(); // debug
 
 $im = imagecreate($width, $height);
@@ -66,7 +68,7 @@ $background_color = hexColorAllocate($im, $bgrColor);
 $ellipseColor = hexColorAllocate($im, $trainColor);
 
 $prevX = 0;
-$prevY = 0;
+$prevY = $height;
 
 foreach($trains as $id => $arr)
 {
@@ -86,16 +88,22 @@ foreach($trains as $id => $arr)
 		$h = 5;
 	}
 */
-	$h = 7;
-	$w = 7;
 
-	// draw the ellipse
-	imagefilledellipse($im, $x, $y, $w, $h, $ellipseColor);
+	if (isset($_GET['showdots']))
+	{
+		// draw the ellipse
+		$h = 7;
+		$w = 7;
+		imagefilledellipse($im, $x, $y, $w, $h, $ellipseColor);
+	}
 
-	// Line between trains
-	imageline($im, $prevX, $prevY, $x, $y, $ellipseColor);
-	$prevX = $x;
-	$prevY = $y;
+	if (isset($_GET['showline']))
+	{
+		// Line between trains
+		imageline($im, $prevX, $prevY, $x, $y, $ellipseColor);
+		$prevX = $x;
+		$prevY = $y;
+	}
 
 	// Info
 	$font = 5;
@@ -124,14 +132,21 @@ imagefilledellipse($im, scaleLon($E), scaleLat($S), 10, 10, $ellipseColor);
 imagefilledellipse($im, scaleLon($E), scaleLat($N), 10, 10, $ellipseColor);
 */
 
+if (isset($_GET['showcount']))
+{
+	imagestring($im, 5, 4, 4, $trainCount, $ellipseColor);
+}
 
+/*
+// Save image
 $timestamp = date("YmdHis");
 $fileName = "images/trn_" . $timestamp . ".png";
+imagepng($im, $fileName);
+*/
 
 header("Content-Type: image/png");
 imagepng($im);
 
-imagepng($im, $fileName);
 imagedestroy($im);
 
 
