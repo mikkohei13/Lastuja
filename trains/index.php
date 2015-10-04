@@ -50,6 +50,11 @@ foreach($xml->channel->item as $train)
 	$trains[$id]['to'] = (string) $train->to;
 }
 
+// Sort by speed desc
+usort($trains, function($a, $b) {
+    return $b['speed'] - $a['speed'];
+});
+
 // echo "<pre>"; print_r ($trains); exit(); // debug
 
 $im = imagecreate($width, $height);
