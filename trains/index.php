@@ -83,6 +83,13 @@ foreach($trains as $id => $arr)
 	// draw the ellipse
 	imagefilledellipse($im, $x, $y, $w, $h, $ellipseColor);
 
+	// Train id
+	if (isset($_GET['showid']))
+	{
+		$font = 5;
+		imagestring ($im, $font, $x, $y, $id, $ellipseColor);
+	}
+
 //	echo "$id : $y, $x <br />"; // debug
 }
 
