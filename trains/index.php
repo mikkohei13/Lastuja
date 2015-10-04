@@ -1,7 +1,26 @@
 <?php
 
+// TODO: security
 $width = $_GET['width'];
 $height = $_GET['height'];
+
+if (isset($_GET['bgrcolor']))
+{
+	$bgrColor = "#" . $_GET['bgrcolor'];
+}
+else
+{
+	$bgrColor = "#003399";
+}
+
+if (isset($_GET['traincolor']))
+{
+	$trainColor = "#" . $_GET['traincolor'];
+}
+else
+{
+	$trainColor = "#FFFFFF";
+}
 
 // Junaverkon äärilaidat
 $N = 67.4;
@@ -35,10 +54,10 @@ foreach($xml->channel->item as $train)
 
 $im = imagecreate($width, $height);
 
-$background_color = hexColorAllocate($im, "#003399");
+$background_color = hexColorAllocate($im, $bgrColor);
 
 // choose a color for the ellipse
-$ellipseColor = hexColorAllocate($im, "#FFFFFF");
+$ellipseColor = hexColorAllocate($im, $trainColor);
 
 foreach($trains as $id => $arr)
 {
