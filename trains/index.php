@@ -1,8 +1,13 @@
 <?php
 
 // TODO: security
+if (!ctype_digit($_GET['width']) || !ctype_digit($_GET['height']))
+{
+    exit("width and height must be integers");
+}
 $width = $_GET['width'];
 $height = $_GET['height'];
+
 
 if (isset($_GET['bgrcolor']))
 {
