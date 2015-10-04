@@ -43,6 +43,7 @@ foreach($xml->channel->item as $train)
 {
 	$id = (string) $train->guid;
 	$latlon = explode(" ", (string) $train->georss_point);
+	$trains[$id]['id'] = $id; // needed because sorting changes array id's
 	$trains[$id]['lat'] = $latlon[0];
 	$trains[$id]['lon'] = $latlon[1];
 	$trains[$id]['speed'] = (int) $train->speed;
@@ -55,7 +56,7 @@ usort($trains, function($a, $b) {
     return $b['speed'] - $a['speed'];
 });
 
-// echo "<pre>"; print_r ($trains); exit(); // debug
+//echo "<pre>"; print_r ($trains); exit(); // debug
 
 $im = imagecreate($width, $height);
 
@@ -63,6 +64,9 @@ $background_color = hexColorAllocate($im, $bgrColor);
 
 // choose a color for the ellipse
 $ellipseColor = hexColorAllocate($im, $trainColor);
+
+$prevX = 0;
+$prevY = 0;
 
 foreach($trains as $id => $arr)
 {
@@ -88,12 +92,23 @@ foreach($trains as $id => $arr)
 	// draw the ellipse
 	imagefilledellipse($im, $x, $y, $w, $h, $ellipseColor);
 
-	// Train id
+	// Line between trains
+	imageline($im, $prevX, $prevY, $x, $y, $ellipseColor);
+	$prevX = $x;
+	$prevY = $y;
+
+	// Info
+	$font = 5;
 	if (isset($_GET['showid']))
 	{
-		$font = 5;
-		imagestring ($im, $font, $x, $y, $id, $ellipseColor);
+		imagestring ($im, $font, $x, $y, $arr['id'], $ellipseColor);
 	}
+	elseif (isset($_GET['showspeed']))
+	{
+		imagestring ($im, $font, $x, $y, $arr['speed'], $ellipseColor);
+	}
+
+
 
 //	echo "$id : $y, $x <br />"; // debug
 }
