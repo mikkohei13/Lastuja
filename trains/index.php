@@ -11,6 +11,11 @@ $height = $_GET['height'];
 
 if (isset($_GET['bgrcolor']))
 {
+	if (!ctype_xdigit($_GET['bgrcolor']))
+	{
+        exit("bgrcolor must be hexadecimal");
+	}
+
 	$bgrColor = "#" . $_GET['bgrcolor'];
 }
 else
@@ -20,6 +25,11 @@ else
 
 if (isset($_GET['traincolor']))
 {
+	if (!ctype_xdigit($_GET['traincolor']))
+	{
+        exit("traincolor must be hexadecimal");
+	}
+
 	$trainColor = "#" . $_GET['traincolor'];
 }
 else
