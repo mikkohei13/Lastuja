@@ -1,18 +1,18 @@
 <?php
 
-/*
-Junaverkon reunat
+$width = $_GET['width'];
+$height = $_GET['height'];
 
-*/
+// Junaverkon äärilaidat
 $N = 67.4;
 $S = 59.8;
 $dN = $N - $S;
-$scaleN = 500 / $dN;
+$scaleN = $height / $dN;
 
 $W = 21.5;
 $E = 30.7;
 $dE = $E - $W;
-$scaleE = 500 / $dE;
+$scaleE = $width / $dE;
 
 
 $url = "http://188.117.35.14/TrainRSS/TrainService.svc/AllTrains?showspeed=true&hash=3144";
@@ -33,7 +33,7 @@ foreach($xml->channel->item as $train)
 
 // echo "<pre>"; print_r ($trains); exit(); // debug
 
-$im = imagecreate(500, 500);
+$im = imagecreate($width, $height);
 
 $background_color = imagecolorallocate($im, 0, 51, 153);
 
@@ -47,7 +47,7 @@ foreach($trains as $id => $arr)
 	$x = ($arr['lon'] - 23) * 100;
 	*/
 
-	$y = 500 - (($arr['lat'] - $S) * $scaleN);
+	$y = $height - (($arr['lat'] - $S) * $scaleN);
 	$x = ($arr['lon'] - $W) * $scaleE;
 
 /*
