@@ -35,10 +35,10 @@ foreach($xml->channel->item as $train)
 
 $im = imagecreate($width, $height);
 
-$background_color = imagecolorallocate($im, 0, 51, 153);
+$background_color = hexColorAllocate($im, "#003399");
 
 // choose a color for the ellipse
-$ellipseColor = imagecolorallocate($im, 255, 255, 255);
+$ellipseColor = hexColorAllocate($im, "#FFFFFF");
 
 foreach($trains as $id => $arr)
 {
@@ -69,7 +69,7 @@ foreach($trains as $id => $arr)
 //echo "<pre>"; print_r(get_defined_vars()); // debug
 
 // Corners
-$ellipseColor = imagecolorallocate($im, 255, 255, 0);
+//$ellipseColor = imagecolorallocate($im, 255, 255, 0);
 //imagefilledellipse($im, $x, $y, $w, $h, $ellipseColor);
 
 
@@ -82,3 +82,16 @@ imagepng($im);
 
 imagepng($im, $fileName);
 imagedestroy($im);
+
+
+// balamm
+// http://forums.devshed.com/php-development-5/gd-hex-resource-imagecolorallocate-265852.html
+// http://stackoverflow.com/questions/2957609/how-can-i-give-a-color-to-imagecolorallocate
+
+function hexColorAllocate($im,$hex){
+    $hex = ltrim($hex,'#');
+    $a = hexdec(substr($hex,0,2));
+    $b = hexdec(substr($hex,2,2));
+    $c = hexdec(substr($hex,4,2));
+    return imagecolorallocate($im, $a, $b, $c); 
+}
