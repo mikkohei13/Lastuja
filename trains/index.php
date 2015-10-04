@@ -66,9 +66,10 @@ foreach($trains as $id => $arr)
 	$x = ($arr['lon'] - 23) * 100;
 	*/
 
-	$y = $height - (($arr['lat'] - $S) * $scaleN);
-	$x = ($arr['lon'] - $W) * $scaleE;
-
+//	$y = $height - (($arr['lat'] - $S) * $scaleN);
+	$y = scaleLat($arr['lat']);
+//	$x = ($arr['lon'] - $W) * $scaleE;
+	$x = scaleLon($arr['lon']);
 /*
 	$h = round(($arr['speed'] / 5), 0);
 	if ($h < 5)
@@ -87,10 +88,14 @@ foreach($trains as $id => $arr)
 
 //echo "<pre>"; print_r(get_defined_vars()); // debug
 
-// Corners
-//$ellipseColor = imagecolorallocate($im, 255, 255, 0);
-//imagefilledellipse($im, $x, $y, $w, $h, $ellipseColor);
-
+// Corners: testing that scaling works correctly
+/*
+$ellipseColor = imagecolorallocate($im, 255, 255, 0);
+imagefilledellipse($im, scaleLon($W), scaleLat($S), 10, 10, $ellipseColor);
+imagefilledellipse($im, scaleLon($W), scaleLat($N), 10, 10, $ellipseColor);
+imagefilledellipse($im, scaleLon($E), scaleLat($S), 10, 10, $ellipseColor);
+imagefilledellipse($im, scaleLon($E), scaleLat($N), 10, 10, $ellipseColor);
+*/
 
 
 $timestamp = date("YmdHis");
@@ -114,3 +119,24 @@ function hexColorAllocate($im,$hex){
     $c = hexdec(substr($hex,4,2));
     return imagecolorallocate($im, $a, $b, $c); 
 }
+
+function scaleLat($lat)
+{
+	global $height;
+	global $S;
+	global $scaleN;
+
+	$y = $height - (($lat - $S) * $scaleN);
+	return $y;
+}
+
+function scaleLon($lon)
+{
+	global $W;
+	global $scaleE;
+
+	$x = ($lon - $W) * $scaleE;
+
+	return $x;
+}
+
