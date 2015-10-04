@@ -1,5 +1,20 @@
 <?php
 
+/*
+Junaverkon reunat
+
+*/
+$N = 67.4;
+$S = 59.8;
+$dN = $N - $S;
+$scaleN = 500 / $dN;
+
+$W = 21.5;
+$E = 30.7;
+$dE = $E - $W;
+$scaleE = 500 / $dE;
+
+
 $url = "http://188.117.35.14/TrainRSS/TrainService.svc/AllTrains?showspeed=true&hash=3144";
 $xmlString = file_get_contents($url);
 $xmlString = str_replace("georss:point", "georss_point", $xmlString);
@@ -18,7 +33,7 @@ foreach($xml->channel->item as $train)
 
 // echo "<pre>"; print_r ($trains); exit(); // debug
 
-$im = imagecreate(500, 600);
+$im = imagecreate(500, 500);
 
 $background_color = imagecolorallocate($im, 0, 51, 153);
 
@@ -27,8 +42,13 @@ $ellipseColor = imagecolorallocate($im, 255, 255, 255);
 
 foreach($trains as $id => $arr)
 {
+	/*
 	$y = 600 - (($arr['lat'] - 60) * 100);
 	$x = ($arr['lon'] - 23) * 100;
+	*/
+
+	$y = 500 - (($arr['lat'] - $S) * $scaleN);
+	$x = ($arr['lon'] - $W) * $scaleE;
 
 /*
 	$h = round(($arr['speed'] / 5), 0);
@@ -42,7 +62,17 @@ foreach($trains as $id => $arr)
 
 	// draw the ellipse
 	imagefilledellipse($im, $x, $y, $w, $h, $ellipseColor);
+
+//	echo "$id : $y, $x <br />"; // debug
 }
+
+//echo "<pre>"; print_r(get_defined_vars()); // debug
+
+// Corners
+$ellipseColor = imagecolorallocate($im, 255, 255, 0);
+//imagefilledellipse($im, $x, $y, $w, $h, $ellipseColor);
+
+
 
 $timestamp = date("YmdHis");
 $fileName = "images/trn_" . $timestamp . ".png";
