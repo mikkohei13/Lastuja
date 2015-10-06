@@ -103,6 +103,9 @@ foreach($trains as $id => $arr)
 		$h = 5;
 	}
 */
+	$rgb = randomPleasingColorRGB();
+	$ellipseColor = imagecolorallocate($im, $rgb['R'], $rgb['G'], $rgb['B']);
+
 
 	if (isset($_GET['showdots']))
 	{
@@ -169,7 +172,7 @@ imagedestroy($im);
 // http://forums.devshed.com/php-development-5/gd-hex-resource-imagecolorallocate-265852.html
 // http://stackoverflow.com/questions/2957609/how-can-i-give-a-color-to-imagecolorallocate
 
-function hexColorAllocate($im,$hex){
+function hexColorAllocate($im, $hex){
     $hex = ltrim($hex,'#');
     $a = hexdec(substr($hex,0,2));
     $b = hexdec(substr($hex,2,2));
@@ -195,5 +198,22 @@ function scaleLon($lon)
 	$x = ($lon - $W) * $scaleE;
 
 	return $x;
+}
+
+function randomPleasingColorRGB()
+{
+	$seedR = 13;
+	$seedG = 67;
+	$seedB = 127;
+
+	$randR = mt_rand(0, 100) / 100 * 255;
+	$randG = mt_rand(0, 100) / 100 * 255;
+	$randB = mt_rand(0, 100) / 100 * 255;
+
+	$color['R'] = round(($seedR + $randR) / 2, 0);
+	$color['G'] = round(($seedG + $randG) / 2, 0);
+	$color['B'] = round(($seedB + $randB) / 2, 0);
+
+	return $color;
 }
 
