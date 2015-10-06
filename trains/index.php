@@ -87,25 +87,14 @@ $prevY = $height;
 
 foreach($trains as $id => $arr)
 {
-	/*
-	$y = 600 - (($arr['lat'] - 60) * 100);
-	$x = ($arr['lon'] - 23) * 100;
-	*/
-
-//	$y = $height - (($arr['lat'] - $S) * $scaleN);
 	$y = scaleLat($arr['lat']);
-//	$x = ($arr['lon'] - $W) * $scaleE;
 	$x = scaleLon($arr['lon']);
-/*
-	$h = round(($arr['speed'] / 5), 0);
-	if ($h < 5)
-	{
-		$h = 5;
-	}
-*/
+
+	/*
+	// New color for each line/dot
 	$rgb = randomPleasingColorRGB();
 	$ellipseColor = imagecolorallocate($im, $rgb['R'], $rgb['G'], $rgb['B']);
-
+	*/
 
 	if (isset($_GET['showdots']))
 	{
