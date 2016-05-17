@@ -34,10 +34,10 @@ $tempPolygon = "";
 
 $masterKML = "";
 
-// Horizontal lines
-
 // KML polygon format: 24.1,60.1,0 24.2,60.1,0 24.2,60.2,0 24.1,60.2,0 24.1,60.1,0 
 
+
+// Horizontal lines
 
 $helpN = $startN;
 while ($helpN <= $endN)
@@ -53,6 +53,24 @@ while ($helpN <= $endN)
 	addPolygon($tempPolygon);
 	$helpN = $helpN + $size;
 }
+
+// Vertical lines
+
+$helpE = $startE;
+while ($helpE <= $endE)
+{
+	$tempPolygon = "";
+	$helpN = $startN;
+	while ($helpN <= $endN)
+	{
+		$tempPolygon .= "$helpE,$helpN,0 ";
+		$helpN = $helpN + $size;
+	}
+
+	addPolygon($tempPolygon);
+	$helpE = $helpE + $size;
+}
+
 
 function addPolygon($polygon)
 {
