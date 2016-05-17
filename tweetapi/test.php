@@ -11,26 +11,33 @@ $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token, $ac
 
 $content = $connection->get("search/tweets", ["q" => "#tornientaisto", "count" => 100]);
 
-$imageUrls = Array();
+$images = Array();
 
 foreach ($content->statuses as $tweet)
 {
+
+//	print_r ($tweet); // debug
+
 	if (isset($tweet->entities->media))
 	{
 		$mediaFiles = $tweet->entities->media;
+		$text = $tweet->text;
+
 		foreach ($mediaFiles as $file)
 		{
 			$file = $file->media_url;
-			$imageUrls[$file] = 1;
+			$hash = sha1($file);
+
+			$images[$hash]['url'] = $file;
+			$images[$hash]['text'] = $text;
 		}
 	}
 } 
 
-foreach ($imageUrls as $url => $bool)
+foreach ($images as $hash => $arr)
 {
-	echo "<img src='";
-	echo $url;
-	echo "' /><br />";
+	echo "<img src='" . $arr['url'] . "' /><br />";
+	echo $arr['text'];
 }
 
 
