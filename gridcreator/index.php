@@ -31,9 +31,14 @@ $helpE = 0;
 
 // Horizontal lines
 
-$helpE = $startE;
-while ($helpE <= $endE)
+$helpN = $startN;
+while ($helpN <= $endN)
 {
-	echo "$startN, $helpE;\n";
-	$helpE = $helpE + $size;
+	$helpE = $startE;
+	while ($helpE <= $endE)
+	{
+		echo "$helpN, $helpE;\n";
+		$helpE = $helpE + $size;
+	}
+	$helpN = $helpN + $size;
 }
