@@ -23,8 +23,14 @@ $debug = FALSE;
 @$size = $_GET['size'];
 
 
-$startN = 60; $startE = 22; $endN = 65; $endE = 27; $size = 1; // debug data
+$startN = 59.75; $startE = 22.75; $endN = 61.05; $endE = 25.65; $size = 0.1; // debug data
+$startN = 59.75; $startE = 22.75; $endN = 61.42; $endE = 26.32; $size = 0.1; // debug data
 
+
+$styleWidth = "2";
+$styleColor = "ccffccff";
+
+// ---------------------
 
 
 $helpN = 0;
@@ -107,6 +113,12 @@ if (! $debug)
 	<name>Grid</name>
 	<open>1</open>
 	<description>Made with KML Grid Creator</description>
+	<Style id="gridCreatorStyle">
+		<LineStyle>
+			<color><?php echo $styleColor; ?></color>
+			<width><?php echo $styleWidth; ?></width>
+		</LineStyle>
+	</Style>
 	<Folder>
 		<name>Grid</name>
 		<open>1</open>
