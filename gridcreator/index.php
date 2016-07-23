@@ -25,6 +25,7 @@ $debug = FALSE;
 
 $startN = 59.75; $startE = 22.75; $endN = 61.05; $endE = 25.65; $size = 0.1; // debug data
 $startN = 59.75; $startE = 22.75; $endN = 61.42; $endE = 26.32; $size = 0.1; // debug data
+$startN = 55; $startE = 20; $endN = 65; $endE = 30; $size = 1.27; // debug data
 
 
 $styleWidth = "2";
