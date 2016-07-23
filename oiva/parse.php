@@ -1,6 +1,6 @@
 <?php
 
-$text = "02780";
+$text = "koulu";
 $url = "https://oiva.evira.fi/kohteet/basic/?text=" . $text . "&ov=1.2.1&mode=";
 
 $dataJSON = file_get_contents($url);
@@ -26,12 +26,25 @@ foreach ($dataArr as $number => $restaurantArr)
 	$simpleDataArr[$id]['gradeAverage'] = round(($reportGradeTotal / $reportCount), 1);
 }
 
+// Sort by gradeAverage
+uasort($simpleDataArr, function($a, $b) {
+    return $a['gradeAverage'] - $b['gradeAverage'];
+});
+
+
 //header('Content-Type: application/json; charset=utf-8');
 print_r($simpleDataArr);
 print_r($dataArr);
 
 
 /*
+
+TODO
+- toimiva sorttaus!
+- hakusanan / urlin enkoodaus, jotta ääkköset toimivat
+- raporttien määrä
+- uusimman ja vanhimman arvion pvm, jotta saman ravintolan eri yritysnimen alla olevat arviot voi erottaa toisistaan (esim. Pappa Pizza)
+- linkki uusimpaan raporttiin
 
 Arvosanat
 1 = oivallinen
