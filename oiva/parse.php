@@ -9,3 +9,20 @@ $dataArr = json_decode($dataJSON, TRUE);
 
 //header('Content-Type: application/json; charset=utf-8');
 print_r($dataArr);
+
+/*
+
+Arvosanat
+1 = oivallinen
+2 = hyvä
+3 = korjattavaa
+
+Kohdetyypit
+
+3 = myllyt ja leipomot
+8 = myymälä
+9 = ravintola
+11 = kahvila
+13 = ruokala
+
+*/
