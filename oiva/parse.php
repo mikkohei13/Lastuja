@@ -1,7 +1,11 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 
-$text = "koulu";
-$url = "https://oiva.evira.fi/kohteet/basic/?text=" . $text . "&ov=1.2.1&mode=";
+$qRaw = $_GET['q'];
+$q = urlencode(utf8_decode($qRaw));
+$url = "https://oiva.evira.fi/kohteet/basic/?text=" . $q . "&ov=1.2.1&mode=";
+
+//exit($url); // debug
 
 $dataJSON = file_get_contents($url);
  
@@ -41,7 +45,6 @@ print_r($dataArr);
 
 TODO
 - toimiva sorttaus!
-- hakusanan / urlin enkoodaus, jotta ääkköset toimivat
 - raporttien määrä
 - uusimman ja vanhimman arvion pvm, jotta saman ravintolan eri yritysnimen alla olevat arviot voi erottaa toisistaan (esim. Pappa Pizza)
 - linkki uusimpaan raporttiin
