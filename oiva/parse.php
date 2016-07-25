@@ -17,6 +17,9 @@ foreach ($dataArr as $number => $restaurantArr)
 {
 	$id = sha1($restaurantArr['uniqueKey']);
 	$simpleDataArr[$id]['name'] = $restaurantArr['markkinointiNimi'];
+	$simpleDataArr[$id]['tyyppi'] = $restaurantArr['kohdetyyppiNimiFi'];
+	$simpleDataArr[$id]['katu'] = $restaurantArr['katuosoite'];
+	$simpleDataArr[$id]['kunta'] = $restaurantArr['kuntaNimiFi'];
 
 	$reportCount = 0;
 	$reportGradeTotal = 0;
@@ -50,7 +53,7 @@ uasort($simpleDataArr, function($b, $a) {
 
 //header('Content-Type: application/json; charset=utf-8');
 print_r($simpleDataArr);
-//print_r($dataArr); // debug
+print_r($dataArr); // debug
 
 
 /*
