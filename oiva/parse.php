@@ -28,17 +28,29 @@ foreach ($dataArr as $number => $restaurantArr)
 	}
 
 	$simpleDataArr[$id]['gradeAverage'] = round(($reportGradeTotal / $reportCount), 1);
+	$simpleDataArr[$id]['reportCount'] = $reportCount;
 }
 
 // Sort by gradeAverage
-uasort($simpleDataArr, function($a, $b) {
-    return $a['gradeAverage'] - $b['gradeAverage'];
+uasort($simpleDataArr, function($b, $a) {
+	if ($a['gradeAverage'] > $b['gradeAverage'])
+	{
+	    return 1;
+	}
+	elseif ($a['gradeAverage'] < $b['gradeAverage'])
+	{
+	    return -1;
+	}
+	elseif ($a['gradeAverage'] == $b['gradeAverage'])
+	{
+	    return 0;
+	}
 });
 
 
 //header('Content-Type: application/json; charset=utf-8');
 print_r($simpleDataArr);
-print_r($dataArr);
+//print_r($dataArr); // debug
 
 
 /*
