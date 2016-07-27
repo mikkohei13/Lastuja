@@ -18,17 +18,29 @@ foreach ($dataArr as $number => $restaurantArr)
 	$id = sha1($restaurantArr['uniqueKey']);
 	$simpleDataArr[$id]['name'] = $restaurantArr['markkinointiNimi'];
 	$simpleDataArr[$id]['tyyppi'] = $restaurantArr['kohdetyyppiNimiFi'];
-	$simpleDataArr[$id]['katu'] = $restaurantArr['katuosoite'];
+//	$simpleDataArr[$id]['katu'] = $restaurantArr['katuosoite'];
 	$simpleDataArr[$id]['kunta'] = $restaurantArr['kuntaNimiFi'];
+	$simpleDataArr[$id]['tunnus'] = $restaurantArr['tunnus'];
 
 	$reportCount = 0;
 	$reportGradeTotal = 0;
+	$latestReportDate = 0;
 
+	// Reports
 	foreach ($restaurantArr['raporttiList'] as $reportNumber => $reportArr)
 	{
+		if ($reportArr['tarkastusPaiva'] > $latestReportDate)
+		{
+			$latestReportDate = $reportArr['tarkastusPaiva'];
+			$latestReportCode = $reportArr['tarkastusTunnus'];
+		}
+
 		$reportGradeTotal = $reportGradeTotal + $reportArr['arvosana'];
 		$reportCount++;
 	}
+
+	$simpleDataArr[$id]['latestReportCode'] = $latestReportCode;
+	$simpleDataArr[$id]['latestReportURL'] = "https://oiva.evira.fi/kohteet/" . $simpleDataArr[$id]['tunnus'] . "/raportit/" . $simpleDataArr[$id]['latestReportCode'] . "/pdf";
 
 	$simpleDataArr[$id]['gradeAverage'] = round(($reportGradeTotal / $reportCount), 1);
 	$simpleDataArr[$id]['reportCount'] = $reportCount;
