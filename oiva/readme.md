@@ -7,10 +7,8 @@ HUOM! Eri ravintoloiden arvosanat eivät välttämättä ole toisiinsa verrannol
 
 
 TODO
-- toimiva sorttaus!
-- raporttien määrä
+- security
 - uusimman ja vanhimman arvion pvm, jotta saman ravintolan eri yritysnimen alla olevat arviot voi erottaa toisistaan (esim. Pappa Pizza)
-- linkki uusimpaan raporttiin
 
 Huomioita
 - Arvosanananto vaihtelee. Useimmiten näyttää se että Oiva-raporttia ei pidetä esillä ei vähennä arvosanaa (esim. Pappa pizza -> hyvä). Joskus se taas tekee arvosanasta huonon (esim. Kotipizza Ekenäs)

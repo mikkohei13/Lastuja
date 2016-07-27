@@ -63,9 +63,29 @@ uasort($simpleDataArr, function($b, $a) {
 });
 
 
-//header('Content-Type: application/json; charset=utf-8');
-print_r($simpleDataArr);
-print_r($dataArr); // debug
+header('Content-Type: text/html; charset=utf-8');
+if (isset($_GET['debug']))
+{
+	print_r($simpleDataArr);
+	print_r($dataArr);
+}
+else
+{
+
+	echo "<table>";
+	foreach ($simpleDataArr as $key => $restaurant)
+	{
+		echo "<tr>";
+		echo "<td>" . $restaurant['name'] . "<br />" . $restaurant['kunta'] . "</td>";
+		echo "<td>" . $restaurant['gradeAverage'] . "</td>";
+		echo "<td>" . $restaurant['reportCount'] . " tarkastus(ta)</td>";
+		echo "<td><a href='" . $restaurant['latestReportURL'] . "'>PDF</a></td>";
+		echo "</tr>";
+	}
+	echo "</table>";
+
+}
+
 
 
 
