@@ -56,26 +56,4 @@ print_r($simpleDataArr);
 print_r($dataArr); // debug
 
 
-/*
 
-TODO
-- toimiva sorttaus!
-- raporttien määrä
-- uusimman ja vanhimman arvion pvm, jotta saman ravintolan eri yritysnimen alla olevat arviot voi erottaa toisistaan (esim. Pappa Pizza)
-- linkki uusimpaan raporttiin
-
-Arvosanat
-1 = oivallinen
-2 = hyvä
-3 = korjattavaa
-4 = huono
-
-Kohdetyypit
-3 = myllyt ja leipomot
-8 = myymälä
-9 = ravintola
-11 = kahvila
-13 = ruokala
-
-
-*/
