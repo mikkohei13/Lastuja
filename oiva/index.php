@@ -42,6 +42,8 @@ header('Content-Type: text/html; charset=utf-8');
             <input type="submit" value="Hae" id="submit" name="submit"></input>
         </form>
 
+        <div id="result"></div>
+
         </div> <!-- #main-container -->
 
         <div id="footer-container">
