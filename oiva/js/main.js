@@ -1,7 +1,8 @@
 
 $( "#searchform" ).submit(function( event ) {
 
-  $.get( "parse.php?q=02210", function( data ) {
+  var searchterm = $( "#q" ).val();
+  $.get( "parse.php?q="+searchterm, function( data ) {
     $( "#result" ).html( data );
   });
 
