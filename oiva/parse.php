@@ -74,14 +74,21 @@ else
 {
 
 	echo "<table>";
+	echo "<tr>";
+	echo "<th>Ravintola</th>";
+	echo "<th colspan=\"2\">arvosana</th>";
+	echo "<th>tarkastuksia</th>";
+	echo "<th>Uusin raportti</th>";
+	echo "</tr>";
+
 	foreach ($simpleDataArr as $key => $restaurant)
 	{
 		echo "<tr>";
 		echo "<td>" . $restaurant['name'] . "<br />" . $restaurant['kunta'] . "</td>";
 		echo "<td>" . $restaurant['gradeAverage'] . "</td>";
 		echo "<td>" . $restaurant['gradeAverageName'] . "</td>";
-		echo "<td>" . $restaurant['reportCount'] . " tarkastus(ta)</td>";
-		echo "<td><a href='" . $restaurant['latestReportURL'] . "'>Uusin raportti (PDF)</a></td>";
+		echo "<td>" . $restaurant['reportCount'] . "</td>";
+		echo "<td><a href='" . $restaurant['latestReportURL'] . "'>PDF</a></td>";
 		echo "</tr>";
 	}
 	echo "</table>";
