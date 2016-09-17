@@ -14,6 +14,8 @@ Huomioita
 - Arvosanananto vaihtelee. Useimmiten näyttää se että Oiva-raporttia ei pidetä esillä ei vähennä arvosanaa (esim. Pappa pizza -> hyvä). Joskus se taas tekee arvosanasta huonon (esim. Kotipizza Ekenäs)
 - Raporttien URL on muotoa: https://oiva.evira.fi/kohteet/292117/raportit/371867/pdf (Brunnsdal), jossa 
 														  tunnus		  tarkastusTunnus
+- Ks: Viking Seafood, 00100 juice bar, Sushibar rice garden, Sauli mäkisen leipomon kahvio
+- Tampereella huomiot näyttävät olevan tarkempia kuin useimmissa muissa paikoissa
 
 Arvosanat
 1 = oivallinen
