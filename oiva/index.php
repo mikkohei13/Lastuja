@@ -36,6 +36,12 @@ header('Content-Type: text/html; charset=utf-8');
         </div>
 
         <div id="main-container">
+
+        <form id="searchform">
+            <input id="q" name ="q" placeholder="hakusana, kunta tai postinumero"></input>
+            <input type="submit" value="Hae" id="submit" name="submit"></input>
+        </form>
+
         </div> <!-- #main-container -->
 
         <div id="footer-container">
