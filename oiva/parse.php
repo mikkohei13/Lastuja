@@ -43,6 +43,7 @@ foreach ($dataArr as $number => $restaurantArr)
 	$simpleDataArr[$id]['latestReportURL'] = "https://oiva.evira.fi/kohteet/" . $simpleDataArr[$id]['tunnus'] . "/raportit/" . $simpleDataArr[$id]['latestReportCode'] . "/pdf";
 
 	$simpleDataArr[$id]['gradeAverage'] = round(($reportGradeTotal / $reportCount), 1);
+	$simpleDataArr[$id]['gradeAverageName'] = getGradeName($simpleDataArr[$id]['gradeAverage']);
 	$simpleDataArr[$id]['reportCount'] = $reportCount;
 }
 
@@ -78,8 +79,9 @@ else
 		echo "<tr>";
 		echo "<td>" . $restaurant['name'] . "<br />" . $restaurant['kunta'] . "</td>";
 		echo "<td>" . $restaurant['gradeAverage'] . "</td>";
+		echo "<td>" . $restaurant['gradeAverageName'] . "</td>";
 		echo "<td>" . $restaurant['reportCount'] . " tarkastus(ta)</td>";
-		echo "<td><a href='" . $restaurant['latestReportURL'] . "'>PDF</a></td>";
+		echo "<td><a href='" . $restaurant['latestReportURL'] . "'>Uusin raportti (PDF)</a></td>";
 		echo "</tr>";
 	}
 	echo "</table>";
@@ -87,5 +89,17 @@ else
 }
 
 
+// --------------------
+
+function getGradeName($gradeDecimal)
+{
+	$gradeInt = round($gradeDecimal, 0);
+	$gradeNames[4] = "huono";
+	$gradeNames[3] = "korjattavaa";
+	$gradeNames[2] = "hyvä";
+	$gradeNames[1] = "erinomainen";
+
+	return $gradeNames[$gradeInt];
+}
 
 
