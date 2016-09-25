@@ -1,0 +1,25 @@
+
+body
+{
+	font-family: 'Raleway', Arial, Helvetica, sans-serif;
+	background-color: #ccc;
+	overflow: hidden;
+}
+
+#kangas
+{
+	background-color: #fff;
+	position: relative;
+}
+
+#elio
+{
+	width: 20px;
+	height: 20px;
+	background-color: lime;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	color: blue;
+	font-weight: bold;
+}
