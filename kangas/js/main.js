@@ -18,11 +18,18 @@ console.log(y);
 var i = 0;
 var dur = 1500;
 
+/*
 while (i < 30)
 {
   goToRandom(dur - (i * 50));
   i++;
 }
+*/
+
+$( "#elio" ).click(function() {
+  goToRandom(dur - (1300));
+//  $( "#elio" ).css( "transform", "rotate(180deg)" );
+});
 
 /*
 while (i < 10)
@@ -57,7 +64,7 @@ function goToRandom(durLocal)
       top: Math.random() * y,
       left: Math.random() * x,
   }, durLocal);
-  console.log("duration: " + durLocal);
+  console.log("moved randomly, duration: " + durLocal);
 
 //  var klon = $("#elio").clone().prop('id', 'klon');
 }
