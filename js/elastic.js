@@ -4,8 +4,11 @@ console.log("=====================");
 
 
 $(document).ready(function() {
+/*
 	$("#query").text("Total");
 	getAll();
+*/
+	getQuery();
 });
 
 $("#species").keypress(function(event) {
@@ -24,6 +27,33 @@ $("#species").keypress(function(event) {
 //		console.log(species);
 	}
 });
+
+function getQuery() {
+	let queryData = JSON.stringify({
+    	"query" : {
+        	"term" : {
+        		"species" : "Parus major" 
+        	}
+    	}
+	});
+	console.log(queryData);
+
+	$.ajax({
+		method: "POST",
+		url: "http://192.168.56.10:9200/baltic-aves/_search",
+		crossDomain: true,
+		data: queryData,
+		dataType : 'json',
+		processData: false,
+		beforeSend: function (xhr) {
+		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
+		}
+	})
+	.done(function(data) {
+		console.log(data);
+		$("#total").text("Done. See console for details.");
+	});
+}
 
 function getSpecies(species) {
 	$.ajax({
