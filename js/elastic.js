@@ -2,13 +2,13 @@
 console.log("Elastic");
 console.log("=====================");
 
+/*
+Check if return exact matches or partial matches
+*/
 
 $(document).ready(function() {
-/*
 	$("#query").text("Total");
 	getAll();
-*/
-	getQuery();
 });
 
 $("#species").keypress(function(event) {
@@ -22,17 +22,18 @@ $("#species").keypress(function(event) {
 		else
 		{
 			$("#query").text(species);
-			getSpecies(species);
+//			getSpecies(species); // OLD function call
+			dataQuery(species); // NEW function call
 		}
 //		console.log(species);
 	}
 });
 
-function getQuery() {
+function dataQuery(species) {
 	let queryData = JSON.stringify({
     	"query" : {
         	"term" : {
-        		"species" : "Parus major" 
+        		"species" : species
         	}
     	}
 	});
@@ -41,17 +42,16 @@ function getQuery() {
 	$.ajax({
 		method: "POST",
 		url: "http://192.168.56.10:9200/baltic-aves/_search",
-		crossDomain: true,
 		data: queryData,
-		dataType : 'json',
-		processData: false,
 		beforeSend: function (xhr) {
 		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
 		}
 	})
 	.done(function(data) {
 		console.log(data);
-		$("#total").text("Done. See console for details.");
+		let count = data.hits.total;
+		let countFormatted = count.toLocaleString();
+		$("#total").text(countFormatted);
 	});
 }
 
@@ -59,7 +59,6 @@ function getSpecies(species) {
 	$.ajax({
 		method: "GET",
 		url: "http://192.168.56.10:9200/baltic-aves/_search?q=species:" + species,
-		crossDomain: true,
 		beforeSend: function (xhr) {
 		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
 		}
@@ -76,7 +75,6 @@ function getAll(species) {
 	$.ajax({
 		method: "GET",
 		url: "http://192.168.56.10:9200/baltic-aves/_search",
-		crossDomain: true,
 		beforeSend: function (xhr) {
 		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
 		}
