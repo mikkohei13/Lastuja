@@ -68,18 +68,16 @@ function dataQuery(species) {
 function getObservationsPerMonth(dataobject)
 {
 	let monthlyBuckets = dataobject.aggregations.observationsPerMonth.buckets;
-	let monthlyObservations;
+	let monthlyObservations = {};
 
 	console.log(monthlyBuckets);
 
-/*
 	for (var i = monthlyBuckets.length - 1; i >= 0; i--) {
 		monthlyObservations[monthlyBuckets[i].key] = monthlyBuckets[i].doc_count;
 	}
-*/
-	console.log(monthlyObservations);
 
-	return "test";
+	console.log(monthlyObservations);
+	return monthlyObservations;
 }
 
 function getSpecies(species) {
