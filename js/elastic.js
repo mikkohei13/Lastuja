@@ -9,6 +9,7 @@ Check if return exact matches or partial matches
 $(document).ready(function() {
 	$("#query").text("Total");
 	getAll();
+	let debugName = "Parus major"; dataQuery(debugName); $("#query").text("Debugging with " + debugName); // DEBUG
 });
 
 $("#species").keypress(function(event) {
@@ -55,12 +56,30 @@ function dataQuery(species) {
 		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
 		}
 	})
-	.done(function(data) {
-		console.log(data);
-		let count = data.hits.total;
+	.done(function(dataobject) {
+		console.log(dataobject);
+		let observationsPerMonth = getObservationsPerMonth(dataobject);
+		let count = dataobject.hits.total;
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted);
 	});
+}
+
+function getObservationsPerMonth(dataobject)
+{
+	let monthlyBuckets = dataobject.aggregations.observationsPerMonth.buckets;
+	let monthlyObservations;
+
+	console.log(monthlyBuckets);
+
+/*
+	for (var i = monthlyBuckets.length - 1; i >= 0; i--) {
+		monthlyObservations[monthlyBuckets[i].key] = monthlyBuckets[i].doc_count;
+	}
+*/
+	console.log(monthlyObservations);
+
+	return "test";
 }
 
 function getSpecies(species) {
