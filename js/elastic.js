@@ -35,6 +35,14 @@ function dataQuery(species) {
         	"term" : {
         		"species" : species
         	}
+    	},
+    	"aggregations" : {
+    		"observationsPerMonth" : {
+    			"terms" : {
+    				"field" : "month",
+    				"size" : 12
+    			}
+    		}
     	}
 	});
 	console.log(queryData);
