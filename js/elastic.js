@@ -58,11 +58,38 @@ function dataQuery(species) {
 	})
 	.done(function(dataobject) {
 		console.log(dataobject);
+
+		// Show monthly distribution
 		let observationsPerMonth = getObservationsPerMonth(dataobject);
+		printMontlhyChart(observationsPerMonth);
+
+		// Show count
 		let count = dataobject.hits.total;
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted);
 	});
+}
+
+function printMontlhyChart(observationsPerMonth)
+{
+	console.log("-----");
+	console.log(observationsPerMonth.length);
+	let html = "<!-- Monthly chart: -->\n";
+
+	for (var m = 1; m <= 12; m++) {
+		let count = observationsPerMonth[m];
+		let width;
+
+		// Handle missing months
+		if (undefined == count)
+		{
+			count = 0;
+		}
+		width = count;
+
+		html = html + "<span style='width: " + width + "px;' class='bar month" + m + "'>&nbsp;</span>" + count + "\n";
+	}
+	$("#chart").html(html);
 }
 
 function getObservationsPerMonth(dataobject)
