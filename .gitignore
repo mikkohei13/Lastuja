@@ -1,4 +1,8 @@
 
+# Temp
+birds_ember/*
+
+
 .idea/
 
 _common/vendor/*
@@ -10,6 +14,9 @@ oiva/js/vendor/*
 
 # =========================
 
+node/node_modules/*
+
+# =========================
 
 # Windows image file caches
 Thumbs.db
