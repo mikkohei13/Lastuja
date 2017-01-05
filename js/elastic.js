@@ -87,7 +87,7 @@ function printMontlhyChart(observationsPerMonth)
 		}
 		width = count;
 
-		html = html + "<span style='width: " + width + "px;' class='bar month" + m + "'>&nbsp;</span>" + count + "\n";
+		html = html + "<span style='width: " + width / 100 + "px;' class='bar month" + m + "'>&nbsp;</span>" + count + "\n";
 	}
 	$("#chart").html(html);
 }
