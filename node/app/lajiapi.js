@@ -1,14 +1,26 @@
 // lajiapi module
+const url = require('url');
 
-let foo = "This is not JSON.";
+function handleQuery(request) {
+  // Don't handle favicon requests
+  if ('/favicon.ico' != request.url) {
+    let urlObject = url.parse(request.url);
+    console.log(urlObject);
 
-function getSome() {
-
+    if ("/uploads" == request.url) {
+      console.log("/uploads");
+    }
+    else if ("/latest" == request.url) {
+      console.log("/latest");
+    }
+    else {
+    	console.log("unknown!");
+    }
+  }
 }
 
 module.exports = {
-	getSome : getSome,
-	importantVariable : foo
+	handleQuery : handleQuery
 };
 
 

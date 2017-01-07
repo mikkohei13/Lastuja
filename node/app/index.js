@@ -3,7 +3,6 @@ const port = 3000;
 
 const lajiAPI = require('./lajiapi.js');
 const http = require('http');
-const url = require('url');
 
 // Functions
 const startServer = function startServer(err) {  
@@ -14,10 +13,14 @@ const startServer = function startServer(err) {
 }
 
 const requestListener = function requestListener(request, response) {
-  response.end('Hoi Node.js Server!');
-  logToConsole(request);
+  response.end('¨Handling data...');
+
+  lajiAPI.handleQuery(request);
+
+//  logToConsole(request);
 }
 
+/*
 function logToConsole(request) {
   // Don't handle favicon requests
   if ('/favicon.ico' != request.url)
@@ -31,6 +34,7 @@ function logToConsole(request) {
     }
   }
 }
+*/
 
 /*
 createServer is designed to call callbeack function defined in the variable "requestListener"
