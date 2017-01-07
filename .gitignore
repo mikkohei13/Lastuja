@@ -2,6 +2,8 @@
 # Temp
 birds-ember/*
 
+# Debug
+*npm-debug.log
 
 .idea/
 
