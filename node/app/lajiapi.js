@@ -4,39 +4,27 @@ const url = require('url');
 const https = require('https');
 const keys = require('../keys.js');
 
-function handleQuery(request) {
+let response;
+
+// Decides what to do with the query
+function handleQuery(serverRequest, serverResponse) {
+  response = serverResponse; // Make this available to the whole module
+
   // Don't handle favicon requests
-  if ('/favicon.ico' != request.url) {
-//    let urlObject = url.parse(request.url);
-//    console.log(request.url);
+  if ('/favicon.ico' != serverRequest.url) {
     console.log(keys.lajiToken);
 
-    if ("/uploads" == request.url) {
+    if ("/uploads" == serverRequest.url) {
       console.log("/uploads");
     }
-    else if ("/latest" == request.url) {
+    else if ("/latest" == serverRequest.url) {
 
       let options = {
         host: 'api.laji.fi',
         path: '/v0/warehouse/query/aggregate?aggregateBy=document.collectionId&geoJSON=false&pageSize=100&page=1&loadedLaterThan=2017-01-06&access_token=' + keys.lajiToken
 	  };
 
-	  https.get(options, function(response) {
-		let body = '';
-
-        response.on('data', function(chunk) {
-            body += chunk;
-        });
-
-        response.on('end', function() {
-            // Data reception is done, do whatever with it!
-            let parsed = JSON.parse(body);
-
-            console.log("--- Latest parsed: ---");
-            console.log(parsed);
-        });
-
-   	  });
+	  https.get(options, handleAPIResponse);
     }
     else {
     	console.log("unknown URL (404)");
@@ -44,8 +32,23 @@ function handleQuery(request) {
   }
 }
 
-function uploads() {
+// Gets data from api.laji.fi and formats it
+const handleAPIResponse = function handleAPIResponse(apiResponse) {
+	let body = '';
 
+    apiResponse.on('data', function(chunk) {
+        body += chunk;
+    });
+
+    apiResponse.on('end', function() {
+        console.log(body);
+
+        // Data reception is done, do whatever with it!
+        let parsedBody = JSON.parse(body);
+
+        response.end(body);
+        response.end('Done!');
+    });
 }
 
 module.exports = {

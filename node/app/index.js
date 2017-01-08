@@ -17,8 +17,8 @@ const requestHandler = function requestHandler(request, response) {
     response.statusCode = 404;
   }
   else {
-    response.end('Handling data...');
-    lajiAPI.handleQuery(request);
+//    response.end('Handling data...');
+    lajiAPI.handleQuery(request, response);
   }
 
 //  logToConsole(request);
