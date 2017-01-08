@@ -5,6 +5,8 @@ birds-ember/*
 # Debug
 *npm-debug.log
 
+node/keys.js
+
 .idea/
 
 _common/vendor/*
