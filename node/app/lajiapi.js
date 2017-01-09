@@ -33,7 +33,7 @@ function handleQuery(serverRequest, serverResponse) {
 }
 
 // Gets data from api.laji.fi and formats it
-const handleAPIResponseStream = function handleAPIResponseStream(apiResponse) {
+function handleAPIResponseStream(apiResponse) {
 	let body = '';
 
     apiResponse.on('data', function(chunk) {
@@ -41,17 +41,11 @@ const handleAPIResponseStream = function handleAPIResponseStream(apiResponse) {
     });
 
     apiResponse.on('end', function() {
-        console.log(body);
-
-        // Data reception is done, do whatever with it!
-        let parsedBody = JSON.parse(body);
-
-        response.end(body);
-        response.end('Done!');
+    	sendToBrowser(body);
     });
 }
 
-const handleAPIError = function handleAPIError(error) {
+function handleAPIError(error) {
 	console.log("Error reading API (check your internet connection): " + error);
 	response.end('Error reading API: ' + error);
 }
@@ -59,5 +53,14 @@ const handleAPIError = function handleAPIError(error) {
 module.exports = {
 	handleQuery : handleQuery
 };
+
+function sendToBrowser(body) {
+	console.log(body);
+
+	// Data reception is done, do whatever with it!
+	let parsedBody = JSON.parse(body);
+
+	response.end(body);
+}
 
 
