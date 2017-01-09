@@ -4,15 +4,28 @@ const port = 3000;
 const lajiAPI = require('./lajiapi.js');
 const http = require('http');
 
+
+/*
+createServer is designed to call callbeack function defined in the variable "requestHandler"
+by givingh it two arguments, request and reponse objects. This is the standard way of using 
+callback functions.
+*/
+
+const server = http.createServer(requestHandler); 
+server.listen(port, startServer);
+
+
 // Functions
-const startServer = function startServer(err) {  
+// -----------------------------------------------------
+
+function startServer(err) {  
   if (err) {
     return console.log('Something went wrong.', err);
   }
   console.log(`Server is listening on port ${port}`);
 }
 
-const requestHandler = function requestHandler(request, response) {
+function requestHandler(request, response) {
   if ("GET" != request.method) {
     response.statusCode = 404;
   }
@@ -38,23 +51,5 @@ function logToConsole(request) {
     }
   }
 }
-*/
-
-/*
-createServer is designed to call callbeack function defined in the variable "requestHandler"
-by givingh it two arguments, request and reponse objects. This is the standard way of using 
-callback functions.
-*/
-
-const server = http.createServer(requestHandler); 
-server.listen(port, startServer);
-
-
-// ---------------------------------------------------------------
-/*
-
-http.get('http://nodejs.org/dist/index.json', (res) => {
-
-
 */
 

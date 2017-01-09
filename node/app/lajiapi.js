@@ -24,7 +24,7 @@ function handleQuery(serverRequest, serverResponse) {
         path: '/v0/warehouse/query/aggregate?aggregateBy=document.collectionId&geoJSON=false&pageSize=100&page=1&loadedLaterThan=2017-01-06&access_token=' + keys.lajiToken
 	  };
 
-	  https.get(options, handleAPIResponse);
+	  https.get(options, handleAPIResponseStream).on('error', handleAPIError);
     }
     else {
     	console.log("unknown URL (404)");
@@ -33,7 +33,7 @@ function handleQuery(serverRequest, serverResponse) {
 }
 
 // Gets data from api.laji.fi and formats it
-const handleAPIResponse = function handleAPIResponse(apiResponse) {
+const handleAPIResponseStream = function handleAPIResponseStream(apiResponse) {
 	let body = '';
 
     apiResponse.on('data', function(chunk) {
@@ -49,6 +49,11 @@ const handleAPIResponse = function handleAPIResponse(apiResponse) {
         response.end(body);
         response.end('Done!');
     });
+}
+
+const handleAPIError = function handleAPIError(error) {
+	console.log("Error reading API (check your internet connection): " + error);
+	response.end('Error reading API: ' + error);
 }
 
 module.exports = {
