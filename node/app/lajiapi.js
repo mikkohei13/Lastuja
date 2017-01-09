@@ -2,6 +2,7 @@
 const url = require('url');
 //const http = require('http');
 const https = require('https');
+const Slimbot = require('slimbot');
 const keys = require('../keys.js');
 
 let response;
@@ -41,7 +42,15 @@ function handleAPIResponseStream(apiResponse) {
     });
 
     apiResponse.on('end', function() {
-    	sendToBrowser(body);
+
+   		let data = JSON.parse(body);
+    	
+    	// THE PLAN:
+    	let textualStats = formatAsPlaintext(data);
+    	let message = wrapToMessage(textualStats);
+
+    	sendToBrowser(textualStats);
+    	sendToTelegram(message);
     });
 }
 
@@ -54,13 +63,26 @@ module.exports = {
 	handleQuery : handleQuery
 };
 
-function sendToBrowser(body) {
-	console.log(body);
-
-	// Data reception is done, do whatever with it!
-	let parsedBody = JSON.parse(body);
-
-	response.end(body);
+function sendToBrowser(text) {
+	console.log(text);
+	response.end(text);
 }
 
+function sendToTelegram(message) {
+	console.log("Started Telegram...");
+//	const Slimbot = require('slimbot');
+	const slimbot = new Slimbot(keys.lajibotTelegramToken);
+
+	slimbot.sendMessage('@lajifi', message).then(reply => {
+	  console.log(reply);
+	});
+}
+
+function formatAsPlaintext(data) {
+	return "FAKE DATA";
+}
+
+function wrapToMessage(text) {
+	return "This is " + text + ", sent to you right now.";
+}
 
