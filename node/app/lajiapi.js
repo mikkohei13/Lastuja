@@ -6,6 +6,7 @@ const Slimbot = require('slimbot');
 const keys = require('../keys.js');
 
 let response;
+let myOptions = {};
 
 // Decides what to do with the query
 function handleQuery(serverRequest, serverResponse) {
@@ -15,25 +16,34 @@ function handleQuery(serverRequest, serverResponse) {
   if ('/favicon.ico' != serverRequest.url) {
     console.log(keys.lajiToken);
 
+    // Router - decides what to do based on URL
+
     if ("/uploads" == serverRequest.url) {
-      console.log("/uploads");
+      myOptions.type = "uploads";
+      // let
+      // get
     }
     else if ("/latest" == serverRequest.url) {
-
+      myOptions.type = "latest";
       let options = {
         host: 'api.laji.fi',
         path: '/v0/warehouse/query/aggregate?aggregateBy=document.collectionId&geoJSON=false&pageSize=100&page=1&loadedLaterThan=2017-01-06&access_token=' + keys.lajiToken
 	  };
-
-	  https.get(options, handleAPIResponseStream).on('error', handleAPIError);
+	  get(options);
     }
+
     else {
     	console.log("unknown URL (404)");
+    	// TODO: 404 error 
     }
   }
 }
 
-// Gets data from api.laji.fi and formats it
+function get(options) {
+  https.get(options, handleAPIResponseStream).on('error', handleAPIError);
+}
+
+// Gets data from api.laji.fi and decides what to do with it
 function handleAPIResponseStream(apiResponse) {
 	let body = '';
 
@@ -45,7 +55,6 @@ function handleAPIResponseStream(apiResponse) {
 
    		let data = JSON.parse(body);
     	
-    	// THE PLAN:
     	let textualStats = formatAsPlaintext(data);
     	let message = wrapToMessage(textualStats);
 
@@ -78,10 +87,16 @@ function sendToTelegram(message) {
 	});
 }
 
+// Todo: UNFAKE
+// Formats the object-data into a human-readable plaintext
+// This is the data processing-meat!
 function formatAsPlaintext(data) {
+	// if ("latest" == myOptions.type) {}
 	return "FAKE DATA";
 }
 
+// Todo: UNFAKE
+// Wraps the text into a message, with intro & footer.
 function wrapToMessage(text) {
 	return "This is " + text + ", sent to you right now.";
 }

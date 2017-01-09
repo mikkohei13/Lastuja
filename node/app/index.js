@@ -37,19 +37,4 @@ function requestHandler(request, response) {
 //  logToConsole(request);
 }
 
-/*
-function logToConsole(request) {
-  // Don't handle favicon requests
-  if ('/favicon.ico' != request.url)
-  {
-    let urlObject = url.parse(request.url);
-    console.log(urlObject);
-
-    if ("uploads" == request.url)
-    {
-      let json = lajiAPI.importantVariable;
-    }
-  }
-}
-*/
 
