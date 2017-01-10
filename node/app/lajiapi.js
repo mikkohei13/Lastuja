@@ -1,46 +1,43 @@
 // lajiapi module
 const url = require('url');
-//const http = require('http');
 const https = require('https');
-const Slimbot = require('slimbot');
+const lajiTelegram = require('./lajitelegram');
 const keys = require('../keys.js');
 
 let response;
-let myOptions = {};
+let requestType;
 
 // Decides what to do with the query
 function handleQuery(serverRequest, serverResponse) {
-  response = serverResponse; // Make this available to the whole module
+	response = serverResponse; // Make this available to the whole module
+	let host = 'api.laji.fi';
 
-  // Don't handle favicon requests
-  if ('/favicon.ico' != serverRequest.url) {
-    console.log(keys.lajiToken);
+	// Router - decides what to do based on URL
+	if ("/uploads" == serverRequest.url) {
+	  requestType = "getUploads";
+	  get({
+	    host: host,
+	    path: '' + keys.lajiToken
+	  });
+	}
 
-    // Router - decides what to do based on URL
+	else if ("/latest" == serverRequest.url) {
+	  requestType = "getLatest";
+	  get({
+	    host: host,
+	    path: '/v0/warehouse/query/aggregate?aggregateBy=document.collectionId&geoJSON=false&pageSize=100&page=1&loadedLaterThan=2017-01-06&access_token=' + keys.lajiToken
+	  });
+	}
 
-    if ("/uploads" == serverRequest.url) {
-      myOptions.type = "uploads";
-      // let
-      // get
-    }
-    else if ("/latest" == serverRequest.url) {
-      myOptions.type = "latest";
-      let options = {
-        host: 'api.laji.fi',
-        path: '/v0/warehouse/query/aggregate?aggregateBy=document.collectionId&geoJSON=false&pageSize=100&page=1&loadedLaterThan=2017-01-06&access_token=' + keys.lajiToken
-	  };
-	  get(options);
-    }
-
-    else {
-    	console.log("unknown URL (404)");
-    	// TODO: 404 error 
-    }
-  }
+	else {
+		console.log(serverRequest.url + " not found");
+		response.writeHead(404);
+		response.end('Page not found (404)');
+	}
 }
 
 function get(options) {
-  https.get(options, handleAPIResponseStream).on('error', handleAPIError);
+	https.get(options, handleAPIResponseStream).on('error', handleAPIError);
 }
 
 // Gets data from api.laji.fi and decides what to do with it
@@ -52,52 +49,19 @@ function handleAPIResponseStream(apiResponse) {
     });
 
     apiResponse.on('end', function() {
-
    		let data = JSON.parse(body);
-    	
-    	let textualStats = formatAsPlaintext(data);
-    	let message = wrapToMessage(textualStats);
-
-    	sendToBrowser(textualStats);
-    	sendToTelegram(message);
+    	let responseData = lajiTelegram[requestType](data); // call a module function based on variable - no additional if/else needed!
+    	response.end(responseData);
     });
 }
 
 function handleAPIError(error) {
-	console.log("Error reading API (check your internet connection): " + error);
-	response.end('Error reading API: ' + error);
+	console.log("Error reading api.laji.fi (check server internet connection): " + error);
+	response.writeHead(504);
+	response.end('api.laji.fi is not responding (504)');
 }
 
 module.exports = {
 	handleQuery : handleQuery
 };
-
-function sendToBrowser(text) {
-	console.log(text);
-	response.end(text);
-}
-
-function sendToTelegram(message) {
-	console.log("Started Telegram...");
-//	const Slimbot = require('slimbot');
-	const slimbot = new Slimbot(keys.lajibotTelegramToken);
-
-	slimbot.sendMessage('@lajifi', message).then(reply => {
-	  console.log(reply);
-	});
-}
-
-// Todo: UNFAKE
-// Formats the object-data into a human-readable plaintext
-// This is the data processing-meat!
-function formatAsPlaintext(data) {
-	// if ("latest" == myOptions.type) {}
-	return "FAKE DATA";
-}
-
-// Todo: UNFAKE
-// Wraps the text into a message, with intro & footer.
-function wrapToMessage(text) {
-	return "This is " + text + ", sent to you right now.";
-}
 
