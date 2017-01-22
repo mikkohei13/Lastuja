@@ -16,6 +16,9 @@ trains/images/*
 
 oiva/js/vendor/*
 
+keys.js
+node_modules/*
+
 # =========================
 
 node/node_modules/*
