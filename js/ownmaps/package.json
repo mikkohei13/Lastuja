@@ -1,0 +1,19 @@
+{
+  "name": "ownmaps",
+  "version": "0.0.1",
+  "description": "Super simple tools to display Owntracks data from Bowerbird-datastore API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "owntracks",
+    "sandbox"
+  ],
+  "author": "Mikko Heikkinen/biomi.org",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "leaflet": "^1.0.2"
+  }
+}
