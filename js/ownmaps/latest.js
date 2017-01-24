@@ -18,13 +18,15 @@ function getTrackData() {
 
 function drawCircle(documentArray) {
     let documentObj = documentArray[0];
-//    console.log(JSON.stringify(documentObj));
+    console.log(JSON.stringify(documentObj));
 
-    let circle = createCircle(documentObj);
-
-//    console.log();
-
+    let circle = createCircle(documentObj, "#006AA7", 0.2, 2);
     circle.addTo(mymap);
-//    mymap.fitBounds(circle.getBounds());
+
+    let marker = L.marker([documentObj.lat, documentObj.lon]);
+    marker.addTo(mymap);
+
+    let zoom = documentObj.acc < 100 ? 15 : 14;
+    mymap.setView([documentObj.lat, documentObj.lon], zoom);
 }
 
