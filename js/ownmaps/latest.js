@@ -2,7 +2,6 @@
 
 getTrackData();
 
-
 function getTrackData() {
     let limit = 1;
     $.ajax({
@@ -12,11 +11,11 @@ function getTrackData() {
     // Todo: use a promise?
         .done(function(json) {
             let documentArray = JSON.parse(json);
-            drawCircle(documentArray);
+            drawPosition(documentArray);
         });
 }
 
-function drawCircle(documentArray) {
+function drawPosition(documentArray) {
     let documentObj = documentArray[0];
     console.log(JSON.stringify(documentObj));
 
@@ -28,5 +27,8 @@ function drawCircle(documentArray) {
 
     let zoom = documentObj.acc < 100 ? 15 : 14;
     mymap.setView([documentObj.lat, documentObj.lon], zoom);
+
+    let time = moment(documentObj.tst, "X").fromNow();
+    $("#time").html(time);
 }
 

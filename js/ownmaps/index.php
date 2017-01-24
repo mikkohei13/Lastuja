@@ -11,6 +11,7 @@
 
 	    <script src="node_modules/jquery/dist/jquery.min.js"></script>
 	    <script src="node_modules/leaflet/dist/leaflet.js"></script>
+	    <script src="node_modules/moment/moment.js"></script>
 
 	</head>
 	<body>
@@ -19,6 +20,7 @@
 		<div id="content">
 			<div id="mymap"></div>
 		</div>
+		<div id="time"></div>
 
 		<script src="keys.js"></script>
 		<script src="map.js"></script>
