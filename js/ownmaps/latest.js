@@ -28,7 +28,13 @@ function drawPosition(documentArray) {
     let zoom = documentObj.acc < 100 ? 15 : 14;
     mymap.setView([documentObj.lat, documentObj.lon], zoom);
 
-    let time = moment(documentObj.tst, "X").fromNow();
+    updateTime(documentObj.tst); // first update
+    var intervalID = window.setInterval(function() { updateTime(documentObj.tst); }, 60000);
+}
+
+const updateTime = function updateTime(unixtime) {
+    let time = moment(unixtime, "X").fromNow();
     $("#time").html(time);
+    console.log("foo:" + unixtime + " " + time);
 }
 
