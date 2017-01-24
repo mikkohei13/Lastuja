@@ -16,3 +16,26 @@ function initMap()
     }).addTo(mymap);
 }
 
+function createCircle(documentObj)
+{
+    let lat = documentObj.lat;
+    let lon = documentObj.lon;
+    let text = "Accuracy: " + documentObj.acc + " m";
+    let radius = Math.floor(documentObj.acc * 1.2); // c. 95 % of positioning fall within this accuracy
+
+    let minimumRadius = 100;
+    if (radius < minimumRadius) {
+        radius = minimumRadius;
+    }
+
+    let circle = L.circle([lat, lon], {
+        color: '#006AA7',
+        fillColor: '#006AA7',
+        fillOpacity: 0.01,
+        weight: 1,
+        radius: radius
+    });
+//    console.log("r = " + radius);
+    circle.bindPopup(text);
+    return circle;
+}

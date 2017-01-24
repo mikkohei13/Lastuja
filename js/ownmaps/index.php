@@ -22,6 +22,13 @@
 
 		<script src="keys.js"></script>
 		<script src="map.js"></script>
-	    <script src="path.js"></script>
+		<?php
+		if ("path" == $_GET['p']) {
+			?><script src="path.js"></script><?php
+		}
+		if ("latest" == $_GET['p']) {
+			?><script src="latest.js"></script><?php
+		}
+		?>
 	</body>
 </html>
