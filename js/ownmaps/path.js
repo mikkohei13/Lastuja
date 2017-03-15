@@ -3,14 +3,14 @@
 getTrackData();
 
 function getTrackData() {
-    let limit = 50;
+    let limit = 300;
     $.ajax({
         url: (bowerbird_host + "/get?apikey=" + bowerbird_apikey + "&bowerbird_set=owntracks&limit=" + limit + "&sort=tst:DESC"),
         cache: false
     })
     // Todo: use a promise?
         .done(function(json) {
-            let documentArray = JSON.parse(json);
+            let documentArray = JSON.parse(json); // Check: why can/must be parsed? See http://stackoverflow.com/questions/15617164/parsing-json-giving-unexpected-token-o-error
             drawMarkerGroup(documentArray);
         });
 }

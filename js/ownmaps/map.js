@@ -7,7 +7,7 @@ function initMap()
 {
     console.log("map initialized");
     // http://stackoverflow.com/questions/37166172/mapbox-tiles-and-leafletjs
-    mymap = L.map('mymap').setView([60.193, 24.610], 10);
+    mymap = L.map('mymap').setView([60.2, 24.6], 10);
     L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
         maxZoom: 18,

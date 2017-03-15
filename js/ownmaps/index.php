@@ -25,11 +25,12 @@
 		<script src="keys.js"></script>
 		<script src="map.js"></script>
 		<?php
+        $u = rand(0, 10000);
 		if ("path" == $_GET['p']) {
-			?><script src="path.js"></script><?php
+			echo "<script src='path.js?$u'></script>";
 		}
 		if ("latest" == $_GET['p']) {
-			?><script src="latest.js"></script><?php
+            echo "<script src='latest.js?$u'></script>";
 		}
 		?>
 	</body>
