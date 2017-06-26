@@ -6,3 +6,5 @@ Lastuja (wood shavings) is a collection of small tools & pages, built mainly for
 Starting with plain Markdown instead of R Markdown, because I dont have permissions to install R IDE yet...
 
 Adding things on the Github online editor. Greater Nordic letters: ÅÄÖ åäö!
+
+![logo](https://github.com/DINA-Web/dina_logo/blob/master/Dina%20final%20logo%20horizontal.jpg)
