@@ -8,3 +8,6 @@ Starting with plain Markdown instead of R Markdown, because I dont have permissi
 Adding things on the Github online editor. Greater Nordic letters: ÅÄÖ åäö!
 
 ![logo](https://github.com/DINA-Web/dina_logo/blob/master/Dina%20final%20logo%20horizontal.jpg)
+
+https://support.dina-web.net/projects/user-management-module/wiki
+
