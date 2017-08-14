@@ -6,12 +6,37 @@ Testing API-Blueprint for taxonomy API.
 
 # Data Structures
 
-## Taxon
+## simpleTaxon
 
 + taxonId (string, required) - Unique id for the taxon
-+ taxonName (object) - Names and name metadata for the taxon
 
-## Publication
+## complexTaxon
+
++ taxonId (string, required) - Unique id for the taxon
++ taxonName (taxonName) - Names and name metadata for the taxon
+
+## ancestorTaxon
+
++ taxonId (string)
++ taxonRank (string)
++ scientificName (string)
+
+## taxonName
+
++ nameId (string)
++ scientificName (string)
++ cursiveName (boolean)
++ scientificNameAuthor (string)
++ scientificNameYear (string)
++ scientificNameConcatenated (string)
++ basionym (string)
+
+## vernacularName 
+
++ lang (string)
++ name (string)
+
+## publication
 
 + publicationId (string, required) - Unique id for the publication
 + reference (string) - Publication reference string
@@ -27,6 +52,24 @@ Resource for one taxon.
 ### Show a taxon [GET]
 
 Action for showing data / metadata about one taxon.
+
++ taxonId (string)
++ notes (string)
++ rank (string)
++ taxonName
++ vernacularNames (array[vernacularName])
++ synonyms (array[simpleTaxon])
++ parent (simpleTaxon)
++ ancestors ": [
+            {
+                "taxonId": "string",
+                "taxonRank": "string",
+                "scientificName": "string"
+            }
+        ],
++ siblings: (array[simpleTaxon])
++ children: (array[simpleTaxon])
+
 
 + Response 200 (application/json)
 
