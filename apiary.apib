@@ -46,113 +46,39 @@ Testing API-Blueprint for taxonomy API.
 
 Resource group related to taxa.
 
-## Taxon Displaying Collection [/taxon/id/{taxon_id}]
+## taxon [/taxon/id/{taxon_id}]
 
 Resource for one taxon.
+
++ Parameters
+    + taxon_id (string) - Identifier for the taxon
+
++ Attributes (object)
+    + taxonId (string)
+    + notes (string)
+    + rank (string)
+    + taxonName (taxonName)
+    + vernacularNames (array[vernacularName])
+    + synonyms (array[simpleTaxon])
+    + parent (simpleTaxon)
+    + ancestors (array[ancestorTaxon])
+    + siblings (array[simpleTaxon])
+    + children (array[simpleTaxon])
+    + taxonomicSortOrder (number) - Positive integer representing the taxonomic sort order (ascending)
+    + classificationId (string) - Identifier for the classification or checklist
+    + accepted (boolean) - Indicated whether this is a taxonomically accepted name
+    + taxonConceptRelation (taxonConceptRelation)
+    + originalPublication (publication) - Or should this be under taxonName?
+    + conceptPublication (publication)
 
 ### Show a taxon [GET]
 
 Action for showing data / metadata about one taxon.
 
-+ taxonId (string)
-+ notes (string)
-+ rank (string)
-+ taxonName (taxonName)
-+ vernacularNames (array[vernacularName])
-+ synonyms (array[simpleTaxon])
-+ parent (simpleTaxon)
-+ ancestors (array[ancestorTaxon])
-+ siblings (array[simpleTaxon])
-+ children (array[simpleTaxon])
-+ taxonomicSortOrder (int)
-+ classificationId (string) - Identifier for the classification or checklist
-+ accepted (boolean)
-+ taxonConceptRelation (taxonConceptRelation)
-+ originalPublication (publication)
-+ conceptPublication (publication)
-
 + Response 200 (application/json)
+    + Attributes (taxon)
 
-    + Headers
-    
-            Location: /taxon/id/{taxon_id}
-            
-    + Body
-
-            {
-            "taxonId": "string",
-            "notes": "string",
-            "rank": "string",
-            "taxonName": {
-                "nameId": "string",
-                "scientificName": "string",
-                "cursiveName": boolean,
-                "scientificNameAuthor": "string",
-                "scientificNameYear": "string",
-                "scientificNameConcatenated": "string",
-                "basionym": "string",
-                "vernacularNames": [
-                    {
-                        "lang": "string",
-                        "name": "string",
-                    }
-                ]
-            },
-            "synonyms": [
-                {
-                    "taxonId": "string",
-                }
-            ],
-            "parent": 
-                {
-                    "taxonId": "string",
-                },
-            "ancestors": [
-                {
-                    "taxonId": "string",
-                    "taxonRank": "string",
-                    "scientificName": "string"
-                }
-            ],
-            "siblings": [
-                {
-                    "taxonId": "string",
-                }
-            ],
-            "children": [
-                {
-                    "taxonId": "string",
-                }
-            ],
-            "taxonomicSortOrder": 0,
-            "classification": "string",
-            "accepted": boolean,
-            "conceptRelations":
-                {
-                    "isSameAs": 
-                        {
-                            "taxonId": "string"
-                        }
-                    "isPartOf":
-                        {
-                            "taxonId": "string"
-                        }
-                    "hasParts": [
-                        {
-                            "taxonId": "string"
-                        }
-                    ]
-                },
-            "originalPublication": {
-                "publicationId": "string",
-                "reference": "string"
-            },
-            "conceptPublication": {
-                "publicationId": "string",
-                "reference": "string"
-            }
-
-## Taxon Search Collection [/taxon/search]
+## taxonSearch [/taxon/search]
 
 Resource for searching taxa.
 
@@ -160,12 +86,5 @@ Resource for searching taxa.
 
 Action for a partial search for taxa.
 
-TODO:
-
-- How to add search parameters
-
 + Response 200 (application/json)
-
-        {
-            "todo": "string",
-        }
+    + Attributes (array[taxon])
