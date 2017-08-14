@@ -65,11 +65,12 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 
 ## jsonapi
 
-+ version: 1 (string)
++ version: 1.0 (string)
 
 # Group Taxon
 
 Resource group related to taxa.
+
 
 
 ## Single taxon [/v1/taxon/id/{taxon_id}]
@@ -84,7 +85,12 @@ Resource for managing (CRUD) a single taxon.
 Action for showing data / metadata about one taxon.
 
 + Response 200 (application/json)
-    + Attributes (taxonResult)
+    + Attributes
+        + jsonapi (jsonapi)
+        + data (object)
+            + taxonId: 1 (string)
+            + attributes (taxonResult)
+
 
 
 ## Taxon search [/v1/taxon/search/{taxon_name}]
