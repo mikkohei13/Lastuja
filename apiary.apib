@@ -48,8 +48,8 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 + nameId: 1 (string, required)
 + scientificName: Turdus merula (string, required)
 + cursiveName: true (boolean)
-+ scientificNameAuthor: Linné (string)
-+ scientificNameYear: 1758 (string)
++ author: Linné (string)
++ year: 1758 (string)
 + scientificNameConcatenated: Turdus merula L. 1758 (string)
 + basionym: Turdus merula (string)
 
@@ -84,12 +84,12 @@ Resource group related to taxa.
 
 
 
-## Single taxon [/v1/taxon/id/{taxon_id}]
+## Single taxon [/v1/taxon?filter%5BtaxonId%5D={taxonId}]
 
 Resource for managing (CRUD) a single taxon.
 
 + Parameters
-    + taxon_id: 1 (string, required) - Identifier for the taxon
+    + taxonId: 1 (string, required) - Identifier for the taxon
 
 ### Show a taxon [GET]
 
@@ -103,12 +103,13 @@ Action for showing data / metadata about one taxon.
 
 
 
-## Taxon search [/v1/taxon/search/{taxon_name}]
+## Taxon search [/v1/taxon?filter%5BscientificName%5D={scientificName}&filter%5Bauthor%5D={author}]
 
-Resource for searching multiple taxa.
+Example resource for validating scientific name and author. Returns full data on all matching taxa.
 
 + Parameters
-    + taxon_name: Turdus (string, required) - Partial scientific name to search
+    + scientificName: Turdus (string) - Scientific name to search
+    + author: Turdus (string) - Author name
 
 ### Search a taxon [GET]
 
