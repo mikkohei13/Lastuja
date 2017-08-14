@@ -10,11 +10,6 @@ Testing API-Blueprint for taxonomy API.
 
 + taxonId (string, required) - Unique id for the taxon
 
-## complexTaxon
-
-+ taxonId (string, required) - Unique id for the taxon
-+ taxonName (taxonName) - Names and name metadata for the taxon
-
 ## ancestorTaxon
 
 + taxonId (string)
@@ -36,6 +31,12 @@ Testing API-Blueprint for taxonomy API.
 + lang (string)
 + name (string)
 
+## taxonConceptRelation
+
++ isSameAs (simpleTaxon)
++ isPartOf (simpleTaxon)
++ hasParts (array[simpleTaxon])
+
 ## publication
 
 + publicationId (string, required) - Unique id for the publication
@@ -56,20 +57,22 @@ Action for showing data / metadata about one taxon.
 + taxonId (string)
 + notes (string)
 + rank (string)
-+ taxonName
++ taxonName (taxonName)
 + vernacularNames (array[vernacularName])
 + synonyms (array[simpleTaxon])
 + parent (simpleTaxon)
-+ ancestors ": [
-            {
-                "taxonId": "string",
-                "taxonRank": "string",
-                "scientificName": "string"
-            }
-        ],
-+ siblings: (array[simpleTaxon])
-+ children: (array[simpleTaxon])
++ ancestors (array[ancestorTaxon])
++ siblings (array[simpleTaxon])
++ children (array[simpleTaxon])
++ taxonomicSortOrder (int)
++ classificationId (string) - Identifier for the classification or checklist
++ accepted (boolean)
++ taxonConceptRelation (taxonConceptRelation)
++ originalPublication (publication)
++ conceptPublication (publication)
 
+
+Same as JSON document:
 
 + Response 200 (application/json)
 
@@ -160,6 +163,5 @@ TODO:
 
 + Response 200 (application/json)
 
-        {
-            "todo": "string",
-        }
++ simpleTaxon
++ taxonName
