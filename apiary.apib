@@ -4,6 +4,7 @@ FORMAT: 1A
 
 Testing API-Blueprint for taxonomy API.
 
+Data structures are described as MSON, see https://github.com/apiaryio/mson 
 
 # Data Structures
 
@@ -12,18 +13,18 @@ Testing API-Blueprint for taxonomy API.
 + taxonId: 1 (string)
 + notes: Blackbird is the national bird of Sweden (string)
 + rank: species (string)
-+ taxonName (taxonName)
-+ vernacularNames (array[vernacularName])
-+ synonyms (array[simpleTaxon])
++ taxonName (taxonName) - SEE BELOW
++ vernacularNames (array[vernacularName]) - SEE BELOW
++ synonyms (array[simpleTaxon]) - SEE BELOW
 + parent (simpleTaxon)
-+ ancestors (array[ancestorTaxon])
++ ancestors (array[ancestorTaxon]) - SEE BELOW
 + siblings (array[simpleTaxon])
 + children (array[simpleTaxon])
 + taxonomicSortOrder: 1 (number) - Positive integer representing the taxonomic sort order (ascending)
 + classificationId: c1 (string) - Identifier for the classification or checklist
 + accepted: true (boolean) - Indicated whether this is a taxonomically accepted name
-+ taxonConceptRelation (taxonConceptRelation)
-+ originalPublication (publication) - Or should this be under taxonName?
++ taxonConceptRelation (taxonConceptRelation) - SEE BELOW
++ originalPublication (publication) -  SEE BELOW / Or should this be under taxonName?
 + conceptPublication (publication)
 
 ## simpleTaxon
