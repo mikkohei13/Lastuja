@@ -71,83 +71,86 @@ Action for showing data / metadata about one taxon.
 + originalPublication (publication)
 + conceptPublication (publication)
 
-
-Same as JSON document:
-
 + Response 200 (application/json)
 
-        {
-        "taxonId": "string",
-        "notes": "string",
-        "rank": "string",
-        "taxonName": {
-            "nameId": "string",
-            "scientificName": "string",
-            "cursiveName": boolean,
-            "scientificNameAuthor": "string",
-            "scientificNameYear": "string",
-            "scientificNameConcatenated": "string",
-            "basionym": "string",
-            "vernacularNames": [
-                {
-                    "lang": "string",
-                    "name": "string",
-                }
-            ]
-        },
-        "synonyms": [
+    + Headers
+    
+            Location: /taxon/id/{taxon_id}
+            
+    + Body
+
             {
-                "taxonId": "string",
-            }
-        ],
-        "parent": 
-            {
-                "taxonId": "string",
-            },
-        "ancestors": [
-            {
-                "taxonId": "string",
-                "taxonRank": "string",
-                "scientificName": "string"
-            }
-        ],
-        "siblings": [
-            {
-                "taxonId": "string",
-            }
-        ],
-        "children": [
-            {
-                "taxonId": "string",
-            }
-        ],
-        "taxonomicSortOrder": 0,
-        "classification": "string",
-        "accepted": boolean,
-        "conceptRelations":
-            {
-                "isSameAs": 
+            "taxonId": "string",
+            "notes": "string",
+            "rank": "string",
+            "taxonName": {
+                "nameId": "string",
+                "scientificName": "string",
+                "cursiveName": boolean,
+                "scientificNameAuthor": "string",
+                "scientificNameYear": "string",
+                "scientificNameConcatenated": "string",
+                "basionym": "string",
+                "vernacularNames": [
                     {
-                        "taxonId": "string"
-                    }
-                "isPartOf":
-                    {
-                        "taxonId": "string"
-                    }
-                "hasParts": [
-                    {
-                        "taxonId": "string"
+                        "lang": "string",
+                        "name": "string",
                     }
                 ]
             },
-        "originalPublication": {
-            "publicationId": "string",
-            "reference": "string"
-        },
-        "conceptPublication": {
-            "publicationId": "string",
-            "reference": "string"
-        }
+            "synonyms": [
+                {
+                    "taxonId": "string",
+                }
+            ],
+            "parent": 
+                {
+                    "taxonId": "string",
+                },
+            "ancestors": [
+                {
+                    "taxonId": "string",
+                    "taxonRank": "string",
+                    "scientificName": "string"
+                }
+            ],
+            "siblings": [
+                {
+                    "taxonId": "string",
+                }
+            ],
+            "children": [
+                {
+                    "taxonId": "string",
+                }
+            ],
+            "taxonomicSortOrder": 0,
+            "classification": "string",
+            "accepted": boolean,
+            "conceptRelations":
+                {
+                    "isSameAs": 
+                        {
+                            "taxonId": "string"
+                        }
+                    "isPartOf":
+                        {
+                            "taxonId": "string"
+                        }
+                    "hasParts": [
+                        {
+                            "taxonId": "string"
+                        }
+                    ]
+                },
+            "originalPublication": {
+                "publicationId": "string",
+                "reference": "string"
+            },
+            "conceptPublication": {
+                "publicationId": "string",
+                "reference": "string"
+            }
 
 ## Taxon Search Collection [/taxon/search]
 
@@ -163,5 +166,6 @@ TODO:
 
 + Response 200 (application/json)
 
-+ simpleTaxon
-+ taxonName
+        {
+            "todo": "string",
+        }
