@@ -1,8 +1,20 @@
 FORMAT: 1A
 
-# Taxonomy
+# DINA Taxonomy API (example)
 
 Testing API-Blueprint for taxonomy API.
+
+# Data Structures
+
+## Taxon
+
++ taxonId (string, required) - Unique id for the taxon
++ taxonName (object) - Names and name metadata for the taxon
+
+## Publication
+
++ publicationId (string, required) - Unique id for the publication
++ reference (string) - Publication reference string
 
 # Group Taxon
 
@@ -14,15 +26,15 @@ Resource for one taxon.
 
 ### Show a taxon [GET]
 
-Shows data / metadata about one taxon.
+Action for showing data / metadata about one taxon.
 
-* Response 200 (application/json)
++ Response 200 (application/json)
 
         {
         "taxonId": "string",
         "notes": "string",
         "rank": "string",
-        "name": {
+        "taxonName": {
             "nameId": "string",
             "scientificName": "string",
             "cursiveName": boolean,
@@ -86,25 +98,25 @@ Shows data / metadata about one taxon.
             "publicationId": "string",
             "reference": "string"
         },
-        "concepPublication": {
+        "conceptPublication": {
             "publicationId": "string",
             "reference": "string"
         }
 
 ## Taxon Search Collection [/taxon/search]
 
-Search taxa.
+Resource for searching taxa.
 
 ### Search a taxon [GET]
 
-Does a partial search for taxon scientific names.
+Action for a partial search for taxa.
 
 TODO:
 
 - How to add search parameters
 
-* Response 200 (application/json)
++ Response 200 (application/json)
 
         {
-            "taxonId": "string",
+            "todo": "string",
         }
