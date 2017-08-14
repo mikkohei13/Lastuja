@@ -8,12 +8,17 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 
 # Data Structures
 
+## resourceObject
+
++ id: 1 (string) - The taxon id. Can this be modularized with MSON, while keeping the 'id'-key?
++ type: taxon (string)
++ attributes (taxonResult)
+
 ## taxonResult
 
-+ taxonId: 1 (string)
-+ notes: Blackbird is the national bird of Sweden (string)
-+ rank: species (string)
-+ taxonName (taxonName) - SEE BELOW
++ taxonId: 1 (string, required)
++ rank: species (string, required)
++ taxonName (taxonName, required) - SEE BELOW
 + vernacularNames (array[vernacularName]) - SEE BELOW
 + synonyms (array[simpleTaxon]) - SEE BELOW
 + parent (simpleTaxon)
@@ -26,6 +31,7 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 + taxonConceptRelation (taxonConceptRelation) - SEE BELOW
 + originalPublication (publication) -  SEE BELOW / Or should this be under taxonName?
 + conceptPublication (publication)
++ notes: Blackbird is the national bird of Sweden (string)
 
 ## simpleTaxon
 
@@ -39,8 +45,8 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 
 ## taxonName
 
-+ nameId: 1 (string)
-+ scientificName: Turdus merula (string)
++ nameId: 1 (string, required)
++ scientificName: Turdus merula (string, required)
 + cursiveName: true (boolean)
 + scientificNameAuthor: Linné (string)
 + scientificNameYear: 1758 (string)
@@ -67,6 +73,11 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 
 + version: 1.0 (string)
 
+## meta
+
++ apiVersion: v0_2 (string)
++ message: Mockup data in a mockup API (string)
+
 # Group Taxon
 
 Resource group related to taxa.
@@ -87,9 +98,8 @@ Action for showing data / metadata about one taxon.
 + Response 200 (application/json)
     + Attributes
         + jsonapi (jsonapi)
-        + data (object)
-            + taxonId: 1 (string)
-            + attributes (taxonResult)
+        + meta (meta)
+        + data (resourceObject)
 
 
 
@@ -105,4 +115,8 @@ Resource for searching multiple taxa.
 Action for a partial search for taxa.
 
 + Response 200 (application/json)
-    + Attributes (array[taxonResult])
+    + Attributes
+        + jsonapi (jsonapi)
+        + meta (meta)
+            + results: 10 (number) - Number of results
+        + data (array[resourceObject])
