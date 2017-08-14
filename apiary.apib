@@ -63,13 +63,16 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 + publicationId: p1 (string, required) - Unique id for the publication
 + reference: Linné Systema Naturae 1758 (string) - Publication reference string
 
+## jsonapi
+
++ version: 1 (string)
 
 # Group Taxon
 
 Resource group related to taxa.
 
 
-## Single taxon [/taxon/id/{taxon_id}]
+## Single taxon [/v1/taxon/id/{taxon_id}]
 
 Resource for managing (CRUD) a single taxon.
 
@@ -84,7 +87,7 @@ Action for showing data / metadata about one taxon.
     + Attributes (taxonResult)
 
 
-## Taxon search [/taxon/search/{taxon_name}]
+## Taxon search [/v1/taxon/search/{taxon_name}]
 
 Resource for searching multiple taxa.
 
