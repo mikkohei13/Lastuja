@@ -1,0 +1,110 @@
+FORMAT: 1A
+
+# Taxonomy
+
+Testing API-Blueprint for taxonomy API.
+
+# Group Taxon
+
+Resource group related to taxa.
+
+## Taxon Displaying Collection [/taxon/id/{taxon_id}]
+
+Resource for one taxon.
+
+### Show a taxon [GET]
+
+Shows data / metadata about one taxon.
+
+* Response 200 (application/json)
+
+        {
+        "taxonId": "string",
+        "notes": "string",
+        "rank": "string",
+        "name": {
+            "nameId": "string",
+            "scientificName": "string",
+            "cursiveName": boolean,
+            "scientificNameAuthor": "string",
+            "scientificNameYear": "string",
+            "scientificNameConcatenated": "string",
+            "basionym": "string",
+            "vernacularNames": [
+                {
+                    "lang": "string",
+                    "name": "string",
+                }
+            ]
+        },
+        "synonyms": [
+            {
+                "taxonId": "string",
+            }
+        ],
+        "parent": 
+            {
+                "taxonId": "string",
+            },
+        "ancestors": [
+            {
+                "taxonId": "string",
+                "taxonRank": "string",
+                "scientificName": "string"
+            }
+        ],
+        "siblings": [
+            {
+                "taxonId": "string",
+            }
+        ],
+        "children": [
+            {
+                "taxonId": "string",
+            }
+        ],
+        "taxonomicSortOrder": 0,
+        "classification": "string",
+        "accepted": boolean,
+        "conceptRelations":
+            {
+                "isSameAs": 
+                    {
+                        "taxonId": "string"
+                    }
+                "isPartOf":
+                    {
+                        "taxonId": "string"
+                    }
+                "hasParts": [
+                    {
+                        "taxonId": "string"
+                    }
+                ]
+            },
+        "originalPublication": {
+            "publicationId": "string",
+            "reference": "string"
+        },
+        "concepPublication": {
+            "publicationId": "string",
+            "reference": "string"
+        }
+
+## Taxon Search Collection [/taxon/search]
+
+Search taxa.
+
+### Search a taxon [GET]
+
+Does a partial search for taxon scientific names.
+
+TODO:
+
+- How to add search parameters
+
+* Response 200 (application/json)
+
+        {
+            "taxonId": "string",
+        }
