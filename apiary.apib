@@ -8,6 +8,15 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 
 # Data Structures
 
+## validationResult
+
++ nameStatus: notFound (enum, required) - Whether the give taxon is valid. 
+    + Default: notFound
+    + Members
+        + notFound
+        + notFccepted
+        + accepted
+
 ## resourceObject
 
 + id: 1 (string) - The taxon id. Can this be modularized with MSON, while keeping the 'id'-key?
@@ -76,12 +85,29 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 ## meta
 
 + apiVersion: v0_2 (string)
-+ message: Mockup data in a mockup API (string)
 
 # Group Taxon
 
 Resource group related to taxa.
 
+
+
+## Taxon validation [/v1/validation?filter%5BscientificName%5D={scientificName}]
+
+Resource for validating taxa.
+
++ Parameters
+    + scientificName: Turdus merula (string, required) - Scientific name to be validated
+
+### Validate a taxon [GET]
+
+Action for validating a single taxon.
+
++ Response 200 (application/json)
+    + Attributes
+        + jsonapi (jsonapi)
+        + meta (meta)
+        + data (validationResult)
 
 
 ## Single taxon [/v1/taxon?filter%5BtaxonId%5D={taxonId}]
