@@ -26,6 +26,11 @@ Data structures are described as MSON, see https://github.com/apiaryio/mson
 ## taxonResult
 
 + taxonId: 1 (string, required)
++ matchType: full (enum, required)
+    + Members
+            + full
+            + partial
+            + fuzzy
 + rank: species (string, required)
 + taxonName (taxonName, required) - SEE BELOW
 + vernacularNames (array[vernacularName]) - SEE BELOW
@@ -109,6 +114,7 @@ Action for validating a single taxon.
         + jsonapi (jsonapi)
         + meta (meta)
         + data (validationResult)
+
 
 
 ## Single taxon [/v1/taxon?filter%5BtaxonId%5D={taxonId}]
