@@ -1,27 +1,28 @@
 ## JavaScript patterns
 
-# Creating a module
+# Creating a Node.js module
 
 ## Main app
 
 Include the module
 
-        const lajiAPI = require('./lajiapi.js'); // .js can be left out ??
+        const localNameForModule = require('./module-file.js'); // .js can be left out ??
 
 Call a method in the module
 
-        lajiAPI.handleQuery(request, response);
+        localNameForModule.doSomething(param1, param2);
 
 ## Module file
 
+Code and variables are wrapped in functions, which are called through module's local name. This reduces likelihood of name collisions.
 
-        function handleQuery(serverRequest, serverResponse) {
+        function doSomethingInternalName(internalParam1, internalParam2) {
             // Do things here
         }
 
 Expose the functions you wish to make public
 
         module.exports = {
-            handleQuery : handleQuery
+            doSomething : doSomethingInternalName
         };
 
