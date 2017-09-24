@@ -1,5 +1,7 @@
 <?php
-$file = $_GET("file");
+
+$file = htmlspecialchars($_GET["file"]);
+
 ?><!doctype html>
 
 <html lang="en">
@@ -8,7 +10,7 @@ $file = $_GET("file");
         <title>JavaScript examples</title>
     </head>
     <body>
-        <h1><?php echo $file;?></h1>
+        <h1>Pattern "<?php echo $file;?>"</h1>
         <script src="<?php echo $file;?>.js"></script>
     </body>
 </html>
