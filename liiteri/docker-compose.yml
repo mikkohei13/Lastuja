@@ -6,9 +6,9 @@ services:
     backend:
         image: richarvey/nginx-php-fpm:1.3.5
         restart: always
-        environment:
-            - PUID=1000
-            - PGID=1000
+#        environment: # doesn't work on Scaleway
+#            - PUID=1000
+#            - PGID=1000
         ports:
             - 80:80
         volumes:
