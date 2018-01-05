@@ -5,6 +5,8 @@ var bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: true })); // This formats request params
 var User = require('./User');
 
+var auth0 = require('../auth0');
+
 // Creates a user
 router.post('/', function (req, res) {
     User.create({
@@ -30,7 +32,7 @@ router.get('/', function (req, res) {
 });
 
 // Returns a single user by id
-router.get('/:id', function (req, res) {
+router.get('/:id', auth0.checkJwt, auth0.checkScopeIs.admin, function (req, res) {
     User.findById(req.params.id, function (err, user) {
         if (err) {
             return res.status(500).send("There was a problem finding the users.");
