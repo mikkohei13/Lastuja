@@ -1,0 +1,312 @@
+{
+  "creator": "MA.3",
+  "gatheringEvent": {
+    "legPublic": true,
+    "leg": [
+      "MA.3"
+    ],
+    "dateBegin": "2017-04-25"
+  },
+  "formID": "JX.519",
+  "editors": [
+    "MA.3"
+  ],
+  "secureLevel": "MX.secureLevelNone",
+  "gatherings": [
+    {
+      "locality": "Orminge",
+      "images": [
+        
+      ],
+      "units": [
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.145",
+            "MVL.1"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "turmer",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.33106"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.145",
+            "MVL.1"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "turpil",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.33117"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.145",
+            "MVL.1"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "parmaj",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.34567"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.145",
+            "MVL.1"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "parcae",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.34574"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.1",
+            "MVL.138",
+            "MVL.137"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "larcan",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.27748"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.145",
+            "MVL.1"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "erirub",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.32801"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.145",
+            "MVL.1"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "count": "1\u00e4 p",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "parcri",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                18.241194,
+                59.327918
+              ]
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.34553"
+          }
+        }
+      ],
+      "geometry": {
+        "type": "GeometryCollection",
+        "geometries": [
+          {
+            "type": "LineString",
+            "coordinates": [
+              [
+                18.252975,
+                59.326329
+              ],
+              [
+                18.25186,
+                59.326136
+              ],
+              [
+                18.250659,
+                59.325532
+              ],
+              [
+                18.24745,
+                59.326355
+              ],
+              [
+                18.247124,
+                59.326574
+              ],
+              [
+                18.246678,
+                59.326635
+              ],
+              [
+                18.246523,
+                59.327012
+              ],
+              [
+                18.246712,
+                59.327388
+              ],
+              [
+                18.243469,
+                59.328054
+              ],
+              [
+                18.242931,
+                59.328104
+              ],
+              [
+                18.242691,
+                59.327719
+              ],
+              [
+                18.241576,
+                59.327973
+              ],
+              [
+                18.242296,
+                59.328096
+              ],
+              [
+                18.242794,
+                59.328595
+              ],
+              [
+                18.245059,
+                59.328174
+              ]
+            ]
+          }
+        ]
+      },
+      "habitat": [
+        
+      ],
+      "country": "Sweden",
+      "administrativeProvince": "Stockholms l\u00e4n, Stockholm County",
+      "municipality": "Nacka Municipality",
+      "biologicalProvince": "",
+      "taxonCensus": [
+        
+      ]
+    }
+  ],
+  "keywords": [
+    "nacka",
+    "eka"
+  ],
+  "publicityRestrictions": "MZ.publicityRestrictionsPublic"
+}

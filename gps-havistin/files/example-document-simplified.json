@@ -1,0 +1,74 @@
+
+{
+  "creator": "MA.3",
+  "gatheringEvent": {
+    "legPublic": true,
+    "leg": [
+      "MA.3"
+    ],
+    "dateBegin": "2018-02-18"
+  },
+  "formID": "JX.519",
+  "editors": [
+    "MA.3"
+  ],
+  "secureLevel": "MX.secureLevelNone",
+  "gatherings": [
+    {
+      "locality": "Nacka, Orminge, M\u00f6jav\u00e4gen",
+      "units": [
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "count": "1",
+          "identifications": [
+            {
+              "taxon": "rotta"
+            }
+          ]
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "count": "1",
+          "identifications": [
+            {
+              "taxon": "picpic"
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                18.24526,
+                59.328291
+              ]
+            }
+          }
+        }
+      ],
+      "geometry": {
+        "type": "GeometryCollection",
+        "geometries": [
+          {
+            "type": "Point",
+            "coordinates": [
+              18.243237733841,
+              59.328855178441
+            ],
+            "radius": 40.408549108374
+          }
+        ]
+      },
+      "notes": "pihalta",
+      "country": "Sweden",
+      "administrativeProvince": "Stockholms l\u00e4n, Stockholm County",
+      "municipality": "Nacka Municipality"
+    }
+  ],
+  "keywords": [
+    "avain",
+    "avain2"
+  ],
+  "publicityRestrictions": "MZ.publicityRestrictionsPublic"
+}

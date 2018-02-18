@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx
+version="1.1"
+creator="Created by My Tracks from Daniel Qin"
+xmlns="http://www.topografix.com/GPX/1/1"
+xmlns:topografix="http://www.topografix.com/GPX/Private/TopoGrafix/0/1"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.topografix.com/GPX/Private/TopoGrafix/0/1 http://www.topografix.com/GPX/Private/TopoGrafix/0/1/topografix.xsd">
+<metadata>
+<name><![CDATA[Route from 2018-02-08 09:14]]></name>
+<desc><![CDATA[]]></desc>
+</metadata>
+<trk>
+<name><![CDATA[Route from 2018-02-08 09:14]]></name>
+<desc><![CDATA[]]></desc>
+<type><![CDATA[]]></type>
+<extensions><topografix:color>c0c0c0</topografix:color></extensions>
+<trkseg>
+<trkpt lat="59.33197" lon="18.260397">
+<ele>-9999</ele>
+<time>2018-02-08T08:14:07.240Z</time>
+</trkpt>
+<trkpt lat="59.332062" lon="18.260338">
+<ele>55</ele>
+<time>2018-02-08T08:14:32.000Z</time>
+</trkpt>
+<trkpt lat="59.332142" lon="18.260038">
+<ele>58</ele>
+<time>2018-02-08T08:14:45.000Z</time>
+</trkpt>
+<trkpt lat="59.332203" lon="18.259884">
+<ele>48</ele>
+<time>2018-02-08T08:14:52.434Z</time>
+</trkpt>
+</trkseg>
+</trk>
+<wpt lat="59.332115" lon="18.254887">
+<time>2018-02-08T08:18:54.053Z</time>
+<name><![CDATA[siteur 1Ä]]></name>
+<desc><![CDATA[]]></desc>
+</wpt>
+<wpt lat="59.332203" lon="18.259884">
+<time>2018-02-08T08:15:10.307Z</time>
+<name><![CDATA[siteur 1Ä]]></name>
+<desc><![CDATA[]]></desc>
+</wpt>
+<wpt lat="59.332638" lon="18.259666">
+<time>2018-02-08T08:14:24.470Z</time>
+<name><![CDATA[turpul 1p]]></name>
+<desc><![CDATA[]]></desc>
+</wpt>
+</gpx>

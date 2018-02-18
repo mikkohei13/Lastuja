@@ -1,0 +1,289 @@
+
+{
+  "creator": "MA.3",
+  "gatheringEvent": {
+    "legPublic": true,
+    "leg": [
+      "MA.3"
+    ],
+    "dateBegin": "2018-02-18"
+  },
+  "formID": "JX.519",
+  "editors": [
+    "MA.3"
+  ],
+  "secureLevel": "MX.secureLevelNone",
+  "gatherings": [
+    {
+      "locality": "Nacka, Orminge, M\u00f6jav\u00e4gen",
+      "images": [
+        
+      ],
+      "units": [
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.2",
+            "MVL.185"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "count": "1",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "rotta",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.49649"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.145",
+            "MVL.1"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "count": "8p",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "turmer",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.33106"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.145",
+            "MVL.1"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "count": "2p",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "carchl",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.36283"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.145",
+            "MVL.1"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "count": "1p",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "siteur",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.34586"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.2",
+            "MVL.185"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "count": "1",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "orava",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.48089"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.145",
+            "MVL.1"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "parmaj",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.34567"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.145",
+            "MVL.1"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "parcae",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.34574"
+          }
+        },
+        {
+          "recordBasis": "MY.recordBasisHumanObservation",
+          "informalTaxonGroups": [
+            "MVL.145",
+            "MVL.1"
+          ],
+          "taxonConfidence": "MY.taxonConfidenceSure",
+          "count": "1",
+          "images": [
+            
+          ],
+          "checklistID": "",
+          "identifications": [
+            {
+              "taxon": "picpic",
+              "identificationBasis": [
+                
+              ]
+            }
+          ],
+          "unitGathering": {
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                18.24526,
+                59.328291
+              ]
+            }
+          },
+          "unitFact": {
+            "autocompleteSelectedTaxonID": "MX.37122"
+          }
+        }
+      ],
+      "geometry": {
+        "type": "GeometryCollection",
+        "geometries": [
+          {
+            "type": "Point",
+            "coordinates": [
+              18.243237733841,
+              59.328855178441
+            ],
+            "radius": 40.408549108374
+          }
+        ]
+      },
+      "notes": "pihalta",
+      "namedPlaceID": "MNP.4152",
+      "habitat": [
+        
+      ],
+      "country": "Sweden",
+      "administrativeProvince": "Stockholms l\u00e4n, Stockholm County",
+      "municipality": "Nacka Municipality",
+      "biologicalProvince": "",
+      "taxonCensus": [
+        
+      ]
+    }
+  ],
+  "keywords": [
+    "avain, avain2"
+  ],
+  "publicityRestrictions": "MZ.publicityRestrictionsPublic"
+}
