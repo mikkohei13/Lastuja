@@ -15,7 +15,6 @@ let baseDocument = {
   "secureLevel": "MX.secureLevelNone",
   "gatherings": [
     {
-      "locality": "Nacka, Orminge",
       "units": [
           // units here
       ],
@@ -25,15 +24,12 @@ let baseDocument = {
             // geometries here
         ]
       },
-      "notes": "pihalta",
-      "country": "Sweden",
-      "administrativeProvince": "Stockholms l\u00e4n, Stockholm County",
-      "municipality": "Nacka Municipality"
+      "notes": "" // Track name here
     }
   ],
   "keywords": [
-    "avain",
-    "avain2"
+    "havistin",
+    "gpx"
   ],
   "publicityRestrictions": "MZ.publicityRestrictionsPublic"
 };
