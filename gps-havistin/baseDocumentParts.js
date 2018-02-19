@@ -6,7 +6,7 @@ let baseDocument = {
     "leg": [
       "MA.3"
     ],
-    "dateBegin": "2018-02-18"
+    "dateBegin": "" // date here
   },
   "formID": "JX.519",
   "editors": [
