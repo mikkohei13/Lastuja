@@ -2,33 +2,47 @@ const gpxParse = require('gpx-parse')
 let baseDocumentParts = require('./baseDocumentParts')
 const util = require('util')
 
-function parser() {
-  gpxParse.parseGpxFromFile("./files/mytracks01.gpx", function(error, data) {
+let moduleCallback;
 
-    now = new Date
+// Public functions
 
-    // Units
-    let baseUnits = parseWaypoints(data)
+function parseExample(callback) {
+  moduleCallback = callback;
+  gpxParse.parseGpxFromFile("./files/mytracks01.gpx", parse);
+}
 
-    // Geometry
-    let tracksAndName = parseTrack(data.tracks)
-    let dateBegin = tracksAndName.dateBegin
-    let baseGeometry = tracksAndName.geometry
-    let tracksName = tracksAndName.name + " (parsed by gpx2laji on " + now.toISOString() + ")"
+function parseString(xml, callback) {
+  moduleCallback = callback;
+  gpxParse.parseGpx(xml, parse);
+}
 
-    let document = baseDocumentParts.baseDocument
-    document.gatherings[0].units = baseUnits
-    document.gatherings[0].geometry.geometries[0] = baseGeometry
-    document.gatherings[0].notes = tracksName
-    document.gatheringEvent.dateBegin = dateBegin
 
-    console.log(JSON.stringify(document, null, 2));
+// Private functions
+
+let parse = function parse(error, data) {
+
+  // Units
+  let baseUnits = parseWaypoints(data)
+
+  // Geometry
+  let track = parseTrack(data.tracks)
+
+  // Get base document and assign values to it
+  let document = baseDocumentParts.baseDocument
+  now = new Date
+  document.gatherings[0].notes = track.name + " (parsed by gpx2laji on " + now.toISOString() + ")"
+  document.gatherings[0].geometry.geometries[0] = track.geometry
+  document.gatheringEvent.dateBegin = track.dateBegin
+  document.gatherings[0].units = baseUnits
+
+//  console.log(JSON.stringify(document, null, 2));
+
+  moduleCallback(null, JSON.stringify(document, null, 2));
 //    console.log(util.inspect(document, {showHidden: false, depth: null}))
 //    console.log(util.inspect(baseUnits, {showHidden: false, depth: null}))
 //    console.log(util.inspect(baseGeometry, {showHidden: false, depth: null}))
 //    console.log(util.inspect(data, {showHidden: false, depth: null}))
 
-  })
 }
 
 // Returns an array of waypoints
@@ -86,6 +100,7 @@ function parseTrack(tracks) {
     }
   })
 
+  // Return first track [0] in array, since only one track expected
   return {
     name : parsedTracks[0].name,
     geometry : {
@@ -112,5 +127,6 @@ function getInternationalDate(date) {
 */
 
 module.exports = {
-  "parser" : parser
+  "parseExample": parseExample,
+  "parseString": parseExample
 }
