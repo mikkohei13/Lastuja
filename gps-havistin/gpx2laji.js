@@ -11,9 +11,9 @@ function parseExample(callback) {
   gpxParse.parseGpxFromFile("./files/mytracks01.gpx", parse);
 }
 
-function parseString(xml, callback) {
+function parseString(gpxString, callback) {
   moduleCallback = callback;
-  gpxParse.parseGpx(xml, parse);
+  gpxParse.parseGpx(gpxString, parse);
 }
 
 
@@ -128,5 +128,5 @@ function getInternationalDate(date) {
 
 module.exports = {
   "parseExample": parseExample,
-  "parseString": parseExample
+  "parseString": parseString
 }
