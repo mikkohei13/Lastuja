@@ -37,7 +37,8 @@ let parse = function parse(error, data) {
 
 //  console.log(JSON.stringify(document, null, 2));
 
-  moduleCallback(null, JSON.stringify(document, null, 2));
+  moduleCallback(null, document);
+
 //    console.log(util.inspect(document, {showHidden: false, depth: null}))
 //    console.log(util.inspect(baseUnits, {showHidden: false, depth: null}))
 //    console.log(util.inspect(baseGeometry, {showHidden: false, depth: null}))
