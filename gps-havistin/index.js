@@ -26,27 +26,56 @@ if (fromFile) {
 
     const gpxString = fs.readFileSync(filename, 'utf8');
 
-    let parsed = gpx2laji.parseString(gpxString, (err, document) => {
-        validateLajifiDocument(document);
+    gpx2laji.parseString(gpxString, (err, documentMeta) => {
+        validateLajifiDocument(documentMeta.document, (err) => {
+
+            // Message sent to user
+            let messageForUser = "\n";
+            if (err === null) {
+                messageForUser += "GPX-file converted to laji.fi document successfully.\n";
+            }
+            else {
+                messageForUser += "Converting GPX file to laji.fi document failed: " + JSON.stringify(err) + "\n"; 
+            }
+            
+            messageForUser += "* Name: " + documentMeta.document.gatherings[0].notes + "\n";
+            messageForUser += "* Date: " + documentMeta.document.gatheringEvent.dateBegin + "\n";            
+            messageForUser += "* " + documentMeta.waypointCount + " waypoints\n";
+            messageForUser += "* " + documentMeta.segmentCount + " segments\n";
+            console.log(messageForUser);
+
+        });
+
     });
 }
 else {
-    let parsed = gpx2laji.parseExample((err, document) => {
-        validateLajifiDocument(document);
+    gpx2laji.parseExample((err, documentMeta) => {
+        validateLajifiDocument(documentMeta.document);
+        // todo: add same functionality as with previous branch
     });    
 }
 
-function validateLajifiDocument(document) {
+function validateLajifiDocument(document, functionCallback) {
     const validationEndpoint = "https://api.laji.fi/v0/documents/validate?type=error&lang=en&validationErrorFormat=object&access_token=" + secrets.lajifiApiToken;
+    let err;
 
-    console.log(document); // debug
+//    console.log(document); // debug
 
     request.post({
         url: validationEndpoint,
         json: document
     },
     function(error, response, body) {
-        console.log("Validated: ");
-        console.log(body);
+        if (body.error !== undefined) {
+            err = body.error;
+//            console.log("Validation failed");
+        }
+        else {
+            err = null;
+//            console.log("Validation successful");
+        }
+//        console.log(body);
+
+        functionCallback(err);
     });
 }

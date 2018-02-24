@@ -40,7 +40,7 @@ let baseUnit = {
     "count": "1",
     "identifications": [
       {
-        "taxon": "picpic"
+        "taxon": ""  // taxon here
       }
     ],
     "unitGathering": {

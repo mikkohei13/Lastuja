@@ -24,11 +24,11 @@ let parse = function parse(error, data) {
   // Units
   let waypoints = parseWaypoints(data);
   let baseUnits = waypoints.baseUnits;
-  console.log(waypoints.waypointCount + " waypoints");
+//  console.log(waypoints.waypointCount + " waypoints");
 
   // Geometry
   let track = parseTrack(data.tracks);
-  console.log(track.segmentCount + " track segments");
+//  console.log(track.segmentCount + " track segments");
 
   // Get base document and assign values to it
   let document = baseDocumentParts.baseDocument
@@ -40,7 +40,12 @@ let parse = function parse(error, data) {
 
 //  console.log(JSON.stringify(document, null, 2));
 
-  moduleCallback(null, document);
+  const documentMeta = {
+    document: document,
+    waypointCount: waypoints.waypointCount,
+    segmentCount: track.segmentCount
+  };
+  moduleCallback(null, documentMeta);
 
 //    console.log(util.inspect(document, {showHidden: false, depth: null}))
 //    console.log(util.inspect(baseUnits, {showHidden: false, depth: null}))
