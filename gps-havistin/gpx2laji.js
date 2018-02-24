@@ -22,10 +22,13 @@ function parseString(gpxString, callback) {
 let parse = function parse(error, data) {
 
   // Units
-  let baseUnits = parseWaypoints(data)
+  let waypoints = parseWaypoints(data);
+  let baseUnits = waypoints.baseUnits;
+  console.log(waypoints.waypointCount + " waypoints");
 
   // Geometry
-  let track = parseTrack(data.tracks)
+  let track = parseTrack(data.tracks);
+  console.log(track.segmentCount + " track segments");
 
   // Get base document and assign values to it
   let document = baseDocumentParts.baseDocument
@@ -75,7 +78,10 @@ function parseWaypoints(data) {
     return unitHelper
   })
 
-  return parsedWaypoints
+  return {
+    baseUnits: parsedWaypoints,
+    waypointCount: waypoints.length
+  }
 }
 
 // Returns a route
@@ -97,7 +103,8 @@ function parseTrack(tracks) {
 
     return {
       coordinates: parsedSegments,
-      name: track.name
+      name: track.name,
+      segmentCount: (segments.length - 1) // one less segments than segment start/endpoints
     }
   })
 
@@ -108,7 +115,8 @@ function parseTrack(tracks) {
       "type": "LineString",
       "coordinates": parsedTracks[0].coordinates
     },
-    dateBegin: dateObject.toISOString().split('T')[0]
+    dateBegin: dateObject.toISOString().split('T')[0],
+    segmentCount: parsedTracks[0].segmentCount
   }
 
 }

@@ -15,10 +15,15 @@ app.get('/', function response(req, res) {
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
 */
 
-const fromFile = false;
+const fromFile = true;
 
 if (fromFile) {
-    const filename = "files/mytracks02-pkkorset.gpx";
+    let filename;
+    filename = "files/mytracks01.gpx";
+    filename = "files/mytracks02-pkkorset.gpx";
+    filename = "files/mytracks03-hasseludden.gpx";
+//    filename = "files/mytracks04-orminge.gpx";
+
     const gpxString = fs.readFileSync(filename, 'utf8');
 
     let parsed = gpx2laji.parseString(gpxString, (err, document) => {
