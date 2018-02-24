@@ -3,6 +3,7 @@
 const gpx2laji = require('./gpx2laji');
 const fs = require('fs');
 const request = require('request');
+const nodemailer = require('nodemailer');
 
 const secrets = require('./secrets');
 
@@ -44,6 +45,8 @@ if (fromFile) {
             messageForUser += "* " + documentMeta.segmentCount + " segments\n";
             console.log(messageForUser);
 
+//            emailResults();
+
         });
 
     });
@@ -78,4 +81,33 @@ function validateLajifiDocument(document, functionCallback) {
 
         functionCallback(err);
     });
+}
+
+function emailResults() {
+    // https://medium.com/@manojsinghnegi/sending-an-email-using-nodemailer-gmail-7cfa0712a799
+
+    let transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: secrets.email.address,
+            pass: secrets.email.password
+        }
+    });
+
+    const mailOptions = {
+        from: secrets.email.address,
+        to: secrets.testEmail,
+        subject: "GPX to laji.fi",
+        html: "Test \n foo bar ÅÄÖåäö"
+    };
+
+    transporter.sendMail(mailOptions, function (err, info) {
+        if (err)
+            console.log(err);
+        else
+            console.log(info);
+    });
+
+    console.log("Email sending in progress...")
+
 }

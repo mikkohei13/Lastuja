@@ -11,6 +11,7 @@
   "dependencies": {
     "express": "^4.16.2",
     "gpx-parse": "^0.10.4",
+    "nodemailer": "^4.6.0",
     "request": "^2.83.0"
   }
 }
