@@ -86,6 +86,8 @@ function validateLajifiDocument(document, functionCallback) {
 function emailResults() {
     // https://medium.com/@manojsinghnegi/sending-an-email-using-nodemailer-gmail-7cfa0712a799
 
+    // 2nd option: https://github.com/eleith/emailjs
+
     let transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
