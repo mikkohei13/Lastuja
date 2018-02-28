@@ -1,3 +1,13 @@
+/*
+TODO:
+- parse files from datafiles dir
+- handle (parse, validate and email about) multiple files at a time
+- append parsed files to handledFiles.json
+- include person token somewhere
+- send documents to API
+- show success/false message
+*/
+
 //const express = require('express');
 //const app = express();
 const gpx2laji = require('./gpx2laji');
