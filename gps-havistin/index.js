@@ -6,6 +6,7 @@ TODO:
 - include person token somewhere
 - send documents to API
 - show success/false message
+
 */
 
 //const express = require('express');
@@ -31,8 +32,8 @@ const fromFile = true;
 if (fromFile) {
     let filename;
     filename = "files/mytracks01.gpx";
-    filename = "files/mytracks02-pkkorset.gpx";
-    filename = "files/mytracks03-hasseludden.gpx";
+//    filename = "files/mytracks02-pkkorset.gpx";
+//    filename = "files/mytracks03-hasseludden.gpx";
 //    filename = "files/mytracks04-orminge.gpx";
 
     const gpxString = fs.readFileSync(filename, 'utf8');
@@ -79,15 +80,17 @@ function validateLajifiDocument(document, functionCallback) {
         json: document
     },
     function(error, response, body) {
-        if (body.error !== undefined) {
+        if (undefined == body) {
+            err = "Error connecting api.laji.fi";
+        }
+        else if (undefined !== body.error) {
             err = body.error;
-//            console.log("Validation failed");
+            // Validation failed
         }
         else {
             err = null;
-//            console.log("Validation successful");
+            // Validation successful
         }
-//        console.log(body);
 
         functionCallback(err);
     });

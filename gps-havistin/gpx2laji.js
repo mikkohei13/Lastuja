@@ -8,18 +8,18 @@ let moduleCallback;
 
 function parseExample(callback) {
   moduleCallback = callback;
-  gpxParse.parseGpxFromFile("./files/mytracks01.gpx", parse);
+  gpxParse.parseGpxFromFile("./files/mytracks01.gpx", gpxObject2metaDocument);
 }
 
 function parseString(gpxString, callback) {
   moduleCallback = callback;
-  gpxParse.parseGpx(gpxString, parse);
+  gpxParse.parseGpx(gpxString, gpxObject2metaDocument);
 }
 
 
 // Private functions
 
-let parse = function parse(error, data) {
+let gpxObject2metaDocument = (error, data) => {
 
   // Units
   let waypoints = parseWaypoints(data);

@@ -5,7 +5,6 @@ Receiving email
 http://docs.cloudmailin.com/receiving_email/localhost_debugger/
 
 
-
 ## Logiikka
 - Käyttäjälle luodaan MA-tunnisteeseen liitetty +tunniste meiliosoitteeseen liitettäväksi
 - Käyttäjä lähettää gpx:n tiedostona ko. osoitteeseen
