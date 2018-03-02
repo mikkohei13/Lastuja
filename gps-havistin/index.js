@@ -29,7 +29,10 @@ const gpxString = fs.readFileSync(filename, 'utf8');
 
 
 // Get attachments
-//gmail.fetchNewFiles();
+gmail.fetchNewFiles((fileNames) => {
+    console.log("Array of succesfully fetched files: ");
+    console.log(fileNames);
+});
 
 
 // Deciding which files to handle
@@ -37,7 +40,8 @@ const gpxString = fs.readFileSync(filename, 'utf8');
 const dataFiles = fs.readdirSync("datafiles", "utf8");
 const processedFiles = fs.readFileSync("processed_files.json", 'utf8');
 
-
+console.log(dataFiles);
+console.log(processedFiles);
 
 
 gpx2laji.parseString(gpxString, (err, documentMeta) => {

@@ -22,6 +22,8 @@ const inspect = require('util').inspect;
 
 const secrets = require('./secrets');
 
+let moduleCallback;
+
 var fs      = require('fs');
 var base64  = require('base64-stream');
 
@@ -32,21 +34,9 @@ let tempFileDir = "./temp_datafiles/";
 let finalFileDir = "./datafiles/";
 
 
+// Settings
 
-// Prefixes filenames with plusoces and moves them to final directory. Leaves files without pluscodes to the temporary directory. 
-function organizeFiles() {
-    for(var key in pluscodes) {
-        if (pluscodes[key] !== "NA" && filenames[key] !== undefined) {
-            let source = tempFileDir + filenames[key];
-            let destination = finalFileDir + pluscodes[key] + "_" + filenames[key];
-            fs.copyFileSync(source, destination);
-            fs.unlinkSync(source);
-            console.log(destination);
-        }
-    }
-}
-
-var imap    = new Imap({
+var imap = new Imap({
     user: secrets.email.address,
     password: secrets.email.password,
     host: 'imap.gmail.com',
@@ -55,9 +45,9 @@ var imap    = new Imap({
     //,debug: function(msg){console.log('imap:', msg);}
 });
 
+
 // Fetching messages and attachments asynchronously by Christiaan Westerbeek
 // https://stackoverflow.com/questions/25247207/how-to-read-and-save-attachments-using-node-imap
-
 
 function toUpper(thing) {
     return thing && thing.toUpperCase ? thing.toUpperCase() : thing;
@@ -218,7 +208,27 @@ imap.once('end', function() {
   organizeFiles();
 });
 
-const fetchNewFiles = function() {
+// Prefixes filenames with plusoces and moves them to final directory. Leaves files without pluscodes to the temporary directory. 
+function organizeFiles() {
+    let fileNames = [];
+    for(var key in pluscodes) {
+        if (pluscodes[key] !== "NA" && filenames[key] !== undefined) {
+            let source = tempFileDir + filenames[key];
+            let destination = finalFileDir + pluscodes[key] + "_" + filenames[key];
+
+            // This must be synchronous, or changes needed to this function
+            fs.copyFileSync(source, destination);
+            fs.unlinkSync(source);
+            fileNames.push(destination);
+
+//            console.log(destination);
+        }
+    }
+    moduleCallback(fileNames);
+}
+
+const fetchNewFiles = function(callback) {
+    moduleCallback = callback;
     imap.connect();
     console.log('Fetching email...');
 }
