@@ -6,6 +6,11 @@ This will:
    - with pluscodes: datafiles
    - without pluscodes: temp_datafiles
 
+This should
+- Read messages
+- Save new attachments
+- Return / call callbacks with names of new files
+
 Filenames are format {pluscode}_{original_filename}, where pluscode cannot have underscores but original_filename can. Therefore they are separated by the first underscore.fire
 
 Messages and attachments are read separately and asynchronously, so connecting pluscodes (from message) and filenames (from attachment) will have to be done afterwards, combining data from pluscodes and filenames variables.

@@ -1,3 +1,9 @@
+/*
+Parses GPX string into an object containing
+- laji.fi document
+- metadata about the document
+*/
+
 const gpxParse = require('gpx-parse')
 let baseDocumentParts = require('./baseDocumentParts')
 const util = require('util')
@@ -5,11 +11,6 @@ const util = require('util')
 let moduleCallback;
 
 // Public functions
-
-function parseExample(callback) {
-  moduleCallback = callback;
-  gpxParse.parseGpxFromFile("./files/mytracks01.gpx", gpxObject2metaDocument);
-}
 
 function parseString(gpxString, callback) {
   moduleCallback = callback;
@@ -21,14 +22,14 @@ function parseString(gpxString, callback) {
 
 let gpxObject2metaDocument = (error, data) => {
 
-  // Units
+  console.log("Error in gpxObject2metaDocument: " + error);
+
+  // Waypoints -> Units
   let waypoints = parseWaypoints(data);
   let baseUnits = waypoints.baseUnits;
-//  console.log(waypoints.waypointCount + " waypoints");
 
-  // Geometry
+  // Track -> Geometry
   let track = parseTrack(data.tracks);
-//  console.log(track.segmentCount + " track segments");
 
   // Get base document and assign values to it
   let document = baseDocumentParts.baseDocument
@@ -45,6 +46,8 @@ let gpxObject2metaDocument = (error, data) => {
     waypointCount: waypoints.waypointCount,
     segmentCount: track.segmentCount
   };
+
+  // Returns documentMeta object as data to the callback function
   moduleCallback(null, documentMeta);
 
 //    console.log(util.inspect(document, {showHidden: false, depth: null}))
@@ -120,27 +123,12 @@ function parseTrack(tracks) {
       "type": "LineString",
       "coordinates": parsedTracks[0].coordinates
     },
-    dateBegin: dateObject.toISOString().split('T')[0],
+    dateBegin: dateObject.toISOString().split('T')[0], // strange error
     segmentCount: parsedTracks[0].segmentCount
   }
 
 }
 
-/*
-function getInternationalDate(date) {
-  let d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
-}
-*/
-
 module.exports = {
-  "parseExample": parseExample,
   "parseString": parseString
 }
