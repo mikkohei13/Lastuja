@@ -31,6 +31,8 @@ let filenames = {};
 let tempFileDir = "./temp_datafiles/";
 let finalFileDir = "./datafiles/";
 
+
+
 // Prefixes filenames with plusoces and moves them to final directory. Leaves files without pluscodes to the temporary directory. 
 function organizeFiles() {
     for(var key in pluscodes) {
@@ -216,6 +218,12 @@ imap.once('end', function() {
   organizeFiles();
 });
 
-imap.connect();
+const fetchNewFiles = function() {
+    imap.connect();
+    console.log('Fetching email...');
+}
 
-console.log('Fetching email...');
+
+module.exports = {
+    "fetchNewFiles" : fetchNewFiles
+}

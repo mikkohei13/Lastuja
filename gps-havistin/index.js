@@ -13,6 +13,7 @@ const gpx2laji = require('./gpx2laji');
 const fs = require('fs');
 const request = require('request');
 const nodemailer = require('nodemailer');
+const gmail = require('./mail.js');
 
 const secrets = require('./secrets');
 
@@ -24,6 +25,11 @@ filename = "files/mytracks01.gpx";
 //    filename = "files/mytracks04-orminge.gpx";
 
 const gpxString = fs.readFileSync(filename, 'utf8');
+
+
+
+// Get attachments
+//gmail.fetchNewFiles();
 
 
 // Deciding which files to handle
