@@ -1,4 +1,6 @@
 secrets.js
-temp_datafiles/*
-datafiles/*
-document_files/*
+
+files_document/*
+files_document_sent/*
+files_gpx/*
+files_gpx_temp/*
