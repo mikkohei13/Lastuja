@@ -47,15 +47,16 @@ gmail.fetchNewFiles((fileNames) => {
         else {
             // File is new
             console.log("File is new: " + fileName);
-//            parse(fileName); // TODO
-            parse(fs.readFileSync("./datafiles/" + fileName, 'utf8'));
+            gpxFile2metaDocument(fileName); // todo: parametrize directory
         }
     });
 });
 
 
-function parse(gpxString) {
-    
+function gpxFile2metaDocument(fileName) {
+
+    const gpxString = fs.readFileSync("./datafiles/" + fileName, 'utf8');
+
     gpx2laji.parseString(gpxString, (err, documentMeta) => {
 
         validateLajifiDocument(documentMeta.document, (err) => {
@@ -64,6 +65,7 @@ function parse(gpxString) {
             let messageForUser = "\n";
             if (err === null) {
                 messageForUser += "GPX-file converted to laji.fi document successfully.\n";
+                fs.writeFileSync("./document_files/foo.json", documentMeta.document);
             }
             else {
                 messageForUser += "Converting GPX file to laji.fi document failed: " + JSON.stringify(err) + "\n"; 

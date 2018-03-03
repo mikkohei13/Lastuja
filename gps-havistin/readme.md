@@ -4,6 +4,13 @@ Receiving email
 
 http://docs.cloudmailin.com/receiving_email/localhost_debugger/
 
+## Todo
+
+- Talleta prosessoidut tiedostot processed_files -tiedostoon
+- Anna person token parametrina ja talleta vihkoon
+- Debugging w/ debug module
+
+
 
 ## Logiikka
 - Käyttäjälle luodaan MA-tunnisteeseen liitetty +tunniste meiliosoitteeseen liitettäväksi

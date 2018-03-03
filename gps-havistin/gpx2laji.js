@@ -22,7 +22,9 @@ function parseString(gpxString, callback) {
 
 let gpxObject2metaDocument = (error, data) => {
 
-  console.log("Error in gpxObject2metaDocument: " + error);
+  if (error !== null) {
+    console.log("Error in gpxObject2metaDocument: " + error);
+  }
 
   // Waypoints -> Units
   let waypoints = parseWaypoints(data);
