@@ -30,8 +30,8 @@ var base64  = require('base64-stream');
 let pluscodes = {};
 let filenames = {};
 
-let tempFileDir = "./temp_datafiles/";
-let finalFileDir = "./datafiles/";
+let tempFileDir = "./files_gpx_temp/";
+let finalFileDir = "./files_gpx/";
 
 
 // Settings

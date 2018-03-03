@@ -58,3 +58,11 @@ http://docs.cloudmailin.com/receiving_email/localhost_debugger/
 - Lajinimet eivät tunnistaudu Vihkossa - käyttäjän pitää klikata jokaista havaintoa saadakseen nimen tunnistetuksi. Toistaiseksi ok, pakottaa tarkistamaan havainnot.
 - Ei paikannimeä - käyttäjän pitää lisätä paikannimet itse Vihkossa
 - gpx-document -parserista voisi tehdä npm-moduulin
+
+## Notes
+
+With default settings Nodemon runs the script twice, because it creates new .json files, which trigger nodemon to re-run.
+To prevent this, run:
+
+    nodemon --ignore 'files*' index.js
+

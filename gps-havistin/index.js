@@ -13,7 +13,8 @@ const gpx2laji = require('./gpx2laji');
 const fs = require('fs');
 const request = require('request');
 const nodemailer = require('nodemailer');
-const gmail = require('./mail.js');
+const gmail = require('./mail');
+const utils = require('./utils');
 
 const secrets = require('./secrets');
 
@@ -28,39 +29,23 @@ const secrets = require('./secrets');
 
 
 
-// Get attachments
+// Start by getting attachments
 gmail.fetchNewAttachments((fileNames) => {
     console.log("Array of succesfully fetched files: ");
     console.log(fileNames);
+    // todo: remove fileNames, they are just for debugging.
 
-//    let processedFiles = JSON.parse(fs.readFileSync("processed_files.json", 'utf8'));
-    let localGpxFiles = fs.readdirSync("./datafiles"); // todo: parametrize
-
-    let localGpxFilesAssoc; // ABBA TODO: set filenames into "associative array" where filename is key
-
-//    console.log("processedFiles: ");
-//    console.log(processedFiles);
-
-    // Idea: store documents as json files, use those to check what has been processed
-    // Or: processed files should be .json files
-
-    fileNames.forEach(function(fileName) {
-        if (localGpxFilesAssoc[fileName] === true) {
-            // File exists
-            console.log("File exists already: " + fileName);
-        }
-        else {
-            // File is new
-            console.log("File is new: " + fileName);
-            gpxFile2metaDocument(fileName); // todo: parametrize directory
-        }
+    const newFiles = utils.getAddedFiles("files_gpx", "files_document");
+    newFiles.forEach(function(newFile) {
+        console.log("unprocessed GPX file: " + newFile);
+        gpxFile2metaDocument(newFile);
     });
 });
 
 
 function gpxFile2metaDocument(fileName) {
 
-    const gpxString = fs.readFileSync("./datafiles/" + fileName, 'utf8');
+    const gpxString = fs.readFileSync("./files_gpx/" + fileName + ".gpx", 'utf8');
 
     gpx2laji.parseString(gpxString, (err, documentMeta) => {
 
@@ -69,14 +54,14 @@ function gpxFile2metaDocument(fileName) {
             // Message sent to user
             let messageForUser = "\n";
             if (err === null) {
-                messageForUser += "GPX-file converted to laji.fi document successfully.\n";
-                fs.writeFileSync("./document_files/foo.json", documentMeta.document);
+                messageForUser += "GPX to laji.fi conversion succeeded for file " + fileName + ".gpx \n";
+                fs.writeFileSync("./files_document/" + fileName + ".json", documentMeta.document);
             }
             else {
-                messageForUser += "Converting GPX file to laji.fi document failed: " + JSON.stringify(err) + "\n"; 
+                messageForUser += "GPX to laji.fi conversion failed for file " + fileName + ".gpx:\n " + JSON.stringify(err) + "\n"; 
             }
             
-            messageForUser += "* Name: " + documentMeta.document.gatherings[0].notes + "\n";
+            messageForUser += "* Notes: " + documentMeta.document.gatherings[0].notes + "\n";
             messageForUser += "* Date: " + documentMeta.document.gatheringEvent.dateBegin + "\n";            
             messageForUser += "* " + documentMeta.waypointCount + " waypoints\n";
             messageForUser += "* " + documentMeta.segmentCount + " segments\n";
