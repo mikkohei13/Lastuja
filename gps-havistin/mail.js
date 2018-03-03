@@ -213,15 +213,16 @@ function organizeFiles() {
     let fileNames = [];
     for(var key in pluscodes) {
         if (pluscodes[key] !== "NA" && filenames[key] !== undefined) {
-            let source = tempFileDir + filenames[key];
-            let destination = finalFileDir + pluscodes[key] + "_" + filenames[key];
+            let sourceDirFile = tempFileDir + filenames[key];
+            let destinationFile = pluscodes[key] + "_" + filenames[key];
+            let destinationDirFile = finalFileDir + destinationFile;
 
             // This must be synchronous, or changes needed to this function
-            fs.copyFileSync(source, destination);
-            fs.unlinkSync(source);
-            fileNames.push(destination);
+            fs.copyFileSync(sourceDirFile, destinationDirFile);
+            fs.unlinkSync(sourceDirFile);
+            fileNames.push(destinationFile);
 
-//            console.log(destination);
+//            console.log(destinationDirFile);
         }
     }
     moduleCallback(fileNames);
