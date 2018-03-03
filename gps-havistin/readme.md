@@ -8,14 +8,18 @@ http://docs.cloudmailin.com/receiving_email/localhost_debugger/
 
 ## Todo
 
-- Talleta haetut tiedostot fetched files -tiedostoon
-- Talleta documentit omaan hakemistoon 
-- Anna person token parametrina ja talleta vihkoon
+- Viestin body documentin notesiin
+- Vihkoon tallennus -käli
+   - Anna person token parametrina ja talleta vihkoon
 - Debugging w/ debug module
 
 - Varaudu:
    - ei waypointeja -> ei voi tehdä validia documenttia
 
+- Test
+   - Viesti lähetetty useisiin osoitteisiin
+   - Liitteenä jokin muu kuin gpx
+   - Liitteenä malformed gpx
 
 
 ## Logiikka

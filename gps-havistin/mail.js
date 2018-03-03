@@ -1,15 +1,11 @@
 
 /*
 This will:
-- Read all messages in inbox
-- Saves attachments to directories:
-   - with pluscodes: datafiles
-   - without pluscodes: temp_datafiles
-
-This should
-- Read messages
-- Save new attachments
-- Return / call callbacks with names of new files
+- Read messages in inbox
+- Save all attachments
+- Parses new gpx files to documents
+- Validates parsed documents
+- Savs valid documents to disk
 
 Filenames are format {pluscode}_{original_filename}, where pluscode cannot have underscores but original_filename can. Therefore they are separated by the first underscore.fire
 
@@ -116,7 +112,7 @@ imap.once('ready', function() {
     // Handling all messages one by one
     f.on('message', function (msg, seqno) {
 
-      console.log('Message #%d', seqno);
+      console.log('Message ' + seqno);
       var prefix = seqno + " ";
 
       // Handling all message bodies one by one
@@ -127,6 +123,7 @@ imap.once('ready', function() {
         });
         stream.once('end', function() {
           let parsedHeader = Imap.parseHeader(buffer);
+//          console.log("BUFFER: " + buffer);
           let toEmails = parsedHeader.to;
 
           // Checks to email addresses
