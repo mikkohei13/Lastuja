@@ -4,15 +4,31 @@ Receiving email
 
 http://docs.cloudmailin.com/receiving_email/localhost_debugger/
 
+
+
 ## Todo
 
-- Talleta prosessoidut tiedostot processed_files -tiedostoon
+- Talleta haetut tiedostot fetched files -tiedostoon
+- Talleta documentit omaan hakemistoon 
 - Anna person token parametrina ja talleta vihkoon
 - Debugging w/ debug module
+
+- Varaudu:
+   - ei waypointeja -> ei voi tehdä validia documenttia
 
 
 
 ## Logiikka
+
+
+### Perusvaiheet:
+
+1) hae tiedostot ja tallenna levylle
+1) konvertoi ja validoi tiedostot ja tallenna levylle
+1) lähetä tiedostot ja tallenna levylle
+
+### Tarkemmin:
+
 - Käyttäjälle luodaan MA-tunnisteeseen liitetty +tunniste meiliosoitteeseen liitettäväksi
 - Käyttäjä lähettää gpx:n tiedostona ko. osoitteeseen
 - Cronjob hakee gpx:n ja

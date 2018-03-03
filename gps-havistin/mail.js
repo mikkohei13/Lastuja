@@ -228,7 +228,7 @@ function organizeFiles() {
     moduleCallback(fileNames);
 }
 
-const fetchNewFiles = function(callback) {
+const fetchNewAttachments = function(callback) {
     moduleCallback = callback;
     imap.connect();
     console.log('Fetching email...');
@@ -236,5 +236,5 @@ const fetchNewFiles = function(callback) {
 
 
 module.exports = {
-    "fetchNewFiles" : fetchNewFiles
+    "fetchNewAttachments": fetchNewAttachments
 }

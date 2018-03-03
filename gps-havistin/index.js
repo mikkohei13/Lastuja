@@ -29,18 +29,23 @@ const secrets = require('./secrets');
 
 
 // Get attachments
-gmail.fetchNewFiles((fileNames) => {
+gmail.fetchNewAttachments((fileNames) => {
     console.log("Array of succesfully fetched files: ");
     console.log(fileNames);
-    let processedFiles = JSON.parse(fs.readFileSync("processed_files.json", 'utf8'));
-    console.log("processedFiles:");
-    console.log(processedFiles);
+
+//    let processedFiles = JSON.parse(fs.readFileSync("processed_files.json", 'utf8'));
+    let localGpxFiles = fs.readdirSync("./datafiles"); // todo: parametrize
+
+    let localGpxFilesAssoc; // ABBA TODO: set filenames into "associative array" where filename is key
+
+//    console.log("processedFiles: ");
+//    console.log(processedFiles);
 
     // Idea: store documents as json files, use those to check what has been processed
     // Or: processed files should be .json files
 
     fileNames.forEach(function(fileName) {
-        if (processedFiles[fileName] === true) {
+        if (localGpxFilesAssoc[fileName] === true) {
             // File exists
             console.log("File exists already: " + fileName);
         }
