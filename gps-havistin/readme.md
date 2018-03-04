@@ -1,21 +1,26 @@
 
+Run fetcher from the `fetch` directory:
 
-Receiving email
+    nodemon --ignore 'files*' index.js
 
-http://docs.cloudmailin.com/receiving_email/localhost_debugger/
+
 
 
 
 ## Todo
 
-- Talleta haetut tiedostot fetched files -tiedostoon
-- Talleta documentit omaan hakemistoon 
-- Anna person token parametrina ja talleta vihkoon
+- Viestin body documentin notesiin
+- Vihkoon tallennus -käli
+   - Anna person token parametrina ja talleta vihkoon
 - Debugging w/ debug module
 
 - Varaudu:
    - ei waypointeja -> ei voi tehdä validia documenttia
 
+- Test
+   - Viesti lähetetty useisiin osoitteisiin
+   - Liitteenä jokin muu kuin gpx
+   - Liitteenä malformed gpx
 
 
 ## Logiikka
@@ -65,4 +70,7 @@ With default settings Nodemon runs the script twice, because it creates new .jso
 To prevent this, run:
 
     nodemon --ignore 'files*' index.js
+
+
+Receiving email: http://docs.cloudmailin.com/receiving_email/localhost_debugger/
 

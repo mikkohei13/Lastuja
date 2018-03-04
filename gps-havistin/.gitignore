@@ -1,6 +1,6 @@
 secrets.js
 
-files_document/*
-files_document_sent/*
-files_gpx/*
-files_gpx_temp/*
+fetch/files_document/*
+fetch/files_document_sent/*
+fetch/files_gpx/*
+fetch/files_gpx_temp/*
