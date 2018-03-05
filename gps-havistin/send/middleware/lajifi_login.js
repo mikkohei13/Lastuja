@@ -34,21 +34,26 @@ const getUserData = function(req, res, next) {
     request.get({
         url: endpoint
     },
-    function(error, res, body) {
-        if (undefined == body || error) {
-            console.log("Error:" + error + "\n" + body);
-            res.end("Error:" + error + "\n" + body);
+    function(error, apiResponse, apiBodyJSON) {
+        apiBodyObject = JSON.parse(apiBodyJSON); 
+
+        // If some kind of error
+        // undefined = body         -> network error / api.laji.fi down
+        // error                    -> error with require module(?)
+        // body.error != undefined  -> api.laji.fi returns error, e.g. because of erroneus call
+        if (undefined == apiBodyObject || error || apiBodyObject.error != undefined) {
+            res.send("Error: " + error + "\n" + apiBodyJSON);
+
             // TODO: redirect to login, if person token expired
         }
         else {
-            console.log(body);
             req.lajifi = {};
-            req.lajifi.user = JSON.parse(body);
+            req.lajifi.user = apiBodyObject;
             if (plusCodes[req.lajifi.user.id] != undefined) {
                 req.lajifi.user.pluscode = plusCodes[req.lajifi.user.id];
             }
             else {
-                res.end("Error: no pluscode defined for user " + req.lajifi.user.id);
+                res.send("Error: no pluscode defined for user " + req.lajifi.user.id);
             }
 
             console.log(req.lajifi.user);

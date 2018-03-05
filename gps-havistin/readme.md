@@ -21,6 +21,10 @@ or:
 FETCH
 - Email validation results
 - Viestin body documentin notesiin
+
+- Viestin body documentin notesiin
+- Vihkoon tallennus -käli
+   - Anna person token parametrina ja talleta vihkoon
 - Debugging w/ debug module
 
 - Varaudu:
@@ -32,11 +36,11 @@ FETCH
    - Liitteenä malformed gpx
 
 SEND
+- Use error template for errors, or disable error template
 - UI w/ express
 - Login w/ havistin-PHP
 - List your unsent files
 - Send all files
-
 
 
 ## Logiikka

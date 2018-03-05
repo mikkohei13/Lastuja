@@ -16,7 +16,7 @@ Messages and attachments are read separately and asynchronously, so connecting p
 const Imap = require('imap');
 const inspect = require('util').inspect;
 
-const secrets = require('../secrets');
+const secrets = require('./secrets');
 
 let moduleCallback;
 

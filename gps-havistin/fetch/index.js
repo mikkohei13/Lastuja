@@ -16,7 +16,8 @@ const nodemailer = require('nodemailer');
 const gmail = require('./mail');
 const utils = require('./utils');
 
-const secrets = require('../secrets');
+const secrets = require('./secrets');
+
 
 // Start by getting attachments
 gmail.fetchNewAttachments((fileNames) => {

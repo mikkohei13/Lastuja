@@ -6,7 +6,6 @@ Parses GPX string into an object containing
 
 const gpxParse = require('gpx-parse')
 let baseDocumentParts = require('./baseDocumentParts')
-const util = require('util')
 
 let moduleCallback;
 
