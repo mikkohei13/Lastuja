@@ -1,17 +1,26 @@
 
+## FETCH
+
 Run fetcher from the `fetch` directory:
 
     nodemon --ignore 'files*' index.js
 
+## SEND
 
+Run sender from the `send` directory:
 
+    DEBUG=send:* npm start
+
+or:
+
+    DEBUG=search:* nodemon ./bin/www
 
 
 ## Todo
 
+FETCH
+- Email validation results
 - Viestin body documentin notesiin
-- Vihkoon tallennus -käli
-   - Anna person token parametrina ja talleta vihkoon
 - Debugging w/ debug module
 
 - Varaudu:
@@ -21,6 +30,13 @@ Run fetcher from the `fetch` directory:
    - Viesti lähetetty useisiin osoitteisiin
    - Liitteenä jokin muu kuin gpx
    - Liitteenä malformed gpx
+
+SEND
+- UI w/ express
+- Login w/ havistin-PHP
+- List your unsent files
+- Send all files
+
 
 
 ## Logiikka
