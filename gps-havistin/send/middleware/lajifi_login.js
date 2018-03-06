@@ -65,7 +65,14 @@ const getUserData = function(req, res, next) {
 
 const getUserFiles = function getUserFiles(req, res, next) {
     let files = fs.readdirSync("../../gps-havistin/fetch/files_document/"); // TODO: better relative path?
-    req.files = files;
+
+    // Filter by pluscode
+    const userFiles = files.filter((filename) => {
+        let filenameParts = filename.split("_");
+        return (plusCodes[req.lajifi.user.id] === filenameParts[0]);
+    });
+
+    req.userFiles = userFiles;
     next();
 }
 

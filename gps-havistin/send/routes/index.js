@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
   res.render('index', {
       title: 'Havistin',
       message: message,
-      files: req.files
+      files: req.userFiles
     });
 });
 
