@@ -64,7 +64,8 @@ const getUserData = function(req, res, next) {
 
 
 const getUserFiles = function getUserFiles(req, res, next) {
-    let files = fs.readdirSync("../../gps-havistin/fetch/files_document/"); // TODO: better relative path?
+    let basePath = "../../gps-havistin/fetch/";
+    let files = fs.readdirSync(basePath + "files_document/"); // TODO: better relative path?
 
     // Filter by pluscode
     const userFiles = files.filter((filename) => {
@@ -72,16 +73,27 @@ const getUserFiles = function getUserFiles(req, res, next) {
         return (plusCodes[req.lajifi.user.id] === filenameParts[0]);
     });
 
+    // Filter by unsent
+    const unsentUserFiles = userFiles.filter((filename) => {
+        let path = basePath + "files_document_sent/" + filename;
+        console.log(path);
+        if (fs.existsSync(path)) {
+            console.log("if");
+            return false;
+        }
+        else {
+            console.log("else");
+            return true;
+        }
+    });
+    
     req.userFiles = userFiles;
+    req.unsentUserFiles = unsentUserFiles;
     next();
 }
 
-/*
-var getPluscodeByMAcode () {
-    req.lajifi = {};
-    next();
-}
-*/
+
+
 
 module.exports = {
     "log": log,

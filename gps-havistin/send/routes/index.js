@@ -18,15 +18,15 @@ router.use(lajifiLogin.getUserData);
 router.use(lajifiLogin.getUserFiles);
 
 
-
-/* GET home page. */
+/* Home page. */
 router.get('/', function(req, res, next) {
   let message = JSON.stringify(req.lajifi.user);
 
   res.render('index', {
       title: 'Havistin',
       message: message,
-      files: req.userFiles
+      userFiles: req.userFiles,
+      unsentUserFiles: req.unsentUserFiles
     });
 });
 
