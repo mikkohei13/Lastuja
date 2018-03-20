@@ -9,6 +9,9 @@ TODO:
 
 */
 
+const winston = require('winston');
+winston.add(winston.transports.File, { filename: '../logs/fetch.log' });
+
 const gpx2laji = require('./gpx2laji');
 const fs = require('fs');
 const request = require('request');
@@ -19,20 +22,31 @@ const utils = require('./utils');
 const secrets = require('./secrets');
 
 
-// Start by getting attachments
+/*
+Get attachments from Gmail and process them if they are new
+Todo: (later, with database) don't try to reprocess fles that have failed earlier
+*/
 gmail.fetchNewAttachments((fileNames) => {
-    console.log("Array of succesfully fetched files: ");
-    console.log(fileNames);
-    // todo: remove fileNames, they are just for debugging.
+
+    winston.info("Succesfully fetched GPX files: " + fileNames.join(", ")); // todo: remove fileNames, they are just for debugging.
 
     const newFiles = utils.getAddedFiles("files_gpx", "files_document");
+
+    // Convert every new GPX file to document
     newFiles.forEach(function(newFile) {
-        console.log("unprocessed GPX file: " + newFile);
+        winston.info("Processing new GPX file: " + newFile);
         gpxFile2metaDocument(newFile);
     });
 });
 
-// Parse GPX files to laji.fi documents
+/*
+Parse GPX file to laji.fi document
+Success:
+- save to disk on success
+- (email user)
+Failure:
+- console.log
+*/
 function gpxFile2metaDocument(fileName) {
 
     const gpxString = fs.readFileSync("./files_gpx/" + fileName + ".gpx", 'utf8');
@@ -42,22 +56,22 @@ function gpxFile2metaDocument(fileName) {
         validateLajifiDocument(documentMeta.document, (err) => {
 
             // Message logged or sent to user
-            let messageForUser = "\n";
+            let messageForUser = "";
 
             // Only save valid documents
             if (err === null) {
-                messageForUser += "GPX to laji.fi conversion succeeded for file " + fileName + ".gpx \n";
+                messageForUser += "GPX to laji.fi conversion succeeded for file: " + fileName + ".gpx \n";
                 fs.writeFileSync("./files_document/" + fileName + ".json", documentMeta.document);
             }
             else {
-                messageForUser += "GPX to laji.fi conversion failed for file " + fileName + ".gpx:\n " + JSON.stringify(err) + "\n"; 
+                messageForUser += "GPX to laji.fi conversion failed for file: " + fileName + ".gpx " + JSON.stringify(err) + "\n"; 
             }
             
             messageForUser += "* Notes: " + documentMeta.document.gatherings[0].notes + "\n";
             messageForUser += "* Date: " + documentMeta.document.gatheringEvent.dateBegin + "\n";            
             messageForUser += "* " + documentMeta.waypointCount + " waypoints\n";
             messageForUser += "* " + documentMeta.segmentCount + " segments\n";
-            console.log(messageForUser);
+            winston.info(messageForUser);
 
     //            emailResults();
 

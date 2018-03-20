@@ -2,14 +2,24 @@
 /*
 This will:
 - Read messages in inbox
-- Save all attachments
-- Parses new gpx files to documents
-- Validates parsed documents
-- Savs valid documents to disk
+- Saves all attachments to temp dir
+- Save all attachments that have proper pluscodes to permanent dir and deletes them from temp dir
+- Calls the callback function with the proper filenames
 
 Filenames are format {pluscode}_{original_filename}, where pluscode cannot have underscores but original_filename can. Therefore they are separated by the first underscore.fire
 
 Messages and attachments are read separately and asynchronously, so connecting pluscodes (from message) and filenames (from attachment) will have to be done afterwards, combining data from pluscodes and filenames variables.
+
+Todo: Functional
+- save files to temp dir
+- reads files from temp dir and return them as as object 
+[
+  {
+    filename: "",
+    string: "",
+    pluscode: ""
+  }
+]
 
 */
 
@@ -199,9 +209,9 @@ imap.once('error', function(err) {
 });
 
 imap.once('end', function() {
-  console.log('Connection ended');
-  console.log("filenames: " + JSON.stringify(filenames));
-  console.log("pluscodes: " + JSON.stringify(pluscodes));
+//  console.log('Connection ended');
+//  console.log("filenames: " + JSON.stringify(filenames));
+//  console.log("pluscodes: " + JSON.stringify(pluscodes));
   organizeFiles();
 });
 

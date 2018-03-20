@@ -1,4 +1,5 @@
 secrets.js
+logs/*
 
 fetch/files_document/*
 fetch/files_document_sent/*
