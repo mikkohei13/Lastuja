@@ -5,7 +5,7 @@ The DINA-IRIS project is creating a set of tools for managing natural history mu
 
 ## Latest news
 
-- [2018-04-03 - New fields for registration form](news/2018-04-03)
+- [2018-04-03 - New fields for registration form](2018-04-03)
 - [2018-03-26 - Design and development of registration form]()
 - [2018-03-13 - Database and API improvements]()
 - [2018-01-30 - Added functionality for registration form]()
