@@ -1,5 +1,3 @@
-# DINA-IRIS Project
-
 The DINA-IRIS project is creating a web-based collection management system **DINA-Web** which has the potential to cover all major natural history collections in Sweden. The project is run at the BI group of the Swedish Museum of Natural History (Naturhistoriska riksmuseet, NRM) and together with the [international DINA consortium](http://dina-project.net).
 
 
