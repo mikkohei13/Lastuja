@@ -7,11 +7,13 @@ The DINA-project is creating a web-based collection management system **DINA-Web
 ## Latest news
 
 - [2018-04-03 - New fields for registration form](2018-04-03)
-- [2018-03-26 - Design and development of registration form](2018-04-26)
+- [2018-03-26 - Design and development of registration form](2018-03-26)
 - [2018-03-13 - Database and API improvements](2018-03-13)
 - [2018-01-30 - Added functionality on registration form](2018-01-30)
 - [2018-01-16 - Platform for registration form and search](2018-01-16)
 - [2017-12-07 - Collection management system UI development](2017-12-07)
+
+<br><br>
 
 ## Services
 
@@ -56,6 +58,8 @@ Inventory client is used to record and manage data within the Swedish Malaise Tr
 
 * **[SMTP Inventory client](https://dina-web.net/inventory)**
 
+<br><br>
+
 ## Contact
 
 **DINA-Team**<br>
@@ -65,6 +69,8 @@ team(at)mail.dina-web.net
 Mikko Heikkinen<br>
 firstname.lastname(at)nrm.se<br>
 +46 851 95 4113
+
+<br><br>
 
 ## Terms
 
