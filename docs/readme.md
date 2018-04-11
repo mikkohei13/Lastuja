@@ -15,6 +15,8 @@ The DINA-IRIS project is creating a web-based collection management system **DIN
 
 ## Services
 
+<div class="service">
+
 ### Core collection management system
 
 Core collection management system collection management system is a web-based tool for managing natural history collections. It aims to make data entry and collection management efficient and effective.
@@ -24,6 +26,8 @@ The system is being developed first for the mammal collection at NRM to replace 
 * **[Testing version](https://alpha-cm.dina-web.net/)** - (ask username from DINA-team, see below)
 * [User manual](https://github.com/DINA-Web/documentation/wiki/User-Manual)
 * [More information about the core collection management system](cocoma)
+
+</div>
 
 ### SeqDB
 
