@@ -1,3 +1,6 @@
+
+![DINA](https://github.com/DINA-Web/dina_logo/raw/master/Dina%20final%20logo%20horizontal.png "DINA")
+
 The DINA-project is creating a web-based collection management system **DINA-Web** which has the potential to cover all major natural history collections in Sweden. The project is run at the BI group of the Swedish Museum of Natural History (NRM), under the name DINA-IRIS and together with the [international DINA consortium](http://dina-project.net).
 
 
