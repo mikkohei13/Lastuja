@@ -7,11 +7,11 @@ The DINA-project is creating a web-based collection management system **DINA-Web
 ## Latest news
 
 - [2018-04-03 - New fields for registration form](2018-04-03)
-- [2018-03-26 - Design and development of registration form]() - REST OF THE NEWS LINKS ARE NOT WORKING
-- [2018-03-13 - Database and API improvements]()
-- [2018-01-30 - Added functionality for registration form]()
-- [2018-01-16 - Platform for registration form and search]()
-- [2017-12-07 - Collection management system UI development]()
+- [2018-03-26 - Design and development of registration form](2018-04-26)
+- [2018-03-13 - Database and API improvements](2018-03-13)
+- [2018-01-30 - Added functionality on registration form](2018-01-30)
+- [2018-01-16 - Platform for registration form and search](2018-01-16)
+- [2017-12-07 - Collection management system UI development](2017-12-07)
 
 ## Services
 
