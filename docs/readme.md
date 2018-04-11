@@ -12,10 +12,7 @@ The DINA-IRIS project is creating a web-based collection management system **DIN
 - [2018-01-16 - Platform for registration form and search]()
 - [2017-12-07 - Collection management system UI development]()
 
-
 ## Services
-
-<div class="service">
 
 ### Core collection management system
 
@@ -26,8 +23,6 @@ The system is being developed first for the mammal collection at NRM to replace 
 * **[Testing version](https://alpha-cm.dina-web.net/)** - (ask username from DINA-team, see below)
 * [User manual](https://github.com/DINA-Web/documentation/wiki/User-Manual)
 * [More information about the core collection management system](cocoma)
-
-</div>
 
 ### SeqDB
 

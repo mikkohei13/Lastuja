@@ -20,8 +20,7 @@ The system is being developed first for the mammal collection at NRM to replace 
 
 ## Principles of the system
 
-- Usable by major Swedish museums, and other partners as agreed.
-- Extendable for different disciplines and collections
+- Extendable for different disciplines and collections. Eventually usable by major Swedish museums, and other partners as agreed.
 - Web-based: Works with modern web browsers, without requiring additional plugins.
 - Open source: All source code and manuals made within the project is published online and licensed as open source.
 - Supports several languages: UI will be in both English and Swedish, adding additional languages is possible.
