@@ -1,11 +1,13 @@
 
 ![DINA](https://github.com/DINA-Web/dina_logo/raw/master/Dina%20final%20logo%20horizontal.png "DINA")
 
-The DINA-project is creating a web-based collection management system **DINA-Web** which has the potential to cover all major natural history collections in Sweden. The project is run at the BI group of the Swedish Museum of Natural History (NRM), under the name DINA-IRIS and together with the [international DINA consortium](http://dina-project.net).
+The DINA-project is creating a web-based collection management system **DINA-Web** which has the potential to cover all major natural history collections in Sweden. The project is run at the Swedish Museum of Natural History (NRM), under the name DINA-IRIS and together with the [international DINA consortium](http://dina-project.net).
 
+<br><br>
 
 ## Latest news
 
+- [2018-04-17] - **TO BE ADDED** (see Github for now)
 - [2018-04-03 - New fields for registration form](2018-04-03)
 - [2018-03-26 - Design and development of registration form](2018-03-26)
 - [2018-03-13 - Database and API improvements](2018-03-13)
@@ -17,13 +19,13 @@ The DINA-project is creating a web-based collection management system **DINA-Web
 
 ## Services
 
-The DINA-Web system consists of multiple independed services:
+The DINA-Web system consists of multiple independed services. [Source code for most of these is on Github](https://github.com/DINA-Web/).
 
-### Core collection management system
+### DINA-Web collection management system (DW-CM)
 
-Core collection management system collection management system is a web-based tool for managing natural history collections. It aims to make data entry and collection management efficient and effective.
+DW-CM is a web-based tool for managing natural history collections. It aims to make data entry and collection management efficient and effective, and include all diciplines of natural history (zoology, botany, geology and palaeontology). The long-timescale goal is to replace currently used collection management systems at NRM.
 
-The system is being developed first for the mammal collection at NRM to replace their current system, then expanded to cover other collections also (zoological, botanical, geological and paleontologial).
+DW-CM is being developed and expanded one collection or system at a time, starting from mammal collection at NRM. First production version for the mammal collection should be ready in autumn 2018. Later it is expanded to cover other collections also. Since the underlying platform (data model, database and user inferface modules) are designed to be generic and cover multiple different collection types, expansion into new collections hsould become easier and faster over time.
 
 * **[Testing version](https://alpha-cm.dina-web.net/)** - (ask username from DINA-team, see below)
 * [User manual](https://github.com/DINA-Web/documentation/wiki/User-Manual)
@@ -58,6 +60,10 @@ Inventory client is used to record and manage data within the Swedish Malaise Tr
 
 * **[SMTP Inventory client](https://dina-web.net/inventory)**
 
+### Media server
+
+A tool for providing images and other media for the other services.
+
 <br><br>
 
 ## Contact
@@ -66,7 +72,7 @@ Inventory client is used to record and manage data within the Swedish Malaise Tr
 team(at)mail.dina-web.net
 
 **Project manager**<br>
-Mikko Heikkinen<br>
+Mikko Heikkinen, BIO<br>
 firstname.lastname(at)nrm.se<br>
 +46 851 95 4113
 
