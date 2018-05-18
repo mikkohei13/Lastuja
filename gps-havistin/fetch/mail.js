@@ -2,43 +2,26 @@
 /*
 This will:
 - Read messages in inbox
-- Saves all attachments to temp dir
-- Save all attachments that have proper pluscodes to permanent dir and deletes them from temp dir
-- Calls the callback function with the proper filenames
+- Saves all attachments to archive dir
+- Save all attachments that have proper pluscodes to permanent dir and deletes them from archive dir
+- Calls the callback function with an array of file objects
 
-Filenames are format {pluscode}_{original_filename}, where pluscode cannot have underscores but original_filename can. Therefore they are separated by the first underscore.fire
-
-Messages and attachments are read separately and asynchronously, so connecting pluscodes (from message) and filenames (from attachment) will have to be done afterwards, combining data from pluscodes and filenames variables.
-
-Todo: Functional
-- save files to temp dir
-- reads files from temp dir and return them as as object 
-[
-  {
-    filename: "",
-    string: "",
-    pluscode: ""
-  }
-]
+Messages and attachments are read separately and asynchronously, so connecting pluscodes (from message) and filenames (from attachment) will have to be done afterwards (function organizeFiles), combining data from pluscodes and filenames variables using the sequence number.
 
 */
 
 const Imap = require('imap');
 const inspect = require('util').inspect;
+const fs = require('fs');
+const base64 = require('base64-stream');
 
 const secrets = require('./secrets');
 
 let moduleCallback;
-
-var fs      = require('fs');
-var base64  = require('base64-stream');
-
 let pluscodes = {};
 let filenames = {};
 
-let tempFileDir = "./files_gpx_temp/";
-let finalFileDir = "./files_gpx/";
-
+let archiveFileDir = "./files_gpx_archive/";
 
 // Settings
 
@@ -83,7 +66,7 @@ function buildAttMessageFunction(attachment) {
 
       //Create a write stream so that we can stream the attachment to file;
       console.log(prefix + 'Streaming this attachment to file', filename, info);
-      var writeStream = fs.createWriteStream((tempFileDir + filename));
+      var writeStream = fs.createWriteStream((archiveFileDir + filename));
       writeStream.on('finish', function() {
         console.log(prefix + 'Done writing to file %s', filename);
       });
@@ -215,24 +198,26 @@ imap.once('end', function() {
   organizeFiles();
 });
 
-// Prefixes filenames with plusoces and moves them to final directory. Leaves files without pluscodes to the temporary directory. 
+// Puts files with proper pluscodes as strings into an object, to be sent as an array of file objects to the callback. 
+// Leaves all files to the archive directory, with original filenames. 
 function organizeFiles() {
-    let fileNames = [];
+    let fileStrings = [];
     for(var key in pluscodes) {
         if (pluscodes[key] !== "NA" && filenames[key] !== undefined) {
-            let sourceDirFile = tempFileDir + filenames[key];
-            let destinationFile = pluscodes[key] + "_" + filenames[key];
-            let destinationDirFile = finalFileDir + destinationFile;
+            // Dev note (2018-05-19):
+            // If there is a need to record the pluscode for archive files, this is the place where it should be added to the filename, by renaming the files in the directory. 
+            let sourceDirFile = archiveFileDir + filenames[key];
 
-            // This must be synchronous, or changes needed to this function
-            fs.copyFileSync(sourceDirFile, destinationDirFile);
-            fs.unlinkSync(sourceDirFile);
-            fileNames.push(destinationFile);
-
-//            console.log(destinationDirFile);
+            // Create file object
+            let gpxObject = {};
+            gpxObject.gpx = fs.readFileSync(sourceDirFile, { encoding: "utf8"});
+            gpxObject.pluscode = pluscodes[key];
+            gpxObject.filename = filenames[key];
+//            console.log(gpxObject);
+            fileStrings.push(gpxObject);
         }
     }
-    moduleCallback(fileNames);
+    moduleCallback(fileStrings);
 }
 
 const fetchNewAttachments = function(callback) {

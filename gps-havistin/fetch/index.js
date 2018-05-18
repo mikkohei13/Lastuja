@@ -1,21 +1,12 @@
-/*
-TODO:
-- parse files from datafiles dir
-- handle (parse, validate and email about) multiple files at a time
-- append parsed files to handledFiles.json
-- include person token somewhere
-- send documents to API
-- show success/false message
-
-*/
 
 const winston = require('winston');
 winston.add(winston.transports.File, { filename: '../logs/fetch.log' });
 
-const gpx2laji = require('./gpx2laji');
 const fs = require('fs');
 const request = require('request');
 const nodemailer = require('nodemailer');
+
+const gpx2laji = require('./gpx2laji');
 const gmail = require('./mail');
 const utils = require('./utils');
 
@@ -26,9 +17,10 @@ const secrets = require('./secrets');
 Get attachments from Gmail and process them if they are new
 Todo: (later, with database) don't try to reprocess fles that have failed earlier
 */
-gmail.fetchNewAttachments((fileNames) => {
+gmail.fetchNewAttachments((fileStrings) => {
 
-    winston.info("Succesfully fetched GPX files: " + fileNames.join(", ")); // todo: remove fileNames, they are just for debugging.
+    winston.info("Succesfully fetched " + fileStrings.length + " GPX files");
+    console.log(fileStrings);
 
     const newFiles = utils.getAddedFiles("files_gpx", "files_document");
 

@@ -16,6 +16,16 @@ or:
     DEBUG=search:* nodemon ./bin/www
 
 
+
+Access using personToken
+http://localhost:3000/upload/?person_token=TOKEN
+
+## Questions
+
+How to use middleware in all defined routes, but nowhere else?
+router-level middleware will be used with nonexistent endpoints (e.g. /uploads/foobar)
+
+
 ## Todo
 
 FETCH
