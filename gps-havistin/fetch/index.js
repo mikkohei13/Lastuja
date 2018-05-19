@@ -5,6 +5,8 @@ winston.add(winston.transports.File, { filename: '../logs/fetch.log' });
 const fs = require('fs');
 const request = require('request');
 const nodemailer = require('nodemailer');
+const lowdb = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
 
 const gpx2laji = require('./gpx2laji');
 const gmail = require('./mail');
@@ -12,23 +14,58 @@ const utils = require('./utils');
 
 const secrets = require('./secrets');
 
+// Lowdb setup
+/*
+files: [
+    {
+        filename: "",
+        pluscode: "",
+        stage "gpx, valid, sent"
+    }
+]
+*/
+const adapter = new FileSync('db.json');
+const db = lowdb(adapter);
+db.defaults({ files: [] })
+    .write()
+
 
 /*
 Get attachments from Gmail and process them if they are new
 Todo: (later, with database) don't try to reprocess fles that have failed earlier
+
+- get attachments from Gmail as objects
+- for each, check if they are new in database, based on pluscode and filename
+- if old, do nothing
+- if new, convert to laji-document and validate
+- if invalid or other problem, record that is invalid
+    - email user
+- if ok, save to archive folder and record this to database, with status = unsentDocument
+    - email user with a link
+
 */
-gmail.fetchNewAttachments((fileStrings) => {
+gmail.fetchNewAttachments((fileObjects) => {
 
-    winston.info("Succesfully fetched " + fileStrings.length + " GPX files");
-    console.log(fileStrings);
+    winston.info("Succesfully fetched " + fileObjects.length + " GPX files");
+    console.log(fileObjects);
 
-    const newFiles = utils.getAddedFiles("files_gpx", "files_document");
+    // Array of file names
+//    const newFiles = utils.getAddedFiles("files_gpx", "files_document");
 
-    // Convert every new GPX file to document
+/*    // Convert every new GPX file to document
     newFiles.forEach(function(newFile) {
         winston.info("Processing new GPX file: " + newFile);
         gpxFile2metaDocument(newFile);
     });
+*/
+    fileObjects.forEach(function(fileObject) {
+        let fileId = fileObject.pluscode + "_" + fileObject.filename;
+        db.get('files')
+            .push({ id: fileId, pluscode: fileObject.pluscode, filename: fileObject.filename })
+            .write()    
+    });
+
+
 });
 
 /*

@@ -201,7 +201,7 @@ imap.once('end', function() {
 // Puts files with proper pluscodes as strings into an object, to be sent as an array of file objects to the callback. 
 // Leaves all files to the archive directory, with original filenames. 
 function organizeFiles() {
-    let fileStrings = [];
+    let fileObjects = [];
     for(var key in pluscodes) {
         if (pluscodes[key] !== "NA" && filenames[key] !== undefined) {
             // Dev note (2018-05-19):
@@ -214,10 +214,10 @@ function organizeFiles() {
             gpxObject.pluscode = pluscodes[key];
             gpxObject.filename = filenames[key];
 //            console.log(gpxObject);
-            fileStrings.push(gpxObject);
+            fileObjects.push(gpxObject);
         }
     }
-    moduleCallback(fileStrings);
+    moduleCallback(fileObjects);
 }
 
 const fetchNewAttachments = function(callback) {

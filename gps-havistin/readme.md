@@ -25,6 +25,11 @@ http://localhost:3000/upload/?person_token=TOKEN
 How to use middleware in all defined routes, but nowhere else?
 router-level middleware will be used with nonexistent endpoints (e.g. /uploads/foobar)
 
+## Expectations
+
+- How many attachments allowed per email?
+- Attachment filename + pluscode uniquely identifies the file, i.e. if file with the same filename and pluscode is sent again, it should not be processed.
+
 
 ## Todo
 
