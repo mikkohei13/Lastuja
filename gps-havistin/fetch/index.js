@@ -47,34 +47,45 @@ Todo: (later, with database) don't try to reprocess fles that have failed earlie
 gmail.fetchNewAttachments((fileObjects) => {
 
     winston.info("Succesfully fetched " + fileObjects.length + " GPX files");
-    console.log(fileObjects);
+//    console.log(fileObjects);
 
-    // Array of file names
-//    const newFiles = utils.getAddedFiles("files_gpx", "files_document");
-
-/*    // Convert every new GPX file to document
-    newFiles.forEach(function(newFile) {
-        winston.info("Processing new GPX file: " + newFile);
-        gpxFile2metaDocument(newFile);
-    });
-*/
     fileObjects.forEach(function(fileObject) {
         // Define id for the file
-        let fileId = fileObject.pluscode + "_" + fileObject.filename;
+        fileObject.fileId = fileObject.pluscode + "_" + fileObject.filename;
 
-        if (isDatabased(fileId)) {
-            winston.info("File id " + fileId + " already in database");
+        if (isDatabased(fileObject.fileId)) {
+            winston.info("File id " + fileObject.fileId + " already in database");
         }
         else {
-            // Insert to database
-            db.get('files')
-                .push({ id: fileId, pluscode: fileObject.pluscode, filename: fileObject.filename })
-                .write();
-            winston.info("File id " + fileId + " written to database");
+            winston.info("Starting to parse gpx file " + fileObject.fileId);            
+
+            gpx2laji.parseString(fileObject.gpx, (err, documentMeta) => {
+
+                // TODO: handle errors here when gpx2laji is ready to send them
+
+                validateLajifiDocument(document, (err) => {
+
+                    if (err) {
+                        // Insert error to database
+                        db.get('files')
+                            .push({ id: fileObject.fileId, pluscode: fileObject.pluscode, filename: fileObject.filename, status: "error" })
+                            .write();
+                        winston.info("Error creating document of file " + fileObject.fileId + ": " + err);
+                    }
+                    else {
+                        // Insert success to database
+                        db.get('files')
+                            .push({ id: fileObject.fileId, pluscode: fileObject.pluscode, filename: fileObject.filename, status: "valid" })
+                            .write();
+                        fs.writeFileSync("./files_document_archive/" + fileObject.fileId + ".json", documentMeta.document);
+                        winston.info("File " + fileObject.fileId + " converted into laji-document");
+                    }
+                }); 
+            });
         }
     });
-
 });
+
 
 function isDatabased(fileId) {
     let exists = db.get('files')
@@ -97,11 +108,12 @@ Success:
 Failure:
 - console.log
 */
-function gpxFile2metaDocument(fileName) {
+/*
+function gpxFile2metaDocument(fileObject, callback) {
 
-    const gpxString = fs.readFileSync("./files_gpx/" + fileName + ".gpx", 'utf8');
+    gpx2laji.parseString(fileObject.gpx, (err, documentMeta) => {
 
-    gpx2laji.parseString(gpxString, (err, documentMeta) => {
+        // TODO: handle errors here when gpx2laji is ready to send them
 
         validateLajifiDocument(documentMeta.document, (err) => {
 
@@ -130,6 +142,7 @@ function gpxFile2metaDocument(fileName) {
     });
 
 }
+*/
 
 // Validate a laji.fi document
 function validateLajifiDocument(document, functionCallback) {

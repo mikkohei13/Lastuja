@@ -27,9 +27,10 @@ router-level middleware will be used with nonexistent endpoints (e.g. /uploads/f
 
 ## Expectations
 
-- How many attachments allowed per email?
+- How many file attachments allowed per email?
+- Only one track per file
 - Attachment filename + pluscode uniquely identifies the file, i.e. if file with the same filename and pluscode is sent again, it should not be processed.
-
+- If there is a problem creating a valid laji-document, user has to send the file again. Reprocessing is not tried automatically. 
 
 ## Todo
 

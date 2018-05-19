@@ -2,6 +2,12 @@
 Parses GPX string into an object containing
 - laji.fi document
 - metadata about the document
+
+{
+    document: document,
+    waypointCount: waypoints.waypointCount,
+    segmentCount: track.segmentCount
+}
 */
 
 const gpxParse = require('gpx-parse')
@@ -12,8 +18,16 @@ let moduleCallback;
 // Public functions
 
 function parseString(gpxString, callback) {
+  console.log("Parser received string beginning with " + gpxString.substring(0, 20) + " ...");
+
   moduleCallback = callback;
   gpxParse.parseGpx(gpxString, gpxObject2metaDocument);
+
+  /*
+  2018-05-19:
+  It seems as if gpxParse is calling the callback function twice: first normally, then with data = undefined and error = "ReferenceError: document is not defined".
+  This started when refactoring the main code to 
+  */
 }
 
 
@@ -21,8 +35,13 @@ function parseString(gpxString, callback) {
 
 let gpxObject2metaDocument = (error, data) => {
 
+  console.log("Parsing gpx -> gpx-object done, transformer received " + data);
+
   if (error !== null) {
     console.log("Error in gpxObject2metaDocument: " + error);
+  }
+  else {
+    console.log("No errors...");
   }
 
   // Waypoints -> Units
