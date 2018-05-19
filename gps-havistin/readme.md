@@ -1,9 +1,9 @@
 
 ## FETCH
 
-Run fetcher from the `fetch` directory:
+Run fetcher from the `fetch` directory, with settings in nodemon.json:
 
-    nodemon --ignore 'files*' index.js
+    nodemon index.js
 
 ## SEND
 

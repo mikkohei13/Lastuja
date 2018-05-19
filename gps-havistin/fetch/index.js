@@ -60,11 +60,23 @@ gmail.fetchNewAttachments((fileObjects) => {
 */
     fileObjects.forEach(function(fileObject) {
         let fileId = fileObject.pluscode + "_" + fileObject.filename;
-        db.get('files')
-            .push({ id: fileId, pluscode: fileObject.pluscode, filename: fileObject.filename })
-            .write()    
-    });
 
+        let exists = db.get('files')
+            .find({ id: fileId })
+            .value();
+        
+        // If not in database
+        if (exists == undefined) {
+            db.get('files')
+                .push({ id: fileId, pluscode: fileObject.pluscode, filename: fileObject.filename })
+                .write();
+            winston.info("File id " + fileId + " written to database");
+        }
+        // If already in database
+        else {
+            winston.info("File id " + fileId + " already in database");
+        }
+    });
 
 });
 
