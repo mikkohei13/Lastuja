@@ -59,26 +59,35 @@ gmail.fetchNewAttachments((fileObjects) => {
     });
 */
     fileObjects.forEach(function(fileObject) {
+        // Define id for the file
         let fileId = fileObject.pluscode + "_" + fileObject.filename;
 
-        let exists = db.get('files')
-            .find({ id: fileId })
-            .value();
-        
-        // If not in database
-        if (exists == undefined) {
+        if (isDatabased(fileId)) {
+            winston.info("File id " + fileId + " already in database");
+        }
+        else {
+            // Insert to database
             db.get('files')
                 .push({ id: fileId, pluscode: fileObject.pluscode, filename: fileObject.filename })
                 .write();
             winston.info("File id " + fileId + " written to database");
         }
-        // If already in database
-        else {
-            winston.info("File id " + fileId + " already in database");
-        }
     });
 
 });
+
+function isDatabased(fileId) {
+    let exists = db.get('files')
+        .find({ id: fileId })
+        .value();
+    
+    if (exists == undefined) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
 
 /*
 Parse GPX file to laji.fi document
