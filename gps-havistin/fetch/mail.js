@@ -210,7 +210,7 @@ function organizeFiles() {
 
             // Create file object
             let gpxObject = {};
-            gpxObject.gpx = fs.readFileSync(sourceDirFile, { encoding: "utf8"});
+            gpxObject.gpx = fs.readFileSync(sourceDirFile, "utf8");
             gpxObject.pluscode = pluscodes[key];
             gpxObject.filename = filenames[key];
 //            console.log(gpxObject);

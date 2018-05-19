@@ -5,3 +5,4 @@ fetch/files_document/*
 fetch/files_document_sent/*
 fetch/files_gpx/*
 fetch/files_gpx_archive/*
+fetch/files_document_archive/*

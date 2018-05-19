@@ -61,9 +61,9 @@ gmail.fetchNewAttachments((fileObjects) => {
 
             gpx2laji.parseString(fileObject.gpx, (err, documentMeta) => {
 
-                // TODO: handle errors here when gpx2laji is ready to send them
+                // TODO: handle errors here when gpx2laji is ready to send them, from line ABBAX or other lines
 
-                validateLajifiDocument(document, (err) => {
+                validateLajifiDocument(documentMeta.document, (err) => {
 
                     if (err) {
                         // Insert error to database

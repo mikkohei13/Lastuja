@@ -1,3 +1,34 @@
 {
-  "files": []
+  "files": [
+    {
+      "id": "test_mytracks_20180227_070624.gpx",
+      "pluscode": "test",
+      "filename": "mytracks_20180227_070624.gpx",
+      "status": "valid"
+    },
+    {
+      "id": "test_mytracks_20180224_125343.gpx",
+      "pluscode": "test",
+      "filename": "mytracks_20180224_125343.gpx",
+      "status": "valid"
+    },
+    {
+      "id": "cehmic_mytracks_20180303_133006.gpx",
+      "pluscode": "cehmic",
+      "filename": "mytracks_20180303_133006.gpx",
+      "status": "valid"
+    },
+    {
+      "id": "test_mytracks_20180217_070424.gpx",
+      "pluscode": "test",
+      "filename": "mytracks_20180217_070424.gpx",
+      "status": "valid"
+    },
+    {
+      "id": "test_mytracks_20180226_140839.gpx",
+      "pluscode": "test",
+      "filename": "mytracks_20180226_140839.gpx",
+      "status": "error"
+    }
+  ]
 }

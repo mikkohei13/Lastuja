@@ -19,14 +19,18 @@ let moduleCallback;
 
 function parseString(gpxString, callback) {
   console.log("Parser received string beginning with " + gpxString.substring(0, 20) + " ...");
+//  console.log("Parser received string: " + gpxString);
 
   moduleCallback = callback;
   gpxParse.parseGpx(gpxString, gpxObject2metaDocument);
 
   /*
   2018-05-19:
-  It seems as if gpxParse is calling the callback function twice: first normally, then with data = undefined and error = "ReferenceError: document is not defined".
-  This started when refactoring the main code to 
+  Confusing behaviour in callbacks, maybe caused because variables are passed as reference and/or scoping??
+  If callback function tries to use a variable (here it was "document") that doesn't exist in the function scope, it tries to get it from the calling function (here "parseString" function). This fires the function again, without proper data, which causes it to fail.
+
+  TODO: make this function robust, so that the app does not crash if the function is called without proper parameters.
+
   */
 }
 
