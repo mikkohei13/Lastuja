@@ -13,6 +13,7 @@
     "express": "^4.16.2",
     "gpx-parse": "^0.10.4",
     "imap": "^0.8.19",
+    "lowdb": "^1.0.0",
     "nodemailer": "^4.6.0",
     "request": "^2.83.0",
     "winston": "^2.4.1"
