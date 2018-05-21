@@ -1,3 +1,10 @@
 {
-    "extends": "airbnb-base"
+    "extends": "airbnb-base",
+    "rules": {
+        "max-len": [1, 200, 4],
+        "brace-style": [2, "stroustrup"],
+        "padded-blocks": [1, "never"],
+        "quotes": [2, "double"],
+        "indent": [2, 2]
+    }
 }
