@@ -4,6 +4,7 @@
   "description": "Laji.fi GPS observation app",
   "main": "index.js",
   "scripts": {
+    "pretest": "./node_modules/.bin/eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mikko Heikkinen / biomi.org",
@@ -17,5 +18,10 @@
     "nodemailer": "^4.6.0",
     "request": "^2.83.0",
     "winston": "^2.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.12.0"
   }
 }
