@@ -18,20 +18,20 @@ const base64 = require('base64-stream');
 const secrets = require('./secrets');
 
 let moduleCallback;
-let pluscodes = {};
-let filenames = {};
+const pluscodes = {};
+const filenames = {};
 
-let archiveFileDir = "./files_gpx_archive/";
+const archiveFileDir = './files_gpx_archive/';
 
 // Settings
 
-var imap = new Imap({
-    user: secrets.email.address,
-    password: secrets.email.password,
-    host: 'imap.gmail.com',
-    port: 993,
-    tls: true
-    //,debug: function(msg){console.log('imap:', msg);}
+const imap = new Imap({
+  user: secrets.email.address,
+  password: secrets.email.password,
+  host: 'imap.gmail.com',
+  port: 993,
+  tls: true,
+  // ,debug: function(msg){console.log('imap:', msg);}
 });
 
 
@@ -39,109 +39,103 @@ var imap = new Imap({
 // https://stackoverflow.com/questions/25247207/how-to-read-and-save-attachments-using-node-imap
 
 function toUpper(thing) {
-    return thing && thing.toUpperCase ? thing.toUpperCase() : thing;
+  return thing && thing.toUpperCase ? thing.toUpperCase() : thing;
 }
 
 function findAttachmentParts(struct, attachments) {
-  attachments = attachments ||  [];
+  attachments = attachments || [];
   for (var i = 0, len = struct.length, r; i < len; ++i) {
     if (Array.isArray(struct[i])) {
       findAttachmentParts(struct[i], attachments);
-    } else {
-      if (struct[i].disposition && ['INLINE', 'ATTACHMENT'].indexOf(toUpper(struct[i].disposition.type)) > -1) {
-        attachments.push(struct[i]);
-      }
+    } else if (struct[i].disposition && ['INLINE', 'ATTACHMENT'].indexOf(toUpper(struct[i].disposition.type)) > -1) {
+      attachments.push(struct[i]);
     }
   }
   return attachments;
 }
 
 function buildAttMessageFunction(attachment) {
-  var filename = attachment.params.name;
-  var encoding = attachment.encoding;
+  const filename = attachment.params.name;
+  const encoding = attachment.encoding;
 
   return function (msg, seqno) {
-    var prefix = seqno + " ";
-    msg.on('body', function(stream, info) {
-
-      //Create a write stream so that we can stream the attachment to file;
-      console.log(prefix + 'Streaming this attachment to file', filename, info);
-      var writeStream = fs.createWriteStream((archiveFileDir + filename));
-      writeStream.on('finish', function() {
-        console.log(prefix + 'Done writing to file %s', filename);
+    const prefix = `${seqno} `;
+    msg.on('body', (stream, info) => {
+      // Create a write stream so that we can stream the attachment to file;
+      console.log(`${prefix}Streaming this attachment to file`, filename, info);
+      const writeStream = fs.createWriteStream((archiveFileDir + filename));
+      writeStream.on('finish', () => {
+        console.log(`${prefix}Done writing to file %s`, filename);
       });
 
-      //stream.pipe(writeStream); this would write base64 data to the file.
-      //so we decode during streaming using 
+      // stream.pipe(writeStream); this would write base64 data to the file.
+      // so we decode during streaming using
       if (toUpper(encoding) === 'BASE64') {
-        //the stream is base64 encoded, so here the stream is decode on the fly and piped to the write stream (file)
+        // the stream is base64 encoded, so here the stream is decode on the fly and piped to the write stream (file)
         stream.pipe(base64.decode()).pipe(writeStream);
-      } else  {
-        //here we have none or some other decoding streamed directly to the file which renders it useless probably
+      } else {
+        // here we have none or some other decoding streamed directly to the file which renders it useless probably
         stream.pipe(writeStream);
       }
     });
-    msg.once('end', function() {
-      console.log(prefix + 'Finished attachment %s', filename);
+    msg.once('end', () => {
+      console.log(`${prefix}Finished attachment %s`, filename);
       filenames[prefix] = filename;
     });
   };
 }
 
-imap.once('ready', function() {
-
+imap.once('ready', () => {
   // Open inbox
-  imap.openBox('INBOX', true, function(err, box) {
-
+  imap.openBox('INBOX', true, (err, box) => {
     if (err) throw err;
 
     // Fetch messages
-    var f = imap.seq.fetch('1:1000', {
+    const f = imap.seq.fetch('1:1000', {
       bodies: ['HEADER.FIELDS (FROM TO SUBJECT DATE)'],
       struct: true,
-      markSeen: true // mark message as read, DOESN'T SEEM TO WORK
+      markSeen: true, // mark message as read, DOESN'T SEEM TO WORK
     });
 
     // Handling all messages one by one
-    f.on('message', function (msg, seqno) {
-
-      console.log('Message ' + seqno);
-      var prefix = seqno + " ";
+    f.on('message', (msg, seqno) => {
+      console.log(`Message ${seqno}`);
+      const prefix = `${seqno} `;
 
       // Handling all message bodies one by one
-      msg.on('body', function(stream, info) {
-        var buffer = '';
-        stream.on('data', function(chunk) {
+      msg.on('body', (stream, info) => {
+        let buffer = '';
+        stream.on('data', (chunk) => {
           buffer += chunk.toString('utf8');
         });
-        stream.once('end', function() {
-          let parsedHeader = Imap.parseHeader(buffer);
-//          console.log("BUFFER: " + buffer);
-          let toEmails = parsedHeader.to;
+        stream.once('end', () => {
+          const parsedHeader = Imap.parseHeader(buffer);
+          //          console.log("BUFFER: " + buffer);
+          const toEmails = parsedHeader.to;
 
           // Checks to email addresses
-          toEmails.forEach(function(toEmail) {
-            let parts = toEmail.split("@");
-            let prefixParts = parts[0].split("+");
+          toEmails.forEach((toEmail) => {
+            const parts = toEmail.split('@');
+            const prefixParts = parts[0].split('+');
             if (prefixParts[1] == undefined) {
-                prefixParts[1] = "NA";
+              prefixParts[1] = 'NA';
             }
-            console.log("PP: " + prefix + " / " + prefixParts[1]);
+            console.log(`PP: ${prefix} / ${prefixParts[1]}`);
             pluscodes[prefix] = prefixParts[1];
           });
 
-          console.log(prefix + 'Parsed header: %s', JSON.stringify(parsedHeader));
+          console.log(`${prefix}Parsed header: %s`, JSON.stringify(parsedHeader));
         });
       });
 
       // Handling single message's attributes, once per message
-      msg.once('attributes', function(attrs) {
-        var attachments = findAttachmentParts(attrs.struct);
-        console.log(prefix + 'Has attachments: %d', attachments.length);
+      msg.once('attributes', (attrs) => {
+        const attachments = findAttachmentParts(attrs.struct);
+        console.log(`${prefix}Has attachments: %d`, attachments.length);
 
-        for (var i = 0, len=attachments.length ; i < len; ++i) {
-            var attachment = attachments[i];
-            /*This is how each attachment looks like {
+        for (let i = 0, len = attachments.length; i < len; ++i) {
+          const attachment = attachments[i];
+          /* This is how each attachment looks like {
                 partID: '2',
                 type: 'application',
                 subtype: 'octet-stream',
@@ -155,78 +149,74 @@ imap.once('ready', function() {
                 language: null
             }
             */
-            console.log(prefix + 'Fetching attachment %s', attachment.params.name);
+          console.log(`${prefix}Fetching attachment %s`, attachment.params.name);
 
-            var f = imap.fetch(attrs.uid , { //do not use imap.seq.fetch here
-                bodies: [attachment.partID],
-                struct: true
-            });
+          const f = imap.fetch(attrs.uid, { // do not use imap.seq.fetch here
+            bodies: [attachment.partID],
+            struct: true,
+          });
 
-            //build function to process attachment message
-            f.on('message', buildAttMessageFunction(attachment));
+            // build function to process attachment message
+          f.on('message', buildAttMessageFunction(attachment));
         }
-
       });
 
-      msg.once('end', function() {
-        console.log(prefix + 'Finished email');
+      msg.once('end', () => {
+        console.log(`${prefix}Finished email`);
       });
-
     });
     // Handling one email message ends
 
-    f.once('error', function(err) {
-      console.log('Fetch error: ' + err);
+    f.once('error', (err) => {
+      console.log(`Fetch error: ${err}`);
     });
-    f.once('end', function() {
+    f.once('end', () => {
       console.log('Done fetching all messages!');
       imap.end();
     });
-
   });
-
 });
 
-imap.once('error', function(err) {
+imap.once('error', (err) => {
   console.log(err);
 });
 
-imap.once('end', function() {
+imap.once('end', () => {
 //  console.log('Connection ended');
 //  console.log("filenames: " + JSON.stringify(filenames));
 //  console.log("pluscodes: " + JSON.stringify(pluscodes));
   organizeFiles();
 });
 
-// Puts files with proper pluscodes as strings into an object, to be sent as an array of file objects to the callback. 
-// Leaves all files to the archive directory, with original filenames. 
+// Puts files with proper pluscodes as strings into an object, to be sent as an array of file objects to the callback.
+// Leaves all files to the archive directory, with original filenames.
 function organizeFiles() {
-    let fileObjects = [];
-    for(var key in pluscodes) {
-        if (pluscodes[key] !== "NA" && filenames[key] !== undefined) {
-            // Dev note (2018-05-19):
-            // If there is a need to record the pluscode for archive files, this is the place where it should be added to the filename, by renaming the files in the directory. 
-            let sourceDirFile = archiveFileDir + filenames[key];
+  const fileObjects = [];
+  for (const key in pluscodes) {
+    if (pluscodes[key] !== 'NA' && filenames[key] !== undefined) {
+      // Dev note (2018-05-19):
+      // If there is a need to record the pluscode for archive files, this is the place where it should be added to the filename, by renaming the files in the directory.
+      const sourceDirFile = archiveFileDir + filenames[key];
 
-            // Create file object
-            let gpxObject = {};
-            gpxObject.gpx = fs.readFileSync(sourceDirFile, "utf8");
-            gpxObject.pluscode = pluscodes[key];
-            gpxObject.filename = filenames[key];
-//            console.log(gpxObject);
-            fileObjects.push(gpxObject);
-        }
+      // Create file object
+      const gpxObject = {};
+      gpxObject.gpx = fs.readFileSync(sourceDirFile, 'utf8');
+      gpxObject.pluscode = pluscodes[key];
+      gpxObject.filename = filenames[key];
+      //            console.log(gpxObject);
+      fileObjects.push(gpxObject);
     }
-    moduleCallback(fileObjects);
+  }
+  moduleCallback(fileObjects);
 }
 
-const fetchNewAttachments = function(callback) {
-    moduleCallback = callback;
-    imap.connect();
-    console.log('Fetching email...');
-}
+const fetchNewAttachments = function (callback) {
+  moduleCallback = callback;
+  imap.connect();
+  console.log('Fetching email...');
+};
 
 
 module.exports = {
-    "fetchNewAttachments": fetchNewAttachments
-}
+  fetchNewAttachments,
+};

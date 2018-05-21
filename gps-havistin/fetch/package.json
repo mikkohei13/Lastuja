@@ -4,6 +4,7 @@
   "description": "Laji.fi GPS observation app",
   "main": "index.js",
   "scripts": {
+    "fix-dry-run": "./node_modules/.bin/eslint --fix-dry-run .",
     "pretest": "./node_modules/.bin/eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

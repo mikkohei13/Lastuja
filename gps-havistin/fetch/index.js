@@ -1,20 +1,21 @@
 
-const winston = require('winston');
-winston.add(winston.transports.File, { filename: '../logs/fetch.log' });
+const winston = require("winston");
 
-const fs = require('fs');
-const request = require('request');
-const nodemailer = require('nodemailer');
-const lowdb = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
+winston.add(winston.transports.File, { filename: "../logs/fetch.log" });
 
-const gpx2laji = require('./gpx2laji');
-const gmail = require('./mail');
-const utils = require('./utils');
+const fs = require("fs");
+const request = require("request");
+const lowdb = require("lowdb");
+const FileSync = require("lowdb/adapters/FileSync");
 
-const secrets = require('./secrets');
+const gpx2laji = require("./gpx2laji");
+const gmail = require("./mail");
 
-// Lowdb setup
+const secrets = require("./secrets");
+
+// -----------------------------------------------------------
+// Setup
+
 /*
 files: [
     {
@@ -24,11 +25,95 @@ files: [
     }
 ]
 */
-const adapter = new FileSync('db.json');
+const adapter = new FileSync("db.json");
 const db = lowdb(adapter);
 db.defaults({ files: [] })
-    .write()
+  .write();
 
+// -----------------------------------------------------------
+// Functions
+
+function isDatabased(fileId) {
+  const exists = db.get("files")
+    .find({ id: fileId })
+    .value();
+
+  if (exists === undefined) {
+    return false;
+  }
+
+  return true;
+}
+
+
+// Validate a laji.fi document
+function validateLajifiDocument(document, functionCallback) {
+  const validationEndpoint = `https://api.laji.fi/v0/documents/validate?type=error&lang=en&validationErrorFormat=object&access_token=${secrets.lajifiApiToken}`;
+  let err;
+
+  //    console.log(document); // debug
+
+  // Request to validation API
+  request.post(
+    {
+      url: validationEndpoint,
+      json: document,
+    },
+    (error, response, body) => {
+      if (undefined === body) {
+        err = "Error connecting api.laji.fi";
+      }
+      else if (undefined !== body.error) {
+        err = body.error;
+      // Validation failed
+      }
+      else {
+        err = null;
+      // Validation successful
+      }
+
+      functionCallback(err);
+    },
+  );
+}
+
+/*
+const nodemailer = require('nodemailer');
+
+function emailResults(message) {
+  // https://medium.com/@manojsinghnegi/sending-an-email-using-nodemailer-gmail-7cfa0712a799
+
+  // 2nd option: https://github.com/eleith/emailjs
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: secrets.email.address,
+      pass: secrets.email.password,
+    },
+  });
+
+  const mailOptions = {
+    from: secrets.email.address,
+    to: secrets.testEmail,
+    subject: 'Havistin GPS file report',
+    html: message,
+  };
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(info);
+    }
+  });
+
+  console.log('Email sending in progress...');
+}
+*/
+
+// -----------------------------------------------------------
+// Main
 
 /*
 Get attachments from Gmail and process them if they are new
@@ -44,61 +129,57 @@ Todo: (later, with database) don't try to reprocess fles that have failed earlie
     - email user with a link
 
 */
-gmail.fetchNewAttachments((fileObjects) => {
+gmail.fetchNewAttachments((fileObjectsParam) => {
+  const fileObjects = fileObjectsParam;
+  winston.info(`Succesfully fetched ${fileObjects.length} GPX files`);
+  //    console.log(fileObjects);
 
-    winston.info("Succesfully fetched " + fileObjects.length + " GPX files");
-//    console.log(fileObjects);
-
-    fileObjects.forEach(function(fileObject) {
-        // Define id for the file
-        fileObject.fileId = fileObject.pluscode + "_" + fileObject.filename;
-
-        if (isDatabased(fileObject.fileId)) {
-            winston.info("File id " + fileObject.fileId + " already in database");
-        }
-        else {
-            winston.info("Starting to parse gpx file " + fileObject.fileId);            
-
-            gpx2laji.parseString(fileObject.gpx, (err, documentMeta) => {
-
-                // TODO: handle errors here when gpx2laji is ready to send them, from line ABBAX or other lines
-
-                validateLajifiDocument(documentMeta.document, (err) => {
-
-                    if (err) {
-                        // Insert error to database
-                        db.get('files')
-                            .push({ id: fileObject.fileId, pluscode: fileObject.pluscode, filename: fileObject.filename, status: "error" })
-                            .write();
-                        winston.info("Error creating document of file " + fileObject.fileId + ": " + err);
-                    }
-                    else {
-                        // Insert success to database
-                        db.get('files')
-                            .push({ id: fileObject.fileId, pluscode: fileObject.pluscode, filename: fileObject.filename, status: "valid" })
-                            .write();
-                        fs.writeFileSync("./files_document_archive/" + fileObject.fileId + ".json", documentMeta.document);
-                        winston.info("File " + fileObject.fileId + " converted into laji-document");
-                    }
-                }); 
-            });
-        }
-    });
-});
+  fileObjects.forEach((fileObjectParam) => {
+    const fileObject = fileObjectParam;
 
 
-function isDatabased(fileId) {
-    let exists = db.get('files')
-        .find({ id: fileId })
-        .value();
-    
-    if (exists == undefined) {
-        return false;
+    // Define id for the file
+    fileObject.fileId = `${fileObject.pluscode}_${fileObject.filename}`;
+
+    if (isDatabased(fileObject.fileId)) {
+      winston.info(`File id ${fileObject.fileId} already in database`);
     }
     else {
-        return true;
+      winston.info(`Starting to parse gpx file ${fileObject.fileId}`);
+
+      gpx2laji.parseString(fileObject.gpx, (errorParseString, documentMeta) => {
+        // TODO: handle errors here when gpx2laji is ready to send them, from line ABBAX or other lines
+        if (errorParseString) {
+          winston.info(`Error parsing GPX file ${fileObject.fileId}: ${errorParseString}`);
+          throw new Error("Error parsing GPX file");
+        }
+
+        validateLajifiDocument(documentMeta.document, (errorValidateLajifiDocument) => {
+          if (errorValidateLajifiDocument) {
+            // Insert error to database
+            db.get("files")
+              .push({
+                id: fileObject.fileId, pluscode: fileObject.pluscode, filename: fileObject.filename, status: "error",
+              })
+              .write();
+            winston.info(`Error creating document of file ${fileObject.fileId}: ${errorValidateLajifiDocument}`);
+          }
+          else {
+            // Insert success to database
+            db.get("files")
+              .push({
+                id: fileObject.fileId, pluscode: fileObject.pluscode, filename: fileObject.filename, status: "valid",
+              })
+              .write();
+            fs.writeFileSync(`./files_document_archive/${fileObject.fileId}.json`, documentMeta.document);
+            winston.info(`File ${fileObject.fileId} converted into laji-document`);
+          }
+        });
+      });
     }
-}
+  });
+});
+
 
 /*
 Parse GPX file to laji.fi document
@@ -126,11 +207,11 @@ function gpxFile2metaDocument(fileObject, callback) {
                 fs.writeFileSync("./files_document/" + fileName + ".json", documentMeta.document);
             }
             else {
-                messageForUser += "GPX to laji.fi conversion failed for file: " + fileName + ".gpx " + JSON.stringify(err) + "\n"; 
+                messageForUser += "GPX to laji.fi conversion failed for file: " + fileName + ".gpx " + JSON.stringify(err) + "\n";
             }
-            
+
             messageForUser += "* Notes: " + documentMeta.document.gatherings[0].notes + "\n";
-            messageForUser += "* Date: " + documentMeta.document.gatheringEvent.dateBegin + "\n";            
+            messageForUser += "* Date: " + documentMeta.document.gatheringEvent.dateBegin + "\n";
             messageForUser += "* " + documentMeta.waypointCount + " waypoints\n";
             messageForUser += "* " + documentMeta.segmentCount + " segments\n";
             winston.info(messageForUser);
@@ -144,63 +225,3 @@ function gpxFile2metaDocument(fileObject, callback) {
 }
 */
 
-// Validate a laji.fi document
-function validateLajifiDocument(document, functionCallback) {
-    const validationEndpoint = "https://api.laji.fi/v0/documents/validate?type=error&lang=en&validationErrorFormat=object&access_token=" + secrets.lajifiApiToken;
-    let err;
-
-//    console.log(document); // debug
-
-    // Request to validation API
-    request.post({
-        url: validationEndpoint,
-        json: document
-    },
-    function(error, response, body) {
-        if (undefined == body) {
-            err = "Error connecting api.laji.fi";
-        }
-        else if (undefined !== body.error) {
-            err = body.error;
-            // Validation failed
-        }
-        else {
-            err = null;
-            // Validation successful
-        }
-
-        functionCallback(err);
-    });
-}
-
-function emailResults(message) {
-    // https://medium.com/@manojsinghnegi/sending-an-email-using-nodemailer-gmail-7cfa0712a799
-
-    // 2nd option: https://github.com/eleith/emailjs
-
-    let transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: secrets.email.address,
-            pass: secrets.email.password
-        }
-    });
-
-    const mailOptions = {
-        from: secrets.email.address,
-        to: secrets.testEmail,
-        subject: "Havistin GPS file report",
-        html: message
-    };
-
-    transporter.sendMail(mailOptions, function (err, info) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log(info);
-        }
-    });
-
-    console.log("Email sending in progress...")
-}

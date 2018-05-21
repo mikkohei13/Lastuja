@@ -5,6 +5,8 @@
         "brace-style": [2, "stroustrup"],
         "padded-blocks": [1, "never"],
         "quotes": [2, "double"],
-        "indent": [2, 2]
+        "indent": [2, 2],
+        "no-console": [0],
+        "prefer-destructuring": [0]
     }
 }
