@@ -63,14 +63,14 @@ const validateLajiString = (lajiString, functionCallback) => {
   let err;
   let validationResult = {};
 
-  console.log("LAHTIx2: " + lajiString);
-
+//  console.log("LAHTIx2: " + lajiString);
+// TODO: look into how request.post handles JSON vs. objects
 
   // Request to validation API
   request.post(
     {
       url: validationEndpoint,
-      json: lajiString,
+      json: JSON.parse(lajiString),
     },
     (error, response, body) => {
       console.log("VAALIMAA: ");
@@ -82,7 +82,7 @@ const validateLajiString = (lajiString, functionCallback) => {
         const err = "Error requesting api.laji.fi";
         functionCallback(err);
       }
-      else if (body.error) { // ABBA
+      else if (body.error) {
         // Validation failed
         const err = null;
         validationResult.validationFailed = true;

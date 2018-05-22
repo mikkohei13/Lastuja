@@ -1,5 +1,7 @@
 secrets.js
 logs/*
+fetch-OLD/*
+db.json
 
 fetch/files_document/*
 fetch/files_document_sent/*
