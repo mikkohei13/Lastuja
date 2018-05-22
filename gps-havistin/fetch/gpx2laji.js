@@ -90,13 +90,10 @@ function parseTrack(tracks) {
 }
 
 const gpxString2lajiObject = (errorParseGpx, gpxObject) => {
-  console.log("Parsing gpx -> gpx-object done, transformer received gpxObject with hash " + stringHash(JSON.stringify(gpxObject)) + "");
+  //console.log("Parsing gpx -> gpx-object done, transformer received gpxObject with hash " + stringHash(JSON.stringify(gpxObject)));
 
   if (errorParseGpx !== null) {
-    console.log(`Error in gpxString2lajiObject: ${errorParseGpx}`);
-  }
-  else {
-    console.log("No errors...");
+    console.log(`Error parsing GPX file: ${errorParseGpx}`);
   }
 
   // Waypoints -> Units
@@ -108,7 +105,7 @@ const gpxString2lajiObject = (errorParseGpx, gpxObject) => {
   const track = parseTrack(gpxObject.tracks);
 
   // Get base lajiString and assign values to it
-  let lajiString = baseDocumentParts.baseDocument;
+  const lajiString = baseDocumentParts.baseDocument;
 
   const now = new Date();
   lajiString.gatherings[0].notes = `${track.name} (parsed by gpx2laji on ${now.toISOString()})`;
@@ -138,10 +135,8 @@ const gpxString2lajiObject = (errorParseGpx, gpxObject) => {
 
 function parseAttachmentObject(attachmentObject, callback) {
   const gpxString = attachmentObject.gpxString;
-//  console.log("PARKANO: " + gpxString);
-  let hash = stringHash(gpxString);
 
-  console.log(`Parser received string beginning with ${gpxString.substring(0, 20)}... and with hash of ${hash}`);
+  console.log(`Parser received string beginning with ${gpxString.substring(0, 20)}... and with hash of ${stringHash(gpxString)}`);
 
   moduleCallback = callback;
   // TODO: ? move callback to inline here
