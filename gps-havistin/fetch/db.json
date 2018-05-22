@@ -1,34 +1,31 @@
 {
   "files": [
     {
-      "id": "test_mytracks_20180227_070624.gpx",
+      "id": "test_mytracks_20180217_070424.gpx",
       "pluscode": "test",
-      "filename": "mytracks_20180227_070624.gpx",
-      "status": "valid"
+      "filename": "mytracks_20180217_070424.gpx",
+      "status": "invalid",
+      "validationMessage": "{\"statusCode\":400,\"name\":\"Error\",\"message\":\"Value is not an object.\"}",
+      "waypointCount": 18,
+      "segmentCount": 330
     },
     {
       "id": "test_mytracks_20180224_125343.gpx",
       "pluscode": "test",
       "filename": "mytracks_20180224_125343.gpx",
-      "status": "valid"
-    },
-    {
-      "id": "cehmic_mytracks_20180303_133006.gpx",
-      "pluscode": "cehmic",
-      "filename": "mytracks_20180303_133006.gpx",
-      "status": "valid"
-    },
-    {
-      "id": "test_mytracks_20180217_070424.gpx",
-      "pluscode": "test",
-      "filename": "mytracks_20180217_070424.gpx",
-      "status": "valid"
+      "status": "invalid",
+      "validationMessage": "{\"statusCode\":400,\"name\":\"Error\",\"message\":\"Value is not an object.\"}",
+      "waypointCount": 4,
+      "segmentCount": 285
     },
     {
       "id": "test_mytracks_20180226_140839.gpx",
       "pluscode": "test",
       "filename": "mytracks_20180226_140839.gpx",
-      "status": "error"
+      "status": "invalid",
+      "validationMessage": "{\"statusCode\":400,\"name\":\"Error\",\"message\":\"Value is not an object.\"}",
+      "waypointCount": 0,
+      "segmentCount": 32
     }
   ]
 }

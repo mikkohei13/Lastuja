@@ -191,23 +191,24 @@ imap.once('end', () => {
 // Puts files with proper pluscodes as strings into an object, to be sent as an array of file objects to the callback.
 // Leaves all files to the archive directory, with original filenames.
 function organizeFiles() {
-  const fileObjects = [];
+  let attachmentObjectsArray = [];
   for (const key in pluscodes) {
     if (pluscodes[key] !== 'NA' && filenames[key] !== undefined) {
       // Dev note (2018-05-19):
       // If there is a need to record the pluscode for archive files, this is the place where it should be added to the filename, by renaming the files in the directory.
       const sourceDirFile = archiveFileDir + filenames[key];
 
-      // Create file object
-      const gpxObject = {};
-      gpxObject.gpx = fs.readFileSync(sourceDirFile, 'utf8');
-      gpxObject.pluscode = pluscodes[key];
-      gpxObject.filename = filenames[key];
-      //            console.log(gpxObject);
-      fileObjects.push(gpxObject);
+      // Create attachmentObject object
+      let attachmentObject = {};
+      attachmentObject.gpxString = fs.readFileSync(sourceDirFile, 'utf8');
+      attachmentObject.pluscode = pluscodes[key];
+      attachmentObject.filename = filenames[key];
+      attachmentObject.id = pluscodes[key] + "_" + filenames[key];
+      //            console.log(attachmentObject);
+      attachmentObjectsArray.push(attachmentObject);
     }
   }
-  moduleCallback(fileObjects);
+  moduleCallback(attachmentObjectsArray);
 }
 
 const fetchNewAttachments = function (callback) {

@@ -12,6 +12,8 @@ Parses GPX string into an object containing
 
 const gpxParse = require("gpx-parse");
 const baseDocumentParts = require("./baseDocumentParts");
+const stringHash = require("string-hash"); // debug
+
 
 let moduleCallback;
 
@@ -87,57 +89,64 @@ function parseTrack(tracks) {
   };
 }
 
-const gpxObject2metaDocument = (errorParseGpx, data) => {
-  console.log(`Parsing gpx -> gpx-object done, transformer received ${data}`);
+const gpxString2lajiObject = (errorParseGpx, gpxObject) => {
+  console.log("Parsing gpx -> gpx-object done, transformer received gpxObject with hash " + stringHash(JSON.stringify(gpxObject)) + "");
 
   if (errorParseGpx !== null) {
-    console.log(`Error in gpxObject2metaDocument: ${errorParseGpx}`);
+    console.log(`Error in gpxString2lajiObject: ${errorParseGpx}`);
   }
   else {
     console.log("No errors...");
   }
 
   // Waypoints -> Units
-  const waypoints = parseWaypoints(data);
+  const waypoints = parseWaypoints(gpxObject);
   const baseUnits = waypoints.baseUnits;
+  // TODO: consistent use of objects
 
   // Track -> Geometry
-  const track = parseTrack(data.tracks);
+  const track = parseTrack(gpxObject.tracks);
 
-  // Get base document and assign values to it
-  const document = baseDocumentParts.baseDocument;
+  // Get base lajiString and assign values to it
+  let lajiString = baseDocumentParts.baseDocument;
+
   const now = new Date();
-  document.gatherings[0].notes = `${track.name} (parsed by gpx2laji on ${now.toISOString()})`;
-  document.gatherings[0].geometry.geometries[0] = track.geometry;
-  document.gatheringEvent.dateBegin = track.dateBegin;
-  document.gatherings[0].units = baseUnits;
+  lajiString.gatherings[0].notes = `${track.name} (parsed by gpx2laji on ${now.toISOString()})`;
+  lajiString.gatherings[0].geometry.geometries[0] = track.geometry;
+  lajiString.gatheringEvent.dateBegin = track.dateBegin;
+  lajiString.gatherings[0].units = baseUnits;
 
   //  console.log(JSON.stringify(document, null, 2));
 
-  const documentMeta = {
-    document,
+  const lajiObject = {
+    lajiString: JSON.stringify(lajiString), // TODO: better temp name, e.g. tempLajiObject
     waypointCount: waypoints.waypointCount,
     segmentCount: track.segmentCount,
   };
 
-  // Returns documentMeta object as data to the callback function
-  moduleCallback(null, documentMeta);
+  // Returns lajiObject object to the callback function
+  moduleCallback(null, lajiObject);
 
 //    console.log(util.inspect(document, {showHidden: false, depth: null}))
 //    console.log(util.inspect(baseUnits, {showHidden: false, depth: null}))
 //    console.log(util.inspect(baseGeometry, {showHidden: false, depth: null}))
-//    console.log(util.inspect(data, {showHidden: false, depth: null}))
+//    console.log(util.inspect(gpxObject, {showHidden: false, depth: null}))
 };
 
 // -----------------------------------------------------------
 // Public functions
 
-function parseString(gpxString, callback) {
-  console.log(`Parser received string beginning with ${gpxString.substring(0, 20)} ...`);
-  //  console.log("Parser received string: " + gpxString);
+function parseAttachmentObject(attachmentObject, callback) {
+  const gpxString = attachmentObject.gpxString;
+//  console.log("PARKANO: " + gpxString);
+  let hash = stringHash(gpxString);
+
+  console.log(`Parser received string beginning with ${gpxString.substring(0, 20)}... and with hash of ${hash}`);
 
   moduleCallback = callback;
-  gpxParse.parseGpx(gpxString, gpxObject2metaDocument);
+  // TODO: ? move callback to inline here
+
+  gpxParse.parseGpx(gpxString, gpxString2lajiObject);
 
   /*
   2018-05-19:
@@ -152,5 +161,5 @@ function parseString(gpxString, callback) {
 }
 
 module.exports = {
-  parseString,
+  parseAttachmentObject,
 };

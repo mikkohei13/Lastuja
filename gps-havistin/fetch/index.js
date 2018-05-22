@@ -1,6 +1,5 @@
 
 const winston = require("winston");
-
 winston.add(winston.transports.File, { filename: "../logs/fetch.log" });
 
 const fs = require("fs");
@@ -8,22 +7,32 @@ const request = require("request");
 const lowdb = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 
-const gpx2laji = require("./gpx2laji");
 const gmail = require("./mail");
-
+const gpx2laji = require("./gpx2laji");
 const secrets = require("./secrets");
+
+const stringHash = require("string-hash"); // debug
 
 // -----------------------------------------------------------
 // Setup
 
 /*
+ Database structure
 files: [
     {
         filename: "",
         pluscode: "",
-        stage "gpx, valid, sent"
+        stage "gpx, invalid, valid, sent"
     }
 ]
+
+lajiObject = {
+  lajiString: 
+  validationSuccessful: (optional)
+  validationMessage: (optional)
+  ...
+  ...
+}
 */
 const adapter = new FileSync("db.json");
 const db = lowdb(adapter);
@@ -33,9 +42,11 @@ db.defaults({ files: [] })
 // -----------------------------------------------------------
 // Functions
 
-function isDatabased(fileId) {
+function isDatabased(id) {
+//  return false; // DEBUG; disable database check
+
   const exists = db.get("files")
-    .find({ id: fileId })
+    .find({ id: id })
     .value();
 
   if (exists === undefined) {
@@ -45,72 +56,49 @@ function isDatabased(fileId) {
   return true;
 }
 
-
 // Validate a laji.fi document
-function validateLajifiDocument(document, functionCallback) {
+const validateLajiString = (lajiString, functionCallback) => {
+
   const validationEndpoint = `https://api.laji.fi/v0/documents/validate?type=error&lang=en&validationErrorFormat=object&access_token=${secrets.lajifiApiToken}`;
   let err;
+  let validationResult = {};
 
-  //    console.log(document); // debug
+  console.log("LAHTIx2: " + lajiString);
+
 
   // Request to validation API
   request.post(
     {
       url: validationEndpoint,
-      json: document,
+      json: lajiString,
     },
     (error, response, body) => {
-      if (undefined === body) {
-        err = "Error connecting api.laji.fi";
+      console.log("VAALIMAA: ");
+      console.log(body);
+//      console.log(bodyObject.error);
+
+      if (undefined === body || error !== null) {
+        // Problem with reaching validator
+        const err = "Error requesting api.laji.fi";
+        functionCallback(err);
       }
-      else if (undefined !== body.error) {
-        err = body.error;
-      // Validation failed
+      else if (body.error) { // ABBA
+        // Validation failed
+        const err = null;
+        validationResult.validationFailed = true;
+        validationResult.validationMessage = JSON.stringify(body.error);
+        functionCallback(err, validationResult);
       }
       else {
+        // Validation successful
         err = null;
-      // Validation successful
+        validationResult.validationFailed = false;
+        functionCallback(err, validationResult);
       }
-
-      functionCallback(err);
-    },
+    }
   );
 }
 
-/*
-const nodemailer = require('nodemailer');
-
-function emailResults(message) {
-  // https://medium.com/@manojsinghnegi/sending-an-email-using-nodemailer-gmail-7cfa0712a799
-
-  // 2nd option: https://github.com/eleith/emailjs
-
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: secrets.email.address,
-      pass: secrets.email.password,
-    },
-  });
-
-  const mailOptions = {
-    from: secrets.email.address,
-    to: secrets.testEmail,
-    subject: 'Havistin GPS file report',
-    html: message,
-  };
-
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(info);
-    }
-  });
-
-  console.log('Email sending in progress...');
-}
-*/
 
 // -----------------------------------------------------------
 // Main
@@ -129,56 +117,90 @@ Todo: (later, with database) don't try to reprocess fles that have failed earlie
     - email user with a link
 
 */
-gmail.fetchNewAttachments((fileObjectsParam) => {
-  const fileObjects = fileObjectsParam;
-  winston.info(`Succesfully fetched ${fileObjects.length} GPX files`);
-  //    console.log(fileObjects);
+// TODO: ? to be consistent, set this in const and call separately??
 
-  fileObjects.forEach((fileObjectParam) => {
-    const fileObject = fileObjectParam;
+gmail.fetchNewAttachments((attachmentObjectArray) => {
+  // Here we have array of all attachments found from Gmail inbox, processed and unprocessed ones. Gmail mail fetching is decoupled from further processing of the attachments.
 
+  winston.info(`Succesfully fetched ${attachmentObjectArray.length} GPX attachments from email`);
 
-    // Define id for the file
-    fileObject.fileId = `${fileObject.pluscode}_${fileObject.filename}`;
-
-    if (isDatabased(fileObject.fileId)) {
-      winston.info(`File id ${fileObject.fileId} already in database`);
+  // New principle: only handle first attachment that is not yet in the database. This avoids looping async.
+  // AÖ: "looping async functions is dangerous [an difficult with callbacks]"
+  let i = 0;
+  attachmentObjectArray.forEach((attachmentObject) => {
+    if (isDatabased(attachmentObject.id)) {
+      winston.info(`File id ${attachmentObject.id} already in database`);
     }
     else {
-      winston.info(`Starting to parse gpx file ${fileObject.fileId}`);
-
-      gpx2laji.parseString(fileObject.gpx, (errorParseString, documentMeta) => {
-        // TODO: handle errors here when gpx2laji is ready to send them, from line ABBAX or other lines
-        if (errorParseString) {
-          winston.info(`Error parsing GPX file ${fileObject.fileId}: ${errorParseString}`);
-          throw new Error("Error parsing GPX file");
-        }
-
-        validateLajifiDocument(documentMeta.document, (errorValidateLajifiDocument) => {
-          if (errorValidateLajifiDocument) {
-            // Insert error to database
-            db.get("files")
-              .push({
-                id: fileObject.fileId, pluscode: fileObject.pluscode, filename: fileObject.filename, status: "error",
-              })
-              .write();
-            winston.info(`Error creating document of file ${fileObject.fileId}: ${errorValidateLajifiDocument}`);
-          }
-          else {
-            // Insert success to database
-            db.get("files")
-              .push({
-                id: fileObject.fileId, pluscode: fileObject.pluscode, filename: fileObject.filename, status: "valid",
-              })
-              .write();
-            fs.writeFileSync(`./files_document_archive/${fileObject.fileId}.json`, documentMeta.document);
-            winston.info(`File ${fileObject.fileId} converted into laji-document`);
-          }
-        });
-      });
+      // Call attachmentObjectHandler
+      // and skip further attachments
+      if (i === 0) {
+        winston.info(`Parsing file number ${i}, id ${attachmentObject.id}`);
+        attachmentObjectHandler(attachmentObject);
+      }
+      else {
+        winston.info(`Skipping file number ${i}`);
+      }
+      i++;
     }
+  })
+})
+
+const attachmentObjectHandler = (attachmentObject) => {
+
+  gpx2laji.parseAttachmentObject(attachmentObject, (errorParseAttachmentObject, lajiObject) => {
+
+    if (errorParseAttachmentObject) {
+      winston.info("Error parsing GPX file, hash " + stringHash(lajiObject.lajiString) + " and error " + errorParseAttachmentObject);
+      throw new Error("Error parsing GPX file");
+    }
+
+    // NOW WE HAVE LAJI-DOCUMENT in lajiObject
+
+    // TODO: display lajiObject metadata here
+//    console.log("LAHTI: " + lajiObject.lajiString);
+
+    validateLajiString(lajiObject.lajiString, (errorValidateLajiString, validationResult) => {
+      if (errorValidateLajiString) {
+        throw new Error("Error with validator: " + errorValidateLajiString);
+        winston.info(`Error with validator, when validating file file ${attachmentObject.id}: ${errorValidateLajiString}`);
+      }
+      else if (validationResult.validationFailed) {
+        // Insert error to database
+        db.get("files")
+          .push({
+            id: attachmentObject.id,
+            pluscode: attachmentObject.pluscode,
+            filename: attachmentObject.filename,
+            status: "invalid",
+            validationMessage: validationResult.validationMessage,
+            waypointCount: lajiObject.waypointCount,
+            segmentCount: lajiObject.segmentCount
+          })
+          .write();
+        winston.info(`Error creating valid document of file ${attachmentObject.id}: ${validationResult.validationMessage}`);
+      }
+      else {
+        // Insert success to database
+        db.get("files")
+          .push({
+            id: attachmentObject.id,
+            pluscode: attachmentObject.pluscode,
+            filename: attachmentObject.filename,
+            status: "valid",
+            validationMessage: lajiObject.validationMessage,
+            waypointCount: lajiObject.waypointCount,
+            segmentCount: lajiObject.segmentCount            
+          })
+          .write();
+        // ...and write laji.document to disk
+        fs.writeFileSync("./files_document_archive/" + attachmentObject.filename + ".json", lajiObject.lajiString);
+        winston.info("File converted into laji-document with hash " + stringHash(lajiObject.lajiString));
+      }
+    });
   });
-});
+}
+
 
 
 /*
@@ -190,13 +212,13 @@ Failure:
 - console.log
 */
 /*
-function gpxFile2metaDocument(fileObject, callback) {
+function gpxFile2metaDocument(attachmentObject, callback) {
 
-    gpx2laji.parseString(fileObject.gpx, (err, documentMeta) => {
+    gpx2laji.parseString(attachmentObject.gpx, (err, lajiObject) => {
 
         // TODO: handle errors here when gpx2laji is ready to send them
 
-        validateLajifiDocument(documentMeta.document, (err) => {
+        validateLajifiDocument(lajiObject.document, (err) => {
 
             // Message logged or sent to user
             let messageForUser = "";
@@ -204,16 +226,16 @@ function gpxFile2metaDocument(fileObject, callback) {
             // Only save valid documents
             if (err === null) {
                 messageForUser += "GPX to laji.fi conversion succeeded for file: " + fileName + ".gpx \n";
-                fs.writeFileSync("./files_document/" + fileName + ".json", documentMeta.document);
+                fs.writeFileSync("./files_document/" + fileName + ".json", lajiObject.document);
             }
             else {
                 messageForUser += "GPX to laji.fi conversion failed for file: " + fileName + ".gpx " + JSON.stringify(err) + "\n";
             }
 
-            messageForUser += "* Notes: " + documentMeta.document.gatherings[0].notes + "\n";
-            messageForUser += "* Date: " + documentMeta.document.gatheringEvent.dateBegin + "\n";
-            messageForUser += "* " + documentMeta.waypointCount + " waypoints\n";
-            messageForUser += "* " + documentMeta.segmentCount + " segments\n";
+            messageForUser += "* Notes: " + lajiObject.document.gatherings[0].notes + "\n";
+            messageForUser += "* Date: " + lajiObject.document.gatheringEvent.dateBegin + "\n";
+            messageForUser += "* " + lajiObject.waypointCount + " waypoints\n";
+            messageForUser += "* " + lajiObject.segmentCount + " segments\n";
             winston.info(messageForUser);
 
     //            emailResults();
