@@ -180,7 +180,7 @@ gmail.fetchNewAttachments((attachmentObjectArray) => {
   winston.info(`Succesfully fetched ${attachmentObjectArray.length} GPX attachments from email`);
 
   // New principle: only handle first attachment that is not yet in the database. This avoids looping async.
-  // AÖ: "looping async functions is dangerous [an difficult with callbacks]"
+  // "looping async functions is dangerous [an difficult with callbacks]"
   let i = 0;
   attachmentObjectArray.forEach((attachmentObject) => {
     if (isDatabased(attachmentObject.id)) {
