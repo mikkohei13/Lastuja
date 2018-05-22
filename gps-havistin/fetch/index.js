@@ -1,5 +1,6 @@
 
 const winston = require("winston");
+
 winston.add(winston.transports.File, { filename: "../logs/fetch.log" });
 
 const fs = require("fs");
@@ -27,7 +28,7 @@ files: [
 ]
 
 lajiObject = {
-  lajiString: 
+  lajiString:
   validationSuccessful: (optional)
   validationMessage: (optional)
   ...
@@ -46,7 +47,7 @@ function isDatabased(id) {
 //  return false; // DEBUG; disable database check
 
   const exists = db.get("files")
-    .find({ id: id })
+    .find({ id })
     .value();
 
   if (exists === undefined) {
@@ -58,13 +59,11 @@ function isDatabased(id) {
 
 // Validate a laji.fi document
 const validateLajiString = (lajiString, functionCallback) => {
-
   const validationEndpoint = `https://api.laji.fi/v0/documents/validate?type=error&lang=en&validationErrorFormat=object&access_token=${secrets.lajifiApiToken}`;
-  let err;
-  let validationResult = {};
+  const validationResult = {};
 
-//  console.log("LAHTIx2: " + lajiString);
-// TODO: look into how request.post handles JSON vs. objects
+  //  console.log("LAHTIx2: " + lajiString);
+  // TODO: look into how request.post handles JSON vs. objects
 
   // Request to validation API
   request.post(
@@ -72,32 +71,88 @@ const validateLajiString = (lajiString, functionCallback) => {
       url: validationEndpoint,
       json: JSON.parse(lajiString),
     },
-    (error, response, body) => {
-      console.log("VAALIMAA: ");
-      console.log(body);
-//      console.log(bodyObject.error);
+    (errorRequestPost, response, body) => {
+      let errorValidateLajiString;
 
-      if (undefined === body || error !== null) {
+      //console.log("VAALIMAA: ");
+      //console.log(body);
+      //      console.log(bodyObject.error);
+
+      if (undefined === body || errorRequestPost !== null) {
         // Problem with reaching validator
-        const err = "Error requesting api.laji.fi";
-        functionCallback(err);
+        errorValidateLajiString = "Error requesting api.laji.fi";
+        functionCallback(errorValidateLajiString);
       }
       else if (body.error) {
         // Validation failed
-        const err = null;
+        errorValidateLajiString = null;
         validationResult.validationFailed = true;
         validationResult.validationMessage = JSON.stringify(body.error);
-        functionCallback(err, validationResult);
+        functionCallback(errorValidateLajiString, validationResult);
       }
       else {
         // Validation successful
-        err = null;
+        errorValidateLajiString = null;
         validationResult.validationFailed = false;
-        functionCallback(err, validationResult);
+        functionCallback(errorValidateLajiString, validationResult);
       }
-    }
+    },
   );
-}
+};
+
+
+const attachmentObjectHandler = (attachmentObject) => {
+  gpx2laji.parseAttachmentObject(attachmentObject, (errorParseAttachmentObject, lajiObject) => {
+    if (errorParseAttachmentObject) {
+      winston.info(`Error parsing GPX file, hash ${stringHash(lajiObject.lajiString)} and error ${errorParseAttachmentObject}`);
+      throw new Error("Error parsing GPX file");
+    }
+
+    // NOW WE HAVE LAJI-DOCUMENT in lajiObject
+
+    // TODO: display lajiObject metadata here
+    //    console.log("LAHTI: " + lajiObject.lajiString);
+
+    validateLajiString(lajiObject.lajiString, (errorValidateLajiString, validationResult) => {
+      if (errorValidateLajiString) {
+        winston.info(`Error with validator: ${errorValidateLajiString}`);
+        throw new Error(`Error with validator: ${errorValidateLajiString}`);
+      }
+      else if (validationResult.validationFailed) {
+        // Insert error to database
+        db.get("files")
+          .push({
+            id: attachmentObject.id,
+            pluscode: attachmentObject.pluscode,
+            filename: attachmentObject.filename,
+            status: "invalid",
+            validationMessage: validationResult.validationMessage,
+            waypointCount: lajiObject.waypointCount,
+            segmentCount: lajiObject.segmentCount,
+          })
+          .write();
+        winston.info(`Error creating valid document of file ${attachmentObject.id}: ${validationResult.validationMessage}`);
+      }
+      else {
+        // Insert success to database
+        db.get("files")
+          .push({
+            id: attachmentObject.id,
+            pluscode: attachmentObject.pluscode,
+            filename: attachmentObject.filename,
+            status: "valid",
+            validationMessage: lajiObject.validationMessage,
+            waypointCount: lajiObject.waypointCount,
+            segmentCount: lajiObject.segmentCount,
+          })
+          .write();
+        // ...and write laji.document to disk
+        fs.writeFileSync(`./files_document_archive/${attachmentObject.filename}.json`, lajiObject.lajiString);
+        winston.info(`File converted into laji-document with hash ${stringHash(lajiObject.lajiString)}`);
+      }
+    });
+  });
+};
 
 
 // -----------------------------------------------------------
@@ -141,109 +196,7 @@ gmail.fetchNewAttachments((attachmentObjectArray) => {
       else {
         winston.info(`Skipping file number ${i}`);
       }
-      i++;
+      i += 1;
     }
-  })
-})
-
-const attachmentObjectHandler = (attachmentObject) => {
-
-  gpx2laji.parseAttachmentObject(attachmentObject, (errorParseAttachmentObject, lajiObject) => {
-
-    if (errorParseAttachmentObject) {
-      winston.info("Error parsing GPX file, hash " + stringHash(lajiObject.lajiString) + " and error " + errorParseAttachmentObject);
-      throw new Error("Error parsing GPX file");
-    }
-
-    // NOW WE HAVE LAJI-DOCUMENT in lajiObject
-
-    // TODO: display lajiObject metadata here
-//    console.log("LAHTI: " + lajiObject.lajiString);
-
-    validateLajiString(lajiObject.lajiString, (errorValidateLajiString, validationResult) => {
-      if (errorValidateLajiString) {
-        throw new Error("Error with validator: " + errorValidateLajiString);
-        winston.info(`Error with validator, when validating file file ${attachmentObject.id}: ${errorValidateLajiString}`);
-      }
-      else if (validationResult.validationFailed) {
-        // Insert error to database
-        db.get("files")
-          .push({
-            id: attachmentObject.id,
-            pluscode: attachmentObject.pluscode,
-            filename: attachmentObject.filename,
-            status: "invalid",
-            validationMessage: validationResult.validationMessage,
-            waypointCount: lajiObject.waypointCount,
-            segmentCount: lajiObject.segmentCount
-          })
-          .write();
-        winston.info(`Error creating valid document of file ${attachmentObject.id}: ${validationResult.validationMessage}`);
-      }
-      else {
-        // Insert success to database
-        db.get("files")
-          .push({
-            id: attachmentObject.id,
-            pluscode: attachmentObject.pluscode,
-            filename: attachmentObject.filename,
-            status: "valid",
-            validationMessage: lajiObject.validationMessage,
-            waypointCount: lajiObject.waypointCount,
-            segmentCount: lajiObject.segmentCount            
-          })
-          .write();
-        // ...and write laji.document to disk
-        fs.writeFileSync("./files_document_archive/" + attachmentObject.filename + ".json", lajiObject.lajiString);
-        winston.info("File converted into laji-document with hash " + stringHash(lajiObject.lajiString));
-      }
-    });
   });
-}
-
-
-
-/*
-Parse GPX file to laji.fi document
-Success:
-- save to disk on success
-- (email user)
-Failure:
-- console.log
-*/
-/*
-function gpxFile2metaDocument(attachmentObject, callback) {
-
-    gpx2laji.parseString(attachmentObject.gpx, (err, lajiObject) => {
-
-        // TODO: handle errors here when gpx2laji is ready to send them
-
-        validateLajifiDocument(lajiObject.document, (err) => {
-
-            // Message logged or sent to user
-            let messageForUser = "";
-
-            // Only save valid documents
-            if (err === null) {
-                messageForUser += "GPX to laji.fi conversion succeeded for file: " + fileName + ".gpx \n";
-                fs.writeFileSync("./files_document/" + fileName + ".json", lajiObject.document);
-            }
-            else {
-                messageForUser += "GPX to laji.fi conversion failed for file: " + fileName + ".gpx " + JSON.stringify(err) + "\n";
-            }
-
-            messageForUser += "* Notes: " + lajiObject.document.gatherings[0].notes + "\n";
-            messageForUser += "* Date: " + lajiObject.document.gatheringEvent.dateBegin + "\n";
-            messageForUser += "* " + lajiObject.waypointCount + " waypoints\n";
-            messageForUser += "* " + lajiObject.segmentCount + " segments\n";
-            winston.info(messageForUser);
-
-    //            emailResults();
-
-        });
-
-    });
-
-}
-*/
-
+});
