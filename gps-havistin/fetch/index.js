@@ -35,7 +35,7 @@ lajiObject = {
   ...
 }
 */
-const adapter = new FileSync("db.json");
+const adapter = new FileSync("../db.json");
 const db = lowdb(adapter);
 db.defaults({ files: [] })
   .write();
