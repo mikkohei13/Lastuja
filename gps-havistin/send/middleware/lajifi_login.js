@@ -8,6 +8,21 @@ const secrets = require('../secrets');
 const request = require('request');
 const fs = require('fs');
 
+const lowdb = require("lowdb");
+const FileSync = require("lowdb/adapters/FileSync");
+
+// -----------------------------------------------------------
+// Setup
+
+const adapter = new FileSync("../db.json");
+const db = lowdb(adapter);
+//db.defaults({ files: [] })
+//  .write();
+
+// -----------------------------------------------------------
+// Functions
+  
+
 let log = function (req, res, next) {
     console.log(req.query);
     next()
@@ -65,6 +80,15 @@ const getUserData = function(req, res, next) {
 }
 
 const getUserFiles = function getUserFiles(req, res, next) {
+
+    // TODO: Get files based on pluscode
+    /*
+    const exists = db.get("files")
+    .find({ id })
+    .value();
+*/
+
+    /*
     let basePath = "../../gps-havistin/fetch/";
     let files = fs.readdirSync(basePath + "files_document/"); // TODO: better relative path?
 
@@ -85,6 +109,7 @@ const getUserFiles = function getUserFiles(req, res, next) {
             return true;
         }
     });
+    */
     
     req.userFiles = userFiles;
     req.unsentUserFiles = unsentUserFiles;
