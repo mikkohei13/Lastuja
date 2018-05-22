@@ -41,7 +41,9 @@ or:
     DEBUG=search:* nodemon ./bin/www
 
 Access using personToken
-http://localhost:3000/upload/?person_token=TOKEN
+- Get the token using Havistin authenticator: https://www.biomi.org/havistin/
+- Go to http://localhost:3000/upload/?person_token=TOKEN
+
 
 ## Questions
 

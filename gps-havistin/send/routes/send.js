@@ -12,7 +12,7 @@ router.use(function (req, res, next) {
 
 // These will be used for all URLs within this route
 router.use(lajifiLogin.getUserData);
-router.use(lajifiLogin.getUserFiles);
+//router.use(lajifiLogin.getUserFiles);
 
 
 /* Home page. */
@@ -24,8 +24,8 @@ router.get('/', function(req, res, next) {
   });
 
 
-  res.render('index', {
-      title: 'Havistin',
+  res.render('send', {
+      title: 'Sendari',
       message: message,
       userFiles: req.userFiles,
       unsentUserFiles: req.unsentUserFiles
