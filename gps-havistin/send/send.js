@@ -8,8 +8,10 @@ function sendLajifiDocument(document, functionCallback) {
 // Prod
     const postEndpoint = "https://api.laji.fi/v0/documents/?lang=en&validationErrorFormat=object&access_token=" + secrets.lajifiApiToken;
 
+    console.log("Commented ot for testing...");
 // Test
 //    const postEndpoint = "https://fmnh-ws-test.it.helsinki.fi/v0/documents/?lang=en&validationErrorFormat=object&access_token=" + secrets.lajifiApiToken;
+/*
     let err;
 
     console.log("Sending document: " + document); // debug
@@ -41,6 +43,7 @@ function sendLajifiDocument(document, functionCallback) {
 
         functionCallback(err);
     });
+*/
 }
 
 module.exports = {

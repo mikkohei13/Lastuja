@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const lajifiLogin = require('../middleware/lajifi_login');
+const middleware = require('../middleware/middleware');
 const send = require('../send')
 
 /*
@@ -11,14 +11,15 @@ router.use(function (req, res, next) {
 */
 
 // These will be used for all URLs within this route
-router.use(lajifiLogin.getUserData);
-//router.use(lajifiLogin.getUserFiles);
+router.use(middleware.getUserData);
+//router.use(middleware.getUserFiles);
 
 
 /* Home page. */
 router.get('/', function(req, res, next) {
   let message = JSON.stringify(req.lajifi.user);
 
+  // Still a test
   send.sendLajifiDocument("foo", function() {
     // do nothin'
   });

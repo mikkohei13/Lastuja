@@ -60,6 +60,9 @@ router-level middleware will be used with nonexistent endpoints (e.g. /uploads/f
 
 ## Todo
 
+- Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
+- Separate code into reusable modules, use them through middleware. This means making lajifi_login as module, and using that from middleware, which is being used from route. Document this for future code discussions.
+
 ### FETCH
 - Email validation results
 - Viestin body documentin notesiin
