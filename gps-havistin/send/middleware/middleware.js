@@ -26,22 +26,22 @@ let log = function (req, res, next) {
 // If the module should be generic, just return the error. 
 const getUserData = function(req, res, next) {
     
-    lajifi_login.getUserData(req.query.person_token, (lajifi) => {
+    lajifi_login.getUserData(req.query.person_token, (error, lajifi) => {
 
-        req.lajifi = lajifi;
-        console.log("HERE:" + req.lajifi);
 
         // Error handling
-        if (req.lajifi.error !== undefined) {
-            console.log(req.lajifi.error.message);
-            if (req.lajifi.error.type === "no-persontoken") {
+        if (error) {
+            console.log(error.message);
+            if (error.type === "no-persontoken") {
                 res.redirect("https://www.biomi.org/havistin/"); 
             }
             else {
-                res.send(req.lajifi.error.message); 
+                res.send(error.message); 
             }
         }
         else{
+            req.lajifi = lajifi;
+            console.log("HERE:" + req.lajifi);
             next();
         }
     

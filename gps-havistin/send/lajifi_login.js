@@ -33,54 +33,70 @@ let log = function (req, res, next) {
 }
 
 const getUserData = function(personToken, callback) {
-    const lajifi = {};
 
-    // Check if person token set
+    // Error: Persontoken not set
     if (!personToken) {
-        lajifi.error = {
+        const error = {
             type : "no-persontoken",
             message : "No person token available"
         }
-        callback(lajifi);
+        callback(error);
 
         // TODO: error-first callback
     }
+    // OK: Persontoken set
     else {
         console.log("Person token got: " + personToken);
-        // Get user data
+
+        // Get user data from API
         const endpoint = "https://api.laji.fi/v0/person/" + personToken + "?access_token=" + secrets.accessTokenProd;
         request.get(
             { 
                 url: endpoint
             },
             function(error, apiResponse, apiBodyJSON) {
-                apiBodyObject = JSON.parse(apiBodyJSON); 
 
-                // If some kind of error
-                // undefined = body         -> network error / api.laji.fi down
-                // error                    -> error with require module(?)
-                // body.error != undefined  -> api.laji.fi returns error, e.g. because of erroneus call
-                if (undefined == apiBodyObject || error || apiBodyObject.error != undefined) {
-                    lajifi.error = {
+                // Don't trust that reponse is valid JSON
+                try {
+                    apiBodyObject = JSON.parse(apiBodyJSON); 
+                }
+                catch (jsonParseError) {
+                    apiBodyObject = undefined;
+                }
+
+                // Error: problem using the API
+                // apiBodyObject === undefined  -> network error / api.laji.fi down
+                // error                        -> error making request, e.g. error within require module(?)
+                // body.error != undefined      -> api.laji.fi returns error, e.g. because of erroneus call
+                if (apiBodyObject === undefined || error || apiBodyObject.error !== undefined) {
+                    const error = {
                         type : "api-call-error",
-                        message : error + " / " + apiBodyJSON
+                        message : "API call error with JSON response: " + apiBodyJSON
                     }            
+                    callback(error);
+
                     // TODO: redirect to login OR return error, if person token expired
                 }
+                // OK: Valid user data from API
                 else {
+                    const lajifi = {};
                     lajifi.user = apiBodyObject;
+
                     if (plusCodes[lajifi.user.id] != undefined) {
                         lajifi.user.pluscode = plusCodes[lajifi.user.id];
+                        
+                        console.log("Calling callback with " + lajifi);
+                        callback(null, lajifi);
                     }
+                    // Error: Pluscode missing
                     else {
-                        lajifi.error = {
+                        const error = {
                             type : "user-not-defined",
                             message : "No pluscode defined for user " + req.lajifi.user.id
-                        }            
+                        }
+                        callback(error);
                     }
                 }
-                console.log("Calling callback with " + lajifi);
-                callback(lajifi);
             }
         );
     }
