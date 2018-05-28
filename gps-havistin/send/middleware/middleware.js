@@ -1,10 +1,11 @@
 
 /*
 MIDDLEWARE WRAPPER
+Business logic is in modules, this handles errors and uses the modules in correct order.
 */
 
 const lajifi_login = require('../lajifi_login');
-//const db_models = require('../db_models');
+const db_models = require('../db_models');
 
 const request = require('request');
 const fs = require('fs');
@@ -28,7 +29,6 @@ const getUserData = function(req, res, next) {
     
     lajifi_login.getUserData(req.query.person_token, (error, lajifi) => {
 
-
         // Error handling
         if (error) {
             console.log(error.message);
@@ -48,8 +48,18 @@ const getUserData = function(req, res, next) {
     });
 }
 
+const getUserFiles = function(req, res, next) {
+
+    db_models.getUserFiles((error, ret) => {
+        req.userFiles = "TOIMII!";
+        next();
+    });
+
+}
+
 
 module.exports = {
     "log": log,
     "getUserData": getUserData,
+    "getUserFiles": getUserFiles,
 }

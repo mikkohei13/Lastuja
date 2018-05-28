@@ -23,7 +23,9 @@ const plusCodes = {
     "MA.0" : "testtest"
 }
 
-const getUserFiles = function getUserFiles(req, res, next) {
+const getUserFiles = function getUserFiles(callback) {
+
+    callback();
 
     // TODO: Get files based on pluscode
     /*
@@ -55,9 +57,11 @@ const getUserFiles = function getUserFiles(req, res, next) {
     });
     */
     
+    /*
     req.userFiles = userFiles;
     req.unsentUserFiles = unsentUserFiles;
     next();
+    */
 }
 
 module.exports = {

@@ -47,8 +47,10 @@ Access using personToken
 
 ## Questions
 
-How to use middleware in all defined routes, but nowhere else?
-router-level middleware will be used with nonexistent endpoints (e.g. /uploads/foobar)
+- How to use middleware in all defined routes, but nowhere else? Router-level middleware will be used with nonexistent endpoints (e.g. /uploads/foobar)
+- How to organize an app, which has two parts: one called by cronjob, other being an express app serving web pages (or an API). Both use the same database, and potentially same database abstraction module.
+- How to organize code into middleware vs. reusable modules? 
+- How generic should modules be, in a) short term, when making a simple system (which will probably grow more complicated over time) vs. long term? E.g. handling errors.
 
 ## Expectations
 
