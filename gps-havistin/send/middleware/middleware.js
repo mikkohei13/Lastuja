@@ -2,6 +2,7 @@
 /*
 MIDDLEWARE WRAPPER
 Business logic is in modules, this handles errors and uses the modules in correct order.
+Data flows through in the req object.
 */
 
 const lajifi_login = require('../lajifi_login');
@@ -41,7 +42,6 @@ const getUserData = function(req, res, next) {
         }
         else{
             req.lajifi = lajifi;
-            console.log("HERE:" + req.lajifi);
             next();
         }
     
@@ -50,8 +50,16 @@ const getUserData = function(req, res, next) {
 
 const getUserFiles = function(req, res, next) {
 
-    db_models.getUserFiles((error, ret) => {
-        req.userFiles = "TOIMII!";
+    console.log("HERE X:" + JSON.stringify( req.lajifi ));
+
+    // TODO: better variable names, e.g. lajifi -> userData, or can it contain other info also?
+
+    let pluscode;
+    pluscode = req.lajifi.user.pluscode;
+    pluscode = "test"; // debug
+    
+    db_models.getUserFiles(pluscode, (error, ret) => {
+        req.userFiles = ret;
         next();
     });
 

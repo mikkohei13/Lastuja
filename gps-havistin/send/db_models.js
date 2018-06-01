@@ -18,21 +18,26 @@ const db = lowdb(adapter);
 // Functions
   
 // TODO: Use this from shared source; secrets
+/*
 const plusCodes = {
     "MA.3" : "cehmic",
     "MA.0" : "testtest"
 }
+*/
 
-const getUserFiles = function getUserFiles(callback) {
+const getUserFiles = function getUserFiles(pluscode, callback) {
 
-    callback();
+    callback(null, "TOIMII 2 " + pluscode);
 
     // TODO: Get files based on pluscode
-    /*
-    const exists = db.get("files")
-    .find({ id })
+
+    const fileData = db.get("files")
+    .filter({ pluscode: pluscode })
+    .sortBy('filename')
+    .take(100)
     .value();
-*/
+
+    console.log(fileData);
 
     /*
     let basePath = "../../gps-havistin/fetch/";
