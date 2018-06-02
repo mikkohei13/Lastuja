@@ -29,8 +29,7 @@ router.get('/', function(req, res, next) {
   res.render('send', {
       title: 'Sendari',
       message: message,
-      userFiles: req.userFiles,
-      unsentUserFiles: req.unsentUserFiles
+      userFiles: req.userFiles
     });
 });
 

@@ -50,7 +50,7 @@ const getUserData = function(req, res, next) {
 
 const getUserFiles = function(req, res, next) {
 
-    console.log("HERE X:" + JSON.stringify( req.lajifi ));
+//    console.log("HERE X:" + JSON.stringify( req.lajifi ));
 
     // TODO: better variable names, e.g. lajifi -> userData, or can it contain other info also?
 
