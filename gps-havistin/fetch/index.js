@@ -47,7 +47,7 @@ function isDatabased(id) {
 //  return false; // DEBUG; disable database check
 
   const exists = db.get("files")
-    .find({ id })
+    .find({ id }) // TODO: ?? po. id: id ??
     .value();
 
   if (exists === undefined) {

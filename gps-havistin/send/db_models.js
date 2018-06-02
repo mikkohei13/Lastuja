@@ -25,9 +25,19 @@ const getUserFiles = function getUserFiles(pluscode, callback) {
     .take(100)
     .value();
 
-    console.log(userFiles);
+    const userFilesByStatus = {
+        valid: [],
+        invalid: [],
+        sent: []
+    };
 
-    callback(null, userFiles);
+    userFiles.forEach((file) => {
+        userFilesByStatus[file.status].push(file);
+    });
+
+    console.log(userFilesByStatus);
+
+    callback(null, userFilesByStatus);
 }
 
 module.exports = {

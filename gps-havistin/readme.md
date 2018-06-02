@@ -62,6 +62,15 @@ Access using personToken
 
 ## Todo
 
+- Fetch
+    - Save datetime into db
+- Send
+    - Show files
+    - Show info about files
+    - Have a route to send the data
+    - Display results, save id to the database
+    - Show link to vihko with the files
+
 - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
 - Separate code into reusable modules, use them through middleware. This means making lajifi_login as module, and using that from middleware, which is being used from route. Document this for future code discussions.
 
