@@ -25,6 +25,15 @@ const getUserFiles = function getUserFiles(pluscode, callback) {
     .take(100)
     .value();
 
+
+    callback(null, organizeUserFilesByStatus(userFiles));
+}
+
+// TODO: create another function that returns userfiles by status, calling getuserfiles.
+// ?? Should these be sync instead of async?
+
+const organizeUserFilesByStatus = function organizeUserFilesByStatus(userFiles) {
+
     const userFilesByStatus = {
         valid: [],
         invalid: [],
@@ -37,7 +46,7 @@ const getUserFiles = function getUserFiles(pluscode, callback) {
 
     console.log(userFilesByStatus);
 
-    callback(null, userFilesByStatus);
+    return userFilesByStatus;
 }
 
 module.exports = {

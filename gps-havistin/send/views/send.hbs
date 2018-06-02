@@ -8,7 +8,7 @@
 {{#each userFiles.valid}}
   <li>
     {{this.id}}
-    - {{this.status}}
+    - {{this.segmentCount}} segments, {{this.waypointCount}} waypoints
   </li>
 {{/each}}
 
@@ -17,7 +17,7 @@
 {{#each userFiles.invalid}}
   <li>
     {{this.id}}
-    - {{this.status}}
+    - {{this.segmentCount}} segments, {{this.waypointCount}} waypoints
   </li>
 {{/each}}
 
