@@ -44,6 +44,13 @@ Access using personToken
 - Get the token using Havistin authenticator: https://www.biomi.org/havistin/
 - Go to http://localhost:3000/upload/?person_token=TOKEN
 
+App structure (6/2018):
+- app.js defines the app and uses app-level middleware, mounts router /send
+- send.js listens routes under /send, uses route-level and endpoint-level middleware from middleware.js
+- middleware.js uses modularized functions
+    - lajifi_login.js - Methods to work with api.laji.fi
+    - db_models.js - Methods to work with the database
+
 
 ## Questions
 
@@ -70,7 +77,7 @@ Access using personToken
     - Have a route to send the data
     - Display results, save id to the database
     - Show link to vihko with the files
-
+- Use person token via cookie?
 - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
 - Separate code into reusable modules, use them through middleware. This means making lajifi_login as module, and using that from middleware, which is being used from route. Document this for future code discussions.
 

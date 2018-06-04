@@ -102,8 +102,13 @@ const getUserData = function(personToken, callback) {
     }
 }
 
+const sendFile = function(fileId, personToken, callback) {
+    console.log("FORSSA: " + fileId + ", personToken: " + personToken);
+    callback(null, "FORSBY 2");
+}
 
 module.exports = {
     "log": log,
     "getUserData": getUserData,
+    "sendFile": sendFile,
 }

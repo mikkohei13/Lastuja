@@ -1,7 +1,7 @@
 
 /*
 MIDDLEWARE WRAPPER
-Business logic is in modules, this handles errors and uses the modules in correct order.
+Business logic is in modules, this handles errors.
 Data flows through in the req object.
 */
 
@@ -65,9 +65,20 @@ const getUserFiles = function(req, res, next) {
 
 }
 
+const sendFile = function(req, res, next) {
+
+    lajifi_login.sendFile(req.params.fileId, req.query.person_token, (error, ret) => {
+
+        req.sendFileResponse = ret;
+        console.log(ret);
+        next();
+    })
+}
+
 
 module.exports = {
     "log": log,
     "getUserData": getUserData,
     "getUserFiles": getUserFiles,
+    "sendFile": sendFile
 }

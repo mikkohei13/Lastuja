@@ -10,14 +10,35 @@ router.use(function (req, res, next) {
 });
 */
 
-// These will be used for all URLs within this route
+// Route-level middleware
 router.use(middleware.getUserData);
-router.use(middleware.getUserFiles);
 
 
-/* Under route /send */
-router.get('/', function(req, res, next) {
-  let message = JSON.stringify(req.lajifi.user);
+/* Route /send */
+router.get('/', 
+
+  // Endpoint-level middleware
+  middleware.getUserFiles,
+
+  function(req, res, next) {
+
+    let message = JSON.stringify(req.lajifi.user);
+
+    res.render('send', {
+      title: 'Sendari',
+      message: message,
+      userFiles: req.userFiles
+    });
+  }
+);
+
+/* Route /send/file */
+router.get('/file/:fileId', 
+
+  // Endpoint-level middleware
+  middleware.sendFile,
+
+  function(req, res, next) {
 
   // This should happen on different route
   /*
@@ -26,11 +47,11 @@ router.get('/', function(req, res, next) {
   });
   */
 
-  res.render('send', {
+    res.render('send_file', {
       title: 'Sendari',
-      message: message,
-      userFiles: req.userFiles
+      message: req.sendFileResponse
     });
-});
+  }
+);
 
 module.exports = router;
