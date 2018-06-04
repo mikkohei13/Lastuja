@@ -39,14 +39,7 @@ router.get('/file/:fileId',
   middleware.sendFile,
 
   function(req, res, next) {
-
-  // This should happen on different route
-  /*
-  lajifi_send.sendLajifiDocument("foo", function() {
-    // do nothin' in callback
-  });
-  */
-
+    
     res.render('send_file', {
       title: 'Sendari',
       message: req.sendFileResponse

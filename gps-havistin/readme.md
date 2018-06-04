@@ -46,7 +46,7 @@ Access using personToken
 
 App structure (6/2018):
 - app.js defines the app and uses app-level middleware, mounts router /send
-- send.js listens routes under /send, uses route-level and endpoint-level middleware from middleware.js
+- send.js listens routes under /send, uses route-level and endpoint-level middleware from middleware.js, and forwards data coming from them to view template
 - middleware.js uses modularized functions
     - lajifi_login.js - Methods to work with api.laji.fi
     - db_models.js - Methods to work with the database
@@ -72,10 +72,10 @@ App structure (6/2018):
 - Fetch
     - Save datetime into db
 - Send
-    - Show files
     - Show info about files
-    - Have a route to send the data
-    - Display results, save id to the database
+    - Fix filename/fileid issue
+    - Use fileid or filename from URL to send the file
+    - Display results of sending the file, save id to the database
     - Show link to vihko with the files
 - Use person token via cookie?
 - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models

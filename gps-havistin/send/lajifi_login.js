@@ -49,7 +49,7 @@ const getUserData = function(personToken, callback) {
         console.log("Person token got: " + personToken);
 
         // Get user data from API
-        const endpoint = "https://api.laji.fi/v0/person/" + personToken + "?access_token=" + secrets.accessTokenProd;
+        const endpoint = "https://api.laji.fi/v0/person/" + personToken + "?access_token=" + secrets.lajifiApiToken;
         request.get(
             { 
                 url: endpoint
@@ -104,7 +104,60 @@ const getUserData = function(personToken, callback) {
 
 const sendFile = function(fileId, personToken, callback) {
     console.log("FORSSA: " + fileId + ", personToken: " + personToken);
-    callback(null, "FORSBY 2");
+
+//    const documentJSON = fs.readFileSync("../fetch/files_document_archive/" + fileId);
+    const documentJSON = fs.readFileSync("../fetch/files_document_archive/mytracks_20180217_070424.gpx.json"); // debug, NOTE .json suffix!
+
+    // This expects the file to be already validated using the api. This may break if validation rules have changed since the file was first validated.
+
+    const endpoint = `https://api.laji.fi/v0/documents?access_token=${secrets.lajifiApiToken}&personToken=${personToken}`;
+    console.log("Endpoint: " + endpoint);
+  
+    // TODO: look into how request.post handles JSON vs. objects
+
+    const postData = {
+        url: endpoint,
+        json: JSON.parse(documentJSON)
+    };
+    console.log(JSON.stringify(postData));
+  
+    // Request to validation API
+    request.post(
+        postData,
+        (error, response, body) => {
+            /*
+        let errorValidateLajiString;
+
+        //console.log("VAALIMAA: ");
+        //console.log(body);
+        //      console.log(bodyObject.error);
+
+        if (undefined === body || errorRequestPost !== null) {
+            // Problem with reaching validator
+            errorValidateLajiString = "Error requesting api.laji.fi";
+            functionCallback(errorValidateLajiString);
+        }
+        else if (body.error) {
+            // Validation failed
+            errorValidateLajiString = null;
+            validationResult.validationFailed = true;
+            validationResult.validationMessage = JSON.stringify(body.error);
+            functionCallback(errorValidateLajiString, validationResult);
+        }
+        else {
+            // Validation successful
+            errorValidateLajiString = null;
+            validationResult.validationFailed = false;
+            functionCallback(errorValidateLajiString, validationResult);
+        }
+        */
+        console.log(error);
+    //       console.log(response);
+        console.log(body);
+
+        callback(null, "KS. CONSOLE");
+        },
+    );
 }
 
 module.exports = {
