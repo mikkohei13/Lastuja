@@ -19,13 +19,17 @@ const stringHash = require("string-hash"); // debug
 
 /*
  Database structure
-files: [
+  "files": [
     {
-        filename: "",
-        pluscode: "",
-        stage "gpx, invalid, valid, sent"
+      "id": "test_mytracks_20180226_140839.gpx",
+      "pluscode": "test",
+      "status": "invalid",
+      "validationMessage": "{\"statusCode\":422,\"name\":\"Error\",\"message\":\"Unprocessable Entity\",\"details\":{\"gatherings\":{\"0\":{\"units\":{\"errors\":[\"should NOT have less than 1 items\"]}}}}}",
+      "waypointCount": 0,
+      "segmentCount": 32,
+      "datetime": "2018-06-05T06:50:57.163Z"
     }
-]
+  ]
 
 lajiObject = {
   lajiString:
@@ -44,7 +48,7 @@ db.defaults({ files: [] })
 // Functions
 
 function isDatabased(id) {
-//  return false; // DEBUG; disable database check
+//  return false; // DEBUG; disable database check by uncommenting this
 
   const exists = db.get("files")
     .find({ id }) // TODO: ?? po. id: id ??
@@ -114,40 +118,38 @@ const attachmentObjectHandler = (attachmentObject) => {
     //    console.log("LAHTI: " + lajiObject.lajiString);
 
     validateLajiString(lajiObject.lajiString, (errorValidateLajiString, validationResult) => {
+      const now = new Date();
+      const nowISO = now.toISOString();
+      const fileMeta = {
+        id: attachmentObject.id,
+        pluscode: attachmentObject.pluscode,
+        status: "invalid",
+        validationMessage: validationResult.validationMessage,
+        waypointCount: lajiObject.waypointCount,
+        segmentCount: lajiObject.segmentCount,
+        datetime: nowISO
+      };
+
       if (errorValidateLajiString) {
         winston.info(`Error with validator: ${errorValidateLajiString}`);
         throw new Error(`Error with validator: ${errorValidateLajiString}`);
       }
       else if (validationResult.validationFailed) {
+        fileMeta.status = "invalid";
         // Insert error to database
         db.get("files")
-          .push({
-            id: attachmentObject.id,
-            pluscode: attachmentObject.pluscode,
-            filename: attachmentObject.filename,
-            status: "invalid",
-            validationMessage: validationResult.validationMessage,
-            waypointCount: lajiObject.waypointCount,
-            segmentCount: lajiObject.segmentCount,
-          })
+          .push(fileMeta)
           .write();
         winston.info(`Error creating valid document of file ${attachmentObject.id}: ${validationResult.validationMessage}`);
       }
       else {
+        fileMeta.status = "valid";
         // Insert success to database
         db.get("files")
-          .push({
-            id: attachmentObject.id,
-            pluscode: attachmentObject.pluscode,
-            filename: attachmentObject.filename,
-            status: "valid",
-            validationMessage: lajiObject.validationMessage,
-            waypointCount: lajiObject.waypointCount,
-            segmentCount: lajiObject.segmentCount,
-          })
+          .push(fileMeta)
           .write();
         // ...and write laji.document to disk
-        fs.writeFileSync(`./files_document_archive/${attachmentObject.filename}.json`, lajiObject.lajiString);
+        fs.writeFileSync(`./files_document_archive/${attachmentObject.id}.json`, lajiObject.lajiString);
         winston.info(`File converted into laji-document with hash ${stringHash(lajiObject.lajiString)}`);
       }
     });

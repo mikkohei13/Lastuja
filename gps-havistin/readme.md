@@ -51,7 +51,6 @@ App structure (6/2018):
     - lajifi_login.js - Methods to work with api.laji.fi
     - db_models.js - Methods to work with the database
 
-
 ## Questions
 
 - How to use middleware in all defined routes, but nowhere else? Router-level middleware will be used with nonexistent endpoints (e.g. /uploads/foobar)
@@ -59,21 +58,25 @@ App structure (6/2018):
 - How to organize code into middleware vs. reusable modules? 
 - How generic should modules be, in a) short term, when making a simple system (which will probably grow more complicated over time) vs. long term? E.g. handling errors.
 
-## Expectations
+## Principles and limitations
 
+- Attachment filename + pluscode uniquely identifies the file, i.e. if file with the same filename and pluscode is sent again, it should not be processed.
+- GPX files are stored on disk using the original attachement filenames. Prepending them with pluscodes would be difficult, since pluscode and attachment are read separately, and combined only later (in the organizeFiles function). This could create issues:
+    - If two emails with same attachment name are processed at exactly the same time, they could get mixed. Nor fetch is run only as a single process handling a single file, so it's not a problem.
+    - Currently new attachment with same filename will overwrite previous attachment in gpx-folder, even if coming from different user. (Laji.fi-documents are namespaced between users using pluscodes.) This would be easier to overcome by renaming files using the organizeFiles function (TODO later, if ever).
+- If there is a problem in creating a valid laji-document due to the system malfunctioning (e.g. because validator at api.laji.fi is down), user has to send the file again. Reprocessing is not tried automatically.
+- Only one new attachment is parsed at a time. If there are more attachments, rest of them will have to wait for next time fetch is run.
 - How many file attachments allowed per email? Works at least with one. TEST
 - Only one track per file. TEST
-- Attachment filename + pluscode uniquely identifies the file, i.e. if file with the same filename and pluscode is sent again, it should not be processed.
-- If there is a problem creating a valid laji-document (e.g. because validator at api.laji.fi is down), user has to send the file again. Reprocessing is not tried automatically. TEST
-- Only one new attachment is parsed at a time. If there are more attachments, rest of them will have to wait for next time fetch is run.
 
 ## Todo
 
 - Fetch
-    - Save datetime into db
+    - Map taxon names to codes?
+    - Locality name - Manually at send or at Vihko?
 - Send
-    - Show info about files
-    - Fix filename/fileid issue
+    - Show link to send the file to API, for valid files
+    - (Try sending invalid file)
     - Use fileid or filename from URL to send the file
     - Display results of sending the file, save id to the database
     - Show link to vihko with the files
