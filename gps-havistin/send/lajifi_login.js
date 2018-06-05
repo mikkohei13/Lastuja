@@ -105,8 +105,8 @@ const getUserData = function(personToken, callback) {
 const sendFile = function(fileId, personToken, callback) {
     console.log("FORSSA: " + fileId + ", personToken: " + personToken);
 
-//    const documentJSON = fs.readFileSync("../fetch/files_document_archive/" + fileId);
-    const documentJSON = fs.readFileSync("../fetch/files_document_archive/mytracks_20180217_070424.gpx.json"); // debug, NOTE .json suffix!
+    const documentJSON = fs.readFileSync("../fetch/files_document_archive/" + fileId + ".json");
+//    const documentJSON = fs.readFileSync("../fetch/files_document_archive/mytracks_20180217_070424.gpx.json"); // debug, NOTE .json suffix!
 
     // This expects the file to be already validated using the api. This may break if validation rules have changed since the file was first validated.
 
@@ -125,37 +125,40 @@ const sendFile = function(fileId, personToken, callback) {
     request.post(
         postData,
         (error, response, body) => {
-            /*
-        let errorValidateLajiString;
 
-        //console.log("VAALIMAA: ");
-        //console.log(body);
-        //      console.log(bodyObject.error);
+            if (error) {
+                // Generic error
+                console.log("POSTing to APi failed with error: " + error);
+                callback(error);
+            }
+            else if (undefined === body) {
+                // Problem with reaching validator
+                console.log("Error reaching " + endpoint);
+                callback("Error reaching " + endpoint);
+            }
+            else if (body.error) {
+                // Validation or save failed
+                console.log("Error saving into laji.fi: " + JSON.stringify(body.error));
+                callback("Error saving into laji.fi: " + JSON.stringify(body.error));
+            }
+            else {
+                // Success
+                console.log("Successfully saved into laji.fi");
+                console.log(body);
 
-        if (undefined === body || errorRequestPost !== null) {
-            // Problem with reaching validator
-            errorValidateLajiString = "Error requesting api.laji.fi";
-            functionCallback(errorValidateLajiString);
-        }
-        else if (body.error) {
-            // Validation failed
-            errorValidateLajiString = null;
-            validationResult.validationFailed = true;
-            validationResult.validationMessage = JSON.stringify(body.error);
-            functionCallback(errorValidateLajiString, validationResult);
-        }
-        else {
-            // Validation successful
-            errorValidateLajiString = null;
-            validationResult.validationFailed = false;
-            functionCallback(errorValidateLajiString, validationResult);
-        }
-        */
-        console.log(error);
-    //       console.log(response);
-        console.log(body);
-
-        callback(null, "KS. CONSOLE");
+                // Don't trust that reponse is valid JSON
+                // TODO: What if api responds ok with unexpected JSON?
+                callback(null, body);
+/*
+                try {
+                    bodyObject = JSON.parse(body);
+                    callback(null, bodyObject);
+                }
+                catch (jsonParseError) {
+                    callback("Successfully saved, but API returned invalid response.");
+                }
+*/                
+            }
         },
     );
 }

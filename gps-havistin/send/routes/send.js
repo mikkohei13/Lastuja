@@ -40,9 +40,14 @@ router.get('/file/:fileId',
 
   function(req, res, next) {
     
+//    console.log("RISTIINA: " + JSON.stringify(req.lajifi)); // person_token is not here
+
     res.render('send_file', {
       title: 'Sendari',
-      message: req.sendFileResponse
+      vihkoFileId: req.sendFileResponse.id,
+      vihkoFileLink: "https://laji.fi/vihko/JX.519/" + req.sendFileResponse.id,
+      sendFileResponse: req.sendFileResponse,
+      person_token: req.query.person_token
     });
   }
 );

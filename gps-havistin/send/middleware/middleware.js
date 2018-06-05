@@ -59,6 +59,12 @@ const getUserFiles = function(req, res, next) {
     pluscode = "test"; // debug
     
     db_models.getUserFiles(pluscode, (error, ret) => {
+
+        if (error) {
+            res.send("Error when fething your files: " + error);
+            console.log("Error x1");
+        }
+ 
         req.userFiles = ret;
         next();
     });
@@ -69,8 +75,12 @@ const sendFile = function(req, res, next) {
 
     lajifi_login.sendFile(req.params.fileId, req.query.person_token, (error, ret) => {
 
+        if (error) {
+            res.send("Error when trying to save to laji.fi: " + error + "<br/>Please go back and try again.");
+            console.log("Error x2");
+        }
+        
         req.sendFileResponse = ret;
-        console.log(ret);
         next();
     })
 }

@@ -53,6 +53,7 @@ App structure (6/2018):
 
 ## Questions
 
+- How user input is / should be sanitized in node? 
 - How to use middleware in all defined routes, but nowhere else? Router-level middleware will be used with nonexistent endpoints (e.g. /uploads/foobar)
 - How to organize an app, which has two parts: one called by cronjob, other being an express app serving web pages (or an API). Both use the same database, and potentially same database abstraction module.
 - How to organize code into middleware vs. reusable modules? 
@@ -74,13 +75,12 @@ App structure (6/2018):
 - Fetch
     - Map taxon names to codes?
     - Locality name - Manually at send or at Vihko?
+    - Sanitize file names, so that they can be used as get param
 - Send
-    - Change variable name fileId -> fileName (which acts as file id)
+    - Understand parsing json from api: body-parser module?
     - Show link to send the file to API, for valid files
     - (Try sending invalid file)
-    - Use fileid or filename from URL to send the file
-    - Display results of sending the file, save id to the database
-    - Show link to vihko with the files
+    - After successfully saved into laji.fi, save id to the database
 - Use person token via cookie?
 - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
 - Separate code into reusable modules, use them through middleware. This means making lajifi_login as module, and using that from middleware, which is being used from route. Document this for future code discussions.
