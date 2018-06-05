@@ -75,6 +75,7 @@ App structure (6/2018):
     - Map taxon names to codes?
     - Locality name - Manually at send or at Vihko?
 - Send
+    - Change variable name fileId -> fileName (which acts as file id)
     - Show link to send the file to API, for valid files
     - (Try sending invalid file)
     - Use fileid or filename from URL to send the file
