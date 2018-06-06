@@ -22,12 +22,13 @@ router.get('/',
 
   function(req, res, next) {
 
-    let message = JSON.stringify(req.lajifi.user);
+    let message = JSON.stringify(req.lajifi.user); // debug
 
     res.render('send', {
       title: 'Sendari',
       message: message,
-      userFiles: req.userFiles
+      userFiles: req.userFiles,
+      person_token: req.query.person_token
     });
   }
 );
