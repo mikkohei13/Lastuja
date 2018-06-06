@@ -103,7 +103,7 @@ const getUserData = function(personToken, callback) {
 }
 
 const sendFile = function(fileId, personToken, callback) {
-    console.log("FORSSA: " + fileId + ", personToken: " + personToken);
+    console.log("FORSSA: " + fileId + ", personToken: " + personToken); // debug
 
     const documentJSON = fs.readFileSync("../fetch/files_document_archive/" + fileId + ".json");
 //    const documentJSON = fs.readFileSync("../fetch/files_document_archive/mytracks_20180217_070424.gpx.json"); // debug, NOTE .json suffix!

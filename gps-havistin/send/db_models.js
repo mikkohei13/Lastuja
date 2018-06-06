@@ -18,13 +18,13 @@ const db = lowdb(adapter);
 const getUserFiles = function getUserFiles(pluscode, callback) {
 
     // TODO: maybe organize files here by status??
+    // TODO: error handling
 
     const userFiles = db.get("files")
-    .filter({ pluscode: pluscode })
-    .sortBy('filename')
-    .take(100)
-    .value();
-
+        .filter({ pluscode: pluscode })
+        .sortBy('filename')
+        .take(100)
+        .value();
 
     callback(null, organizeUserFilesByStatus(userFiles));
 }
@@ -49,6 +49,18 @@ const organizeUserFilesByStatus = function organizeUserFilesByStatus(userFiles) 
     return userFilesByStatus;
 }
 
+const setFileAsSent = function setFileAsSent(fileId) {
+    // TODO: error handling
+
+    db.get('files')
+        .find({ id: fileId })
+        .assign({ status: 'sent'})
+        .write();
+
+    return true;
+}
+
 module.exports = {
-    "getUserFiles": getUserFiles
+    "getUserFiles": getUserFiles,
+    "setFileAsSent": setFileAsSent
 }

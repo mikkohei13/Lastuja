@@ -79,9 +79,14 @@ const sendFile = function(req, res, next) {
             res.send("Error when trying to save to laji.fi: " + error + "<br/>Please go back and try again.");
             console.log("Error x2");
         }
-        
-        req.sendFileResponse = ret;
-        next();
+        else {
+            req.sendFileResponse = ret;
+
+            db_models.setFileAsSent(req.params.fileId);
+
+            next();
+        }
+
     })
 }
 

@@ -72,15 +72,18 @@ App structure (6/2018):
 
 ## Todo
 
+- Refactor error handling in laji_login into a function (later?)
+- Use Winston throughout the application
+- Better names, e.g. lajifi_login -> lajifi
 - Fetch
     - Map taxon names to codes?
     - Locality name - Manually at send or at Vihko?
     - Sanitize file names, so that they can be used as get param
 - Send
     - Understand parsing json from api: body-parser module?
-    - Show link to send the file to API, for valid files
     - (Try sending invalid file)
-    - After successfully saved into laji.fi, save id to the database
+    - After successfully saved into laji.fi, save laji.fi document id to the database
+    - Show document id on send page
 - Use person token via cookie?
 - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
 - Separate code into reusable modules, use them through middleware. This means making lajifi_login as module, and using that from middleware, which is being used from route. Document this for future code discussions.
