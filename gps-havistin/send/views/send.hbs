@@ -1,8 +1,8 @@
-<h1>Send - {{title}}</h1>
-<p>This is {{title}}</p>
-<p>{{message}}</p>
-<p>{{userData}}</p>
+<h1>Havistin</h1>
 
+<p>Send your GPX-files to <a href="mailto:{{secretEmail}}" class="secret email">{{secretEmail}}</a>. Keep the address private to you, all GPX-files sent to it will be visible here!</p>
+
+<div id="files">
 <h4>Valid unsent files:</h4>
 <ul>
 {{#each userFiles.valid}}
@@ -10,6 +10,8 @@
     {{this.id}}
     - {{this.segmentCount}} segments, {{this.waypointCount}} waypoints <a href="/send/file/{{this.id}}?person_token={{../person_token}}" class="button send vihko">send this to Vihko</a>
   </li>
+{{else}}
+  <li>No files.</li>
 {{/each}}
 </ul>
 <h4>Invalid files:</h4>
@@ -17,8 +19,10 @@
 {{#each userFiles.invalid}}
   <li>
     {{this.id}}
-    - {{this.segmentCount}} segments, {{this.waypointCount}} waypoints
+    - {{this.segmentCount}} segments, {{this.waypointCount}} waypoints - {{validationMessage}}
   </li>
+{{else}}
+  <li>No files.</li>
 {{/each}}
 </ul>
 <h4>Sent files:</h4>
@@ -28,5 +32,16 @@
     {{this.id}}
     - {{this.segmentCount}} segments, {{this.waypointCount}} waypoints <a href="https://laji.fi/vihko/JX.519/{{this.vihkoFileId}}" class="button edit vihko">edit on Vihko</a>
   </li>
+{{else}}
+  <li>No files.</li>
 {{/each}}
 </ul>
+</div>
+
+<hr />
+
+<div id="personalData">
+<h4>Personal data about you from Laji.fi:</h4>
+<p>{{personalDataJSON}}</p>
+<p>If there is an error, please fix it at Laji.fi. If you wish your data to be removed from Havistin, email to hiha(ät)biomi.org.</p>
+</div>

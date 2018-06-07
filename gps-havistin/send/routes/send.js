@@ -13,20 +13,19 @@ router.use(function (req, res, next) {
 // Route-level middleware
 router.use(middleware.getUserData);
 
-
 /* Route /send */
 router.get('/', 
 
-  // Endpoint-level middleware
+  // Endpoint-level middleware functions
   middleware.getUserFiles,
 
   function(req, res, next) {
 
-    let message = JSON.stringify(req.lajifi.user); // debug
+    let personalDataJSON = JSON.stringify(req.lajifi.user); // debug
 
     res.render('send', {
-      title: 'Sendari',
-      message: message,
+      personalDataJSON: personalDataJSON,
+      secretEmail: req.lajifi.user.secretEmail,
       userFiles: req.userFiles,
       person_token: req.query.person_token
     });
@@ -36,7 +35,7 @@ router.get('/',
 /* Route /send/file */
 router.get('/file/:fileId', 
 
-  // Endpoint-level middleware
+  // Endpoint-level middleware functions
   middleware.sendFile,
 
   function(req, res, next) {
@@ -44,7 +43,6 @@ router.get('/file/:fileId',
 //    console.log("RISTIINA: " + JSON.stringify(req.lajifi)); // person_token is not here
 
     res.render('send_file', {
-      title: 'Sendari',
       vihkoFileId: req.sendFileResponse.id,
       sendFileResponse: req.sendFileResponse,
       person_token: req.query.person_token

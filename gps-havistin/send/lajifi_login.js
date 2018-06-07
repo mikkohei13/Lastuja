@@ -82,9 +82,13 @@ const getUserData = function(personToken, callback) {
                     const lajifi = {};
                     lajifi.user = apiBodyObject;
 
+                    // All ok
                     if (plusCodes[lajifi.user.id] != undefined) {
+
+                        // Pluscode and email
                         lajifi.user.pluscode = plusCodes[lajifi.user.id];
-                        
+                        lajifi.user.secretEmail = secrets.email.prefix + "+" + lajifi.user.pluscode + secrets.email.domain;
+
                         console.log("Calling callback with " + lajifi);
                         callback(null, lajifi);
                     }

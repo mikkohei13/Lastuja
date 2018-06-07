@@ -72,7 +72,8 @@ App structure (6/2018):
 
 ## Todo
 
-- Refactor error handling in laji_login into a function (later?)
+- Proper logout
+- Linting
 - Use Winston throughout the application
 - Better names, e.g. lajifi_login -> lajifi
 - Fetch
@@ -82,14 +83,19 @@ App structure (6/2018):
 - Send
     - Understand parsing json from api: body-parser module?
     - (Try sending invalid file)
-- Use person token via cookie, using session module?
 - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
 - Separate code into reusable modules, use them through middleware. This means making lajifi_login as module, and using that from middleware, which is being used from route. Document this for future code discussions.
 
 For production
-- Use production-ready session store
+- Use person token via cookie, using session module?
+    - Use production-ready session store
 - Sanitize user input?
 - GDPR requirements
+- Refactor error handling in laji_login into a function (Is this valuable? Different logick in error handling? Use promises instead?)
+
+Later
+- Promises instead of callbacks, with sane error handling
+
 
 ### FETCH
 - Email validation results
