@@ -1,6 +1,6 @@
 <h1>Havistin</h1>
 
-<p>Send your GPX-files to <a href="mailto:{{secretEmail}}" class="secret email">{{secretEmail}}</a>. Keep the address private to you, all GPX-files sent to it will be visible here!</p>
+<p>Send your GPX-files to <a href="mailto:{{secretEmail}}" class="secret email">{{secretEmail}}</a>. This address is personal for you - keep it private! All GPX-files sent to it will be visible here on your account.</p>
 
 <div id="files">
 <h4>Valid unsent files:</h4>
@@ -30,7 +30,7 @@
 {{#each userFiles.sent}}
   <li>
     {{this.id}}
-    - {{this.segmentCount}} segments, {{this.waypointCount}} waypoints <a href="https://laji.fi/vihko/JX.519/{{this.vihkoFileId}}" class="button edit vihko">edit on Vihko</a>
+    - {{this.segmentCount}} segments, {{this.waypointCount}} waypoints <a href="https://laji.fi/vihko/JX.519/{{this.vihkoFileId}}" class="button edit vihko">edit on Vihko</a> <span class="divider">|</span> <a href="/send/file/{{this.id}}?person_token={{../person_token}}" class="button send again vihko">send this again to Vihko</a>
   </li>
 {{else}}
   <li>No files.</li>

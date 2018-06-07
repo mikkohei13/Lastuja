@@ -14,14 +14,7 @@ const fs = require('fs');
 // -----------------------------------------------------------
 // Setup
 
-
 const plusCodes = secrets.plusCodes;
-/*
-{
-    "MA.3" : "cehmic",
-    "MA.0" : "testtest"
-}
-*/
 
 // -----------------------------------------------------------
 // Functions

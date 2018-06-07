@@ -34,13 +34,17 @@ This should be run by a cronjob, e.g. every 10 minutes. (Does Gmail set limits o
 
 Run sender from the `send` directory:
 
-    DEBUG=send:* npm start
+    nodemon DEBUG=send:* npm start
 
 or:
 
     DEBUG=search:* nodemon ./bin/www
 
-Access using personToken
+Linting:
+
+    ./node_modules/.bin/eslint ./send/FILENAME
+
+Access using personToken:
 - Get the token using Havistin authenticator: https://www.biomi.org/havistin/
 - Go to http://localhost:3000/upload/?person_token=TOKEN
 
