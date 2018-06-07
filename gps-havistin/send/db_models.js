@@ -15,55 +15,53 @@ const db = lowdb(adapter);
 // -----------------------------------------------------------
 // Functions
 
-const getUserFiles = function getUserFiles(pluscode, callback) {
-
-    // TODO: maybe organize files here by status??
-    // TODO: error handling
-
-    const userFiles = db.get("files")
-        .filter({ pluscode: pluscode })
-        .sortBy('filename')
-        .take(100)
-        .value();
-
-    callback(null, organizeUserFilesByStatus(userFiles));
-}
-
 // TODO: create another function that returns userfiles by status, calling getuserfiles.
 // ?? Should these be sync instead of async?
 
 const organizeUserFilesByStatus = function organizeUserFilesByStatus(userFiles) {
+  const userFilesByStatus = {
+    valid: [],
+    invalid: [],
+    sent: [],
+  };
 
-    const userFilesByStatus = {
-        valid: [],
-        invalid: [],
-        sent: []
-    };
+  userFiles.forEach((file) => {
+    userFilesByStatus[file.status].push(file);
+  });
 
-    userFiles.forEach((file) => {
-        userFilesByStatus[file.status].push(file);
-    });
+  console.log(userFilesByStatus);
 
-    console.log(userFilesByStatus);
+  return userFilesByStatus;
+};
 
-    return userFilesByStatus;
-}
+const getUserFiles = function getUserFiles(pluscode, callback) {
+  // TODO: maybe organize files here by status??
+  // TODO: error handling
+
+  const userFiles = db.get("files")
+    .filter({ pluscode: pluscode })
+    .sortBy("filename")
+    .take(100)
+    .value();
+
+  callback(null, organizeUserFilesByStatus(userFiles));
+};
 
 const setFileAsSent = function setFileAsSent(fileId, vihkoFileId) {
-    // TODO: error handling
+  // TODO: error handling
 
-    db.get('files')
-        .find({ id: fileId })
-        .assign({ 
-            status: 'sent',
-            vihkoFileId: vihkoFileId
-        })
-        .write();
+  db.get("files")
+    .find({ id: fileId })
+    .assign({
+      status: "sent",
+      vihkoFileId: vihkoFileId,
+    })
+    .write();
 
-    return true;
-}
+  return true;
+};
 
 module.exports = {
-    "getUserFiles": getUserFiles,
-    "setFileAsSent": setFileAsSent
-}
+  getUserFiles: getUserFiles,
+  setFileAsSent: setFileAsSent,
+};

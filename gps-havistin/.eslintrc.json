@@ -8,6 +8,7 @@
         "indent": [2, 2],
         "no-console": [0],
         "prefer-destructuring": [0],
-        "spaced-comment": [0]
+        "spaced-comment": [0],
+        "object-shorthand": [0]
     }
 }
