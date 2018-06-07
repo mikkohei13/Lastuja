@@ -49,12 +49,15 @@ const organizeUserFilesByStatus = function organizeUserFilesByStatus(userFiles) 
     return userFilesByStatus;
 }
 
-const setFileAsSent = function setFileAsSent(fileId) {
+const setFileAsSent = function setFileAsSent(fileId, vihkoFileId) {
     // TODO: error handling
 
     db.get('files')
         .find({ id: fileId })
-        .assign({ status: 'sent'})
+        .assign({ 
+            status: 'sent',
+            vihkoFileId: vihkoFileId
+        })
         .write();
 
     return true;

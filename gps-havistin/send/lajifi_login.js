@@ -149,6 +149,40 @@ const sendFile = function(fileId, personToken, callback) {
                 // Don't trust that reponse is valid JSON
                 // TODO: What if api responds ok with unexpected JSON?
                 callback(null, body);
+
+                /*
+                Example body:
+
+                {
+                    creator: 'MA.3',
+                    gatheringEvent: 
+                    { legPublic: true,
+                        leg: [ 'MA.3' ],
+                        dateBegin: '2018-02-17',
+                        id: 'JX.47678#1',
+                        '@type': 'MZ.gatheringEvent' },
+                    formID: 'JX.519',
+                    editors: [ 'MA.3' ],
+                    secureLevel: 'MX.secureLevelNone',
+                    gatherings: 
+                    [ { units: [Array],
+                        geometry: [Object],
+                        notes: 'Route from 2018-02-17 07:04 (parsed by gpx2laji on 2018-06-05T07:02:07.817Z)',
+                        id: 'JX.47678#2',
+                        '@type': 'MY.gathering' } ],
+                    keywords: [ 'havistin', 'gpx' ],
+                    publicityRestrictions: 'MZ.publicityRestrictionsPublic',
+                    sourceID: 'KE.661',
+                    collectionID: 'HR.1747',
+                    editor: 'MA.3',
+                    dateEdited: '2018-06-07T01:00:11+03:00',
+                    dateCreated: '2018-06-07T01:00:11+03:00',
+                    id: 'JX.47678',
+                    '@type': 'MY.document',
+                    '@context': 'http://schema.laji.fi/context/document.jsonld'
+                }
+
+                */
 /*
                 try {
                     bodyObject = JSON.parse(body);

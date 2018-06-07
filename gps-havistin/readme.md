@@ -82,11 +82,14 @@ App structure (6/2018):
 - Send
     - Understand parsing json from api: body-parser module?
     - (Try sending invalid file)
-    - After successfully saved into laji.fi, save laji.fi document id to the database
-    - Show document id on send page
-- Use person token via cookie?
+- Use person token via cookie, using session module?
 - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
 - Separate code into reusable modules, use them through middleware. This means making lajifi_login as module, and using that from middleware, which is being used from route. Document this for future code discussions.
+
+For production
+- Use production-ready session store
+- Sanitize user input?
+- GDPR requirements
 
 ### FETCH
 - Email validation results

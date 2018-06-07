@@ -82,7 +82,7 @@ const sendFile = function(req, res, next) {
         else {
             req.sendFileResponse = ret;
 
-            db_models.setFileAsSent(req.params.fileId);
+            db_models.setFileAsSent(req.params.fileId, ret.id);
 
             next();
         }

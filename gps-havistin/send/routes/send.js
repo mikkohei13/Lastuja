@@ -46,7 +46,6 @@ router.get('/file/:fileId',
     res.render('send_file', {
       title: 'Sendari',
       vihkoFileId: req.sendFileResponse.id,
-      vihkoFileLink: "https://laji.fi/vihko/JX.519/" + req.sendFileResponse.id,
       sendFileResponse: req.sendFileResponse,
       person_token: req.query.person_token
     });

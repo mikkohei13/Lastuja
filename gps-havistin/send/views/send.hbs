@@ -8,7 +8,7 @@
 {{#each userFiles.valid}}
   <li>
     {{this.id}}
-    - {{this.segmentCount}} segments, {{this.waypointCount}} waypoints [<a href="/send/file/{{this.id}}?person_token={{../person_token}}">SEND THIS</a>]
+    - {{this.segmentCount}} segments, {{this.waypointCount}} waypoints <a href="/send/file/{{this.id}}?person_token={{../person_token}}" class="button send vihko">send this to Vihko</a>
   </li>
 {{/each}}
 </ul>
@@ -26,7 +26,7 @@
 {{#each userFiles.sent}}
   <li>
     {{this.id}}
-    - {{this.segmentCount}} segments, {{this.waypointCount}} waypoints
+    - {{this.segmentCount}} segments, {{this.waypointCount}} waypoints <a href="https://laji.fi/vihko/JX.519/{{this.vihkoFileId}}" class="button edit vihko">edit on Vihko</a>
   </li>
 {{/each}}
 </ul>
