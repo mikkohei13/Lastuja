@@ -118,6 +118,7 @@ App structure (6/2018):
     - Viestin body documentin notesiin
 - Send
     - Use error template for errors, or disable error template
+    - Manually mark file as unsent
 
 
 ## Notes
