@@ -1,5 +1,7 @@
+System to save nature observations captured by GPX tracker to FinBIF/laji.fi.
 
-## Toimintalogiikka
+
+## Logic (in Finnish)
 
 - Käyttäjälle luodaan MA-tunnisteeseen liitetty +tunniste meiliosoitteeseen liitettäväksi
 - Käyttäjä lähettää gpx:n tiedostona ko. osoitteeseen
@@ -22,6 +24,12 @@
 - Systeemi näyttää linkin, josta pääsee dokumenttiin Vihkossa
 - Käyttäjä täydentää dokumentin ja tallentaa
 
+## BOTH
+
+Linting:
+
+    ./node_modules/.bin/eslint ./send/FILENAME
+
 ## FETCH
 
 Run fetcher from the `fetch` directory, with settings in nodemon.json:
@@ -39,10 +47,6 @@ Run sender from the `send` directory:
 or:
 
     DEBUG=search:* nodemon ./bin/www
-
-Linting:
-
-    ./node_modules/.bin/eslint ./send/FILENAME
 
 Access using personToken:
 - Get the token using Havistin authenticator: https://www.biomi.org/havistin/
@@ -76,54 +80,45 @@ App structure (6/2018):
 
 ## Todo
 
+## Soon
 - Proper logout
-- Linting
 - Remove linter from fetch, update readme accordingly
 - Use Winston throughout the application
 - Better names, e.g. lajifi_login -> lajifi
 - Fetch
+    - Email validation results
     - Map taxon names to codes?
         - key taxonID
         - API https://api.laji.fi/v0/taxa/search?query=TAXONNAME&limit=1&matchType=exact&onlySpecies=false&onlyFinnish=false&onlyInvasive=false&access_token=APITOKEN
     - Sanitize file names, so that they can be used as get param
+    - Locality name from GPX
+    - Test
+        - Viesti lähetetty useisiin osoitteisiin
+        - Liitteenä jokin muu kuin gpx
+        - Liitteenä malformed gpx
 - Send
     - Understand parsing json from api: body-parser module?
     - (Try sending invalid file)
 - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
 - Separate code into reusable modules, use them through middleware. This means making lajifi_login as module, and using that from middleware, which is being used from route. Document this for future code discussions.
+- Sanitize user input?
 
-For production
+### Later
+- Automatic linting
+- Testing
+- Debugging w/ debug module
 - Use person token via cookie, using session module?
     - Use production-ready session store
-- Sanitize user input?
 - GDPR requirements
-- Refactor error handling in laji_login into a function (Is this valuable? Different logick in error handling? Use promises instead?)
-
-Later
 - Promises instead of callbacks, with sane error handling
+- Save date to db, show on front page
+- Styling
+- Fetch
+    - Käsitellyn (=validoidun) viestin poisto Gmailin inboxista
+    - Viestin body documentin notesiin
+- Send
+    - Use error template for errors, or disable error template
 
-
-### FETCH
-- Email validation results
-- Viestin body documentin notesiin
-- Käsitellyn (=validoidun) viestin poisto Gmailin inboxista
-- Debugging w/ debug module
-- Better error handling
-- gpx-document -parserista voisi tehdä npm-moduulin
-
-- Test
-   - Viesti lähetetty useisiin osoitteisiin
-   - Liitteenä jokin muu kuin gpx
-   - Liitteenä malformed gpx
-
-#### SEND
-- Vihkoon tallennus -käli
-- Use error template for errors, or disable error template
-- UI w/ express
-- Login w/ havistin-PHP
-- List your unsent files
-- Lajinimet eivät tunnistaudu Vihkossa - käyttäjän pitää klikata jokaista havaintoa saadakseen nimen tunnistetuksi. Toistaiseksi ok, pakottaa tarkistamaan havainnot.
-- Ei paikannimeä - käyttäjän pitää lisätä paikannimet itse Vihkossa
 
 ## Notes
 

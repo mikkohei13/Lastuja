@@ -24,7 +24,8 @@ const stringHash = require("string-hash"); // debug
       "id": "test_mytracks_20180226_140839.gpx",
       "pluscode": "test",
       "status": "invalid",
-      "validationMessage": "{\"statusCode\":422,\"name\":\"Error\",\"message\":\"Unprocessable Entity\",\"details\":{\"gatherings\":{\"0\":{\"units\":{\"errors\":[\"should NOT have less than 1 items\"]}}}}}",
+      "validationMessage": "{\"statusCode\":422,\"name\":\"Error\",\"message\":\"Unprocessable Entity\",
+        \"details\":{\"gatherings\":{\"0\":{\"units\":{\"errors\":[\"should NOT have less than 1 items\"]}}}}}",
       "waypointCount": 0,
       "segmentCount": 32,
       "datetime": "2018-06-05T06:50:57.163Z"
@@ -127,7 +128,7 @@ const attachmentObjectHandler = (attachmentObject) => {
         validationMessage: validationResult.validationMessage,
         waypointCount: lajiObject.waypointCount,
         segmentCount: lajiObject.segmentCount,
-        datetime: nowISO
+        datetime: nowISO,
       };
 
       if (errorValidateLajiString) {
