@@ -5,7 +5,7 @@ Business logic is in modules, this handles errors.
 Data flows through in the req object.
 */
 
-const lajifiLogin = require("../lajifi_login");
+const lajifiApi = require("../lajifi_api");
 const DbModels = require("../db_models");
 
 // -----------------------------------------------------------
@@ -23,7 +23,7 @@ const log = function log(req, res, next) {
 // ??: if there is a problem, should the lajifi module handle it, or just return error type and let it be handled here?
 // If the module should be generic, just return the error.
 const getUserData = function getUserData(req, res, next) {
-  lajifiLogin.getUserData(req.query.person_token, (error, lajifi) => {
+  lajifiApi.getUserData(req.query.person_token, (error, lajifi) => {
     // Error handling
     if (error) {
       console.log(error.message);
@@ -62,7 +62,7 @@ const getUserFiles = function getUserFiles(req, res, next) {
 };
 
 const sendFile = function sendFile(req, res, next) {
-  lajifiLogin.sendFile(req.params.fileId, req.query.person_token, (error, ret) => {
+  lajifiApi.sendFile(req.params.fileId, req.query.person_token, (error, ret) => {
     if (error) {
       res.send(`Error when trying to save to laji.fi: ${error}<br/>Please go back and try again.`);
       console.log("Error x2");

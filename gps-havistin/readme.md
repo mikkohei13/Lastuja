@@ -56,7 +56,7 @@ App structure (6/2018):
 - app.js defines the app and uses app-level middleware, mounts router /send
 - send.js listens routes under /send, uses route-level and endpoint-level middleware from middleware.js, and forwards data coming from them to view template
 - middleware.js uses modularized functions
-    - lajifi_login.js - Methods to work with api.laji.fi
+    - lajifi_api.js - Methods to work with api.laji.fi
     - db_models.js - Methods to work with the database
 
 ## Questions
@@ -84,7 +84,6 @@ App structure (6/2018):
 - Proper logout
 - Remove linter from fetch, update readme accordingly
 - Use Winston throughout the application
-- Better names, e.g. lajifi_login -> lajifi
 - Fetch
     - Email validation results
     - Map taxon names to codes?
@@ -101,7 +100,7 @@ App structure (6/2018):
     - (Try sending invalid file)
     - !!! Save sent id's into an array (will make easier to allow multiple sends in the future)
 - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
-- Separate code into reusable modules, use them through middleware. This means making lajifi_login as module, and using that from middleware, which is being used from route. Document this for future code discussions.
+- Separate code into reusable modules, use them through middleware. This means making lajifi_api as module, and using that from middleware, which is being used from route. Document this for future code discussions.
 - Sanitize user input?
 
 ### Later
