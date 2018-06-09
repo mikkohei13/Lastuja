@@ -78,11 +78,13 @@ App structure (6/2018):
 
 - Proper logout
 - Linting
+- Remove linter from fetch, update readme accordingly
 - Use Winston throughout the application
 - Better names, e.g. lajifi_login -> lajifi
 - Fetch
     - Map taxon names to codes?
-    - Locality name - Manually at send or at Vihko?
+        - key taxonID
+        - API https://api.laji.fi/v0/taxa/search?query=TAXONNAME&limit=1&matchType=exact&onlySpecies=false&onlyFinnish=false&onlyInvasive=false&access_token=APITOKEN
     - Sanitize file names, so that they can be used as get param
 - Send
     - Understand parsing json from api: body-parser module?

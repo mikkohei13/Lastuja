@@ -23,6 +23,7 @@ router.get("/", // eslint-disable-line function-paren-newline
     const personalDataJSON = JSON.stringify(req.lajifi.user); // debug
 
     res.render("send", {
+      title: "Havistin - Main page",
       personalDataJSON,
       secretEmail: req.lajifi.user.secretEmail,
       userFiles: req.userFiles,
@@ -41,6 +42,7 @@ router.get("/file/:fileId", // eslint-disable-line function-paren-newline
     //    console.log("RISTIINA: " + JSON.stringify(req.lajifi)); // person_token is not here
 
     res.render("send_file", {
+      title: "Havistin - File sent",
       vihkoFileId: req.sendFileResponse.id,
       sendFileResponse: req.sendFileResponse,
       person_token: req.query.person_token,
