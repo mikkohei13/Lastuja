@@ -99,6 +99,7 @@ App structure (6/2018):
 - Send
     - Understand parsing json from api: body-parser module?
     - (Try sending invalid file)
+    - !!! Save sent id's into an array (will make easier to allow multiple sends in the future)
 - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
 - Separate code into reusable modules, use them through middleware. This means making lajifi_login as module, and using that from middleware, which is being used from route. Document this for future code discussions.
 - Sanitize user input?
