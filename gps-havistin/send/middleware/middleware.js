@@ -28,8 +28,9 @@ const getUserData = function getUserData(req, res, next) {
   lajifiApi.getUserData(req.query.person_token, (error, lajifi) => {
     // Error handling
     if (error) {
-      winston.error(`Error getting user data: ${error.message}`); // ABBA
-      if (error.type === "no-persontoken") {
+      winston.error(`Error getting user data: ${error.message}`);
+
+      if (error.type === "no-persontoken" || error.type === "api-token-error") {
         res.redirect("https://www.biomi.org/havistin/");
       }
       else {
@@ -37,6 +38,8 @@ const getUserData = function getUserData(req, res, next) {
       }
     }
     else {
+      winston.info(`Got user data: ${lajifi}`);
+
       req.lajifi = lajifi;
       next();
     }
@@ -44,8 +47,6 @@ const getUserData = function getUserData(req, res, next) {
 };
 
 const getUserFiles = function getUserFiles(req, res, next) {
-//    console.log("HERE X:" + JSON.stringify( req.lajifi ));
-
   // TODO: better variable names, e.g. lajifi -> userData, or can it contain other info also?
 
   let pluscode;
@@ -54,10 +55,11 @@ const getUserFiles = function getUserFiles(req, res, next) {
 
   DbModels.getUserFiles(pluscode, (error, ret) => {
     if (error) {
+      winston.error(`Error fetching files: ${error}`);
       res.send(`Error when fething your files: ${error}`);
-      console.log("Error x1");
     }
 
+    winston.info(`Fetched files: ${ret}`);
     req.userFiles = ret;
     next();
   });
@@ -66,12 +68,14 @@ const getUserFiles = function getUserFiles(req, res, next) {
 const sendFile = function sendFile(req, res, next) {
   lajifiApi.sendFile(req.params.fileId, req.query.person_token, (error, ret) => {
     if (error) {
+      winston.error(`Error when trying to save to laji.fi: ${error}`);      
+
       res.send(`Error when trying to save to laji.fi: ${error}<br/>Please go back and try again.`);
-      console.log("Error x2");
     }
     else {
-      req.sendFileResponse = ret;
+      winston.info(`Sent file: ${ret}`);      
 
+      req.sendFileResponse = ret;
       DbModels.setFileAsSent(req.params.fileId, ret.id);
 
       next();
