@@ -1,6 +1,5 @@
 
 const winston = require("winston");
-
 winston.add(winston.transports.File, { filename: "../logs/fetch.log" });
 
 const fs = require("fs");
@@ -67,7 +66,6 @@ const validateLajiString = (lajiString, functionCallback) => {
   const validationEndpoint = `https://api.laji.fi/v0/documents/validate?type=error&lang=en&validationErrorFormat=object&access_token=${secrets.lajifiApiToken}`;
   const validationResult = {};
 
-  //  console.log("LAHTIx2: " + lajiString);
   // TODO: look into how request.post handles JSON vs. objects
 
   // Request to validation API
@@ -78,10 +76,6 @@ const validateLajiString = (lajiString, functionCallback) => {
     },
     (errorRequestPost, response, body) => {
       let errorValidateLajiString;
-
-      //console.log("VAALIMAA: ");
-      //console.log(body);
-      //      console.log(bodyObject.error);
 
       if (undefined === body || errorRequestPost !== null) {
         // Problem with reaching validator
@@ -116,7 +110,6 @@ const attachmentObjectHandler = (attachmentObject) => {
     // NOW WE HAVE LAJI-DOCUMENT in lajiObject
 
     // TODO: display lajiObject metadata here
-    //    console.log("LAHTI: " + lajiObject.lajiString);
 
     validateLajiString(lajiObject.lajiString, (errorValidateLajiString, validationResult) => {
       const now = new Date();
@@ -132,7 +125,7 @@ const attachmentObjectHandler = (attachmentObject) => {
       };
 
       if (errorValidateLajiString) {
-        winston.info(`Error with validator: ${errorValidateLajiString}`);
+        winston.error(`Error with validator: ${errorValidateLajiString}`);
         throw new Error(`Error with validator: ${errorValidateLajiString}`);
       }
       else if (validationResult.validationFailed) {
@@ -141,7 +134,7 @@ const attachmentObjectHandler = (attachmentObject) => {
         db.get("files")
           .push(fileMeta)
           .write();
-        winston.info(`Error creating valid document of file ${attachmentObject.id}: ${validationResult.validationMessage}`);
+        winston.warn(`Error creating valid document of file ${attachmentObject.id}: ${validationResult.validationMessage}`);
       }
       else {
         fileMeta.status = "valid";

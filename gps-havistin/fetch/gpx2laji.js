@@ -90,7 +90,6 @@ function parseTrack(tracks) {
 }
 
 const gpxString2lajiObject = (errorParseGpx, gpxObject) => {
-  //console.log("Parsing gpx -> gpx-object done, transformer received gpxObject with hash " + stringHash(JSON.stringify(gpxObject)));
 
   if (errorParseGpx !== null) {
     console.log(`Error parsing GPX file: ${errorParseGpx}`);
@@ -113,8 +112,6 @@ const gpxString2lajiObject = (errorParseGpx, gpxObject) => {
   lajiString.gatheringEvent.dateBegin = track.dateBegin;
   lajiString.gatherings[0].units = baseUnits;
 
-  //  console.log(JSON.stringify(document, null, 2));
-
   const lajiObject = {
     lajiString: JSON.stringify(lajiString), // TODO: better temp name, e.g. tempLajiObject
     waypointCount: waypoints.waypointCount,
@@ -124,10 +121,6 @@ const gpxString2lajiObject = (errorParseGpx, gpxObject) => {
   // Returns lajiObject object to the callback function
   moduleCallback(null, lajiObject);
 
-//    console.log(util.inspect(document, {showHidden: false, depth: null}))
-//    console.log(util.inspect(baseUnits, {showHidden: false, depth: null}))
-//    console.log(util.inspect(baseGeometry, {showHidden: false, depth: null}))
-//    console.log(util.inspect(gpxObject, {showHidden: false, depth: null}))
 };
 
 // -----------------------------------------------------------

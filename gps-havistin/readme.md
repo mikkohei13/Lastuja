@@ -66,6 +66,7 @@ App structure (6/2018):
 - How to organize an app, which has two parts: one called by cronjob, other being an express app serving web pages (or an API). Both use the same database, and potentially same database abstraction module.
 - How to organize code into middleware vs. reusable modules? 
 - How generic should modules be, in a) short term, when making a simple system (which will probably grow more complicated over time) vs. long term? E.g. handling errors.
+- It's often recommended that functions should have names, so that error messages, memory dumps could display the function name. But how about fat arrow functions, should/can they have names?
 
 ## Principles and limitations
 
@@ -81,9 +82,7 @@ App structure (6/2018):
 ## Todo
 
 ## Soon
-- Proper logout
-- Remove linter from fetch, update readme accordingly
-- Use Winston throughout the application
+- Use Winston throughout the application. See fetch/index.js for usage example
 - Fetch
     - Email validation results
     - Map taxon names to codes?
@@ -104,6 +103,7 @@ App structure (6/2018):
 - Sanitize user input?
 
 ### Later
+- Proper logout
 - Automatic linting
 - Testing
 - Debugging w/ debug module

@@ -215,9 +215,7 @@ const fetchNewAttachments = (callback) => {
 };
 
 imap.once("end", () => {
-//  console.log('Connection ended');
-//  console.log("filenames: " + JSON.stringify(filenames));
-//  console.log("pluscodes: " + JSON.stringify(pluscodes));
+  console.log('Connection ended');
   organizeFiles();
 });
 

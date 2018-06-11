@@ -57,6 +57,9 @@ const getUserData = function getUserData(personToken, callback) {
         }
 
         // Error: problem using the API
+
+        // API call error with JSON response: {"error":{"statusCode":404,"name":"Error","message":"Not found","details":"Incorrect personToken given"}}
+        
         // apiBodyObject === undefined  -> network error / api.laji.fi down
         // error                        -> error making request, e.g. error within require module(?)
         // body.error != undefined      -> api.laji.fi returns error, e.g. because of erroneus call

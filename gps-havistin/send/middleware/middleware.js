@@ -4,6 +4,8 @@ MIDDLEWARE WRAPPER
 Business logic is in modules, this handles errors.
 Data flows through in the req object.
 */
+const winston = require("winston");
+winston.add(winston.transports.File, { filename: "../logs/send.log" });
 
 const lajifiApi = require("../lajifi_api");
 const DbModels = require("../db_models");
@@ -26,7 +28,7 @@ const getUserData = function getUserData(req, res, next) {
   lajifiApi.getUserData(req.query.person_token, (error, lajifi) => {
     // Error handling
     if (error) {
-      console.log(error.message);
+      winston.error(`Error getting user data: ${error.message}`); // ABBA
       if (error.type === "no-persontoken") {
         res.redirect("https://www.biomi.org/havistin/");
       }
