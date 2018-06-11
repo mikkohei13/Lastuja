@@ -82,12 +82,8 @@ App structure (6/2018):
 ## Todo
 
 ## Soon
-- Use Winston throughout the application. See fetch/index.js for usage example
 - Fetch
     - Email validation results
-    - Map taxon names to codes?
-        - key taxonID
-        - API https://api.laji.fi/v0/taxa/search?query=TAXONNAME&limit=1&matchType=exact&onlySpecies=false&onlyFinnish=false&onlyInvasive=false&access_token=APITOKEN
     - Sanitize file names, so that they can be used as get param
     - Locality name from GPX
     - Test
@@ -116,9 +112,14 @@ App structure (6/2018):
 - Fetch
     - Käsitellyn (=validoidun) viestin poisto Gmailin inboxista
     - Viestin body documentin notesiin
+    - Map taxon names to codes? How? async/await?
+        - key taxonID
+        - API https://api.laji.fi/v0/taxa/search?query=TAXONNAME&limit=1&matchType=exact&onlySpecies=false&onlyFinnish=false&onlyInvasive=false&access_token=APITOKEN
 - Send
     - Use error template for errors, or disable error template
     - Manually mark file as unsent
+
+If you need to change how laji-documents are created, remove them from db.json and re-run the fetch script. But DON'T touch those files which have status sent, otherwise they would be duplicated!
 
 
 ## Notes

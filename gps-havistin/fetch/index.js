@@ -99,6 +99,9 @@ const validateLajiString = (lajiString, functionCallback) => {
   );
 };
 
+const emailResponse = (fileMeta) => {
+
+}
 
 const attachmentObjectHandler = (attachmentObject) => {
   gpx2laji.parseAttachmentObject(attachmentObject, (errorParseAttachmentObject, lajiObject) => {
@@ -116,6 +119,7 @@ const attachmentObjectHandler = (attachmentObject) => {
       const nowISO = now.toISOString();
       const fileMeta = {
         id: attachmentObject.id,
+        from: attachmentObject.fromEmail,
         pluscode: attachmentObject.pluscode,
         status: "invalid",
         validationMessage: validationResult.validationMessage,
@@ -143,8 +147,10 @@ const attachmentObjectHandler = (attachmentObject) => {
           .push(fileMeta)
           .write();
         // ...and write laji.document to disk
-        fs.writeFileSync(`./files_document_archive/${attachmentObject.id}.json`, lajiObject.lajiString);
-        winston.info(`File converted into laji-document with hash ${stringHash(lajiObject.lajiString)}`);
+        const filename = `./files_document_archive/${attachmentObject.id}.json`;
+        fs.writeFileSync(filename, lajiObject.lajiString);
+        winston.info(`File converted into laji-document ${filename} with hash ${stringHash(lajiObject.lajiString)}`);
+        emailResponse(fileMeta);
       }
     });
   });
@@ -176,7 +182,8 @@ gmail.fetchNewAttachments((attachmentObjectArray) => {
   winston.info(`Succesfully fetched ${attachmentObjectArray.length} GPX attachments from email`);
 
   // New principle: only handle first attachment that is not yet in the database. This avoids looping async.
-  // "looping async functions is dangerous [an difficult with callbacks]"
+  // "looping async functions is dangerous [and difficult with callbacks]"
+
   let i = 0;
   attachmentObjectArray.forEach((attachmentObject) => {
     if (isDatabased(attachmentObject.id)) {

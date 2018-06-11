@@ -21,6 +21,7 @@ const secrets = require("./secrets");
 let moduleCallback;
 const pluscodes = {};
 const filenames = {};
+const fromEmailsArr = {};
 
 const archiveFileDir = "./files_gpx_archive/";
 
@@ -83,7 +84,7 @@ function buildAttMessageFunction(attachment) {
       }
     });
     msg.once("end", () => {
-      console.log(`${prefix}Finished attachment %s`, filename);
+      console.log(`${prefix} Finished attachment %s`, filename);
       filenames[prefix] = filename;
     });
   };
@@ -115,17 +116,24 @@ imap.once("ready", () => {
         stream.once("end", () => {
           const parsedHeader = Imap.parseHeader(buffer);
           //          console.log("BUFFER: " + buffer);
-          const toEmails = parsedHeader.to;
 
           // Checks to email addresses
+          const toEmails = parsedHeader.to;
           toEmails.forEach((toEmail) => {
             const parts = toEmail.split("@");
             const prefixParts = parts[0].split("+");
             if (prefixParts[1] === undefined) {
               prefixParts[1] = "NA";
             }
-            console.log(`PP: ${prefix} / ${prefixParts[1]}`);
+            console.log(`PP1: ${prefix} / ${prefixParts[1]} / to email: ${toEmail}`);
             pluscodes[prefix] = prefixParts[1];
+          });
+
+          // Checks from email addresses
+          const fromEmails = parsedHeader.from;
+          fromEmails.forEach((fromEmail) => {
+            fromEmailsArr[prefix] = fromEmail;
+            console.log(`PP2: ${prefix} / from email: ${fromEmailsArr}`);
           });
 
           console.log(`${prefix}Parsed header: %s`, JSON.stringify(parsedHeader));
@@ -200,6 +208,7 @@ function organizeFiles() {
       attachmentObject.gpxString = fs.readFileSync(sourceDirFile, "utf8");
       attachmentObject.pluscode = pluscodes[key];
       attachmentObject.filename = filenames[key];
+      attachmentObject.fromEmail = fromEmailsArr[key];
       attachmentObject.id = `${pluscodes[key]}_${filenames[key]}`;
       //            console.log(attachmentObject);
       attachmentObjectsArray.push(attachmentObject);

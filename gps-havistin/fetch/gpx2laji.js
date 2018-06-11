@@ -27,13 +27,19 @@ function parseWaypoints(data) {
   // Go through waypoints, assign to parsedWaypoints array
   const parsedWaypoints = waypoints.map((waypoint) => {
     const nameParts = waypoint.name.split(" ");
+    const taxonName = nameParts[0];
+
+    // TODO: get taxon id for each
+//    const taxonID = ""; // taxonID
+
     const unitHelper = {
       recordBasis: "MY.recordBasisHumanObservation",
       taxonConfidence: "MY.taxonConfidenceSure",
       count: nameParts[1],
       identifications: [
         {
-          taxon: nameParts[0],
+          taxon: taxonName//, // taxonID
+//          taxonID: taxonID // taxonID
         },
       ],
       unitGathering: {
@@ -120,7 +126,6 @@ const gpxString2lajiObject = (errorParseGpx, gpxObject) => {
 
   // Returns lajiObject object to the callback function
   moduleCallback(null, lajiObject);
-
 };
 
 // -----------------------------------------------------------
@@ -131,8 +136,8 @@ function parseAttachmentObject(attachmentObject, callback) {
 
   console.log(`Parser received string beginning with ${gpxString.substring(0, 20)}... and with hash of ${stringHash(gpxString)}`);
 
+  // Moving callback to module scope, so that it can be accessed from parseGpx's callback
   moduleCallback = callback;
-  // TODO: ? move callback to inline here
 
   gpxParse.parseGpx(gpxString, gpxString2lajiObject);
 
@@ -144,7 +149,6 @@ function parseAttachmentObject(attachmentObject, callback) {
   without proper data, which causes it to fail.
 
   TODO: make this function robust, so that the app does not crash if the function is called without proper parameters.
-
   */
 }
 
