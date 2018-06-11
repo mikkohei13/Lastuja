@@ -17,11 +17,6 @@ const DbModels = require("../db_models");
 // -----------------------------------------------------------
 // Functions
 
-const log = function log(req, res, next) {
-  console.log(req.query);
-  next();
-};
-
 // ??: if there is a problem, should the lajifi module handle it, or just return error type and let it be handled here?
 // If the module should be generic, just return the error.
 const getUserData = function getUserData(req, res, next) {
@@ -85,7 +80,6 @@ const sendFile = function sendFile(req, res, next) {
 
 
 module.exports = {
-  log: log,
   getUserData: getUserData,
   getUserFiles: getUserFiles,
   sendFile: sendFile,

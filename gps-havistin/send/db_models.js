@@ -29,8 +29,6 @@ const organizeUserFilesByStatus = function organizeUserFilesByStatus(userFiles) 
     userFilesByStatus[file.status].push(file);
   });
 
-  console.log(userFilesByStatus);
-
   return userFilesByStatus;
 };
 

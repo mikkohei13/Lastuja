@@ -39,8 +39,6 @@ router.get("/file/:fileId", // eslint-disable-line function-paren-newline
   middleware.sendFile,
 
   (req, res, next) => {
-    //    console.log("RISTIINA: " + JSON.stringify(req.lajifi)); // person_token is not here
-
     res.render("send_file", {
       title: "Havistin - File sent",
       vihkoFileId: req.sendFileResponse.id,
