@@ -34,7 +34,7 @@ Linting:
 
 Run fetcher from the `fetch` directory, with settings in nodemon.json:
 
-    nodemon index.js
+    nodemon index.js --emailResponse
 
 This should be run by a cronjob, e.g. every 10 minutes. (Does Gmail set limits on the frequency?)
 
@@ -61,6 +61,7 @@ App structure (6/2018):
 
 ## Questions
 
+- How to set up eslint to run whenever nodemon restarts the app
 - How user input is / should be sanitized in node? 
 - How to use middleware in all defined routes, but nowhere else? Router-level middleware will be used with nonexistent endpoints (e.g. /uploads/foobar)
 - How to organize an app, which has two parts: one called by cronjob, other being an express app serving web pages (or an API). Both use the same database, and potentially same database abstraction module.

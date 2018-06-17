@@ -2,6 +2,9 @@
 const winston = require("winston");
 winston.add(winston.transports.File, { filename: "../logs/fetch.log" });
 
+const argumentsParser = require("./arguments_parser");
+const args = argumentsParser.allowedArguments();
+
 const fs = require("fs");
 const request = require("request");
 const lowdb = require("lowdb");
@@ -189,7 +192,9 @@ const attachmentObjectHandler = (attachmentObject) => {
 
         winston.info(`File converted into laji-document ${filename} with hash ${stringHash(lajiObject.lajiString)}`);
       }
-      emailResponse(fileMeta);
+      if (args.emailResponse) {
+        emailResponse(fileMeta);
+      }
     });
   });
 };
