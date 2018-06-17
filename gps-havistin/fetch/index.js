@@ -120,7 +120,7 @@ const emailResponse = (messageMeta) => {
 
   const mailOptions = {
       from: secrets.email.address,
-      to: secrets.testEmail,
+      to: messageMeta.recipient,
       subject: messageMeta.subject,
       html: messageMeta.body,
   };
@@ -139,15 +139,15 @@ const emailResponse = (messageMeta) => {
 
 // Turns fileMeta into messageMeta object with body and subject
 function formatEmail(fileMeta) {
-  let messageMeta = {};
+  let messageMeta = { recipient: fileMeta.from };
 
   if (fileMeta.status === "valid") {
     messageMeta.subject = "Havistin: File ready for uploading"
-    messageMeta.body = "Hi there!<br>\n<br>\nFollowing file is ready for uploading to Vihko. Please log in to Havistin at (ADDRESS HERE) to upload the file.<br>\n<br>\n"
+    messageMeta.body = `Hi there!<br>\n<br>\nFollowing file is ready for uploading to Vihko. Please log in to Havistin at ${secrets.rootUrl} to upload the file.<br>\n<br>\n`;
   }
   else{
     messageMeta.subject = "Havistin: Problem creating file for upload"
-    messageMeta.body = "Hmm,<br>\n<br>\nThere is a problem creating a file for Vihko from the following attachment you sent. Error: " + fileMeta.validationMessage + " <br>\n<br>\nPlease log in to Havistin at (ADDRESS HERE) to see more details.<br>\n<br>\n"
+    messageMeta.body = `Hi,<br>\n<br>\nThere was a problem creating a file for Vihko from the following attachment you sent. Error: ‚${fileMeta.validationMessage}<br>\n<br>\nYou can see the file on Havistin at ${secrets.rootUrl} but you cannot send it to Vihko.<br>\n<br>\n`;
   }
 
   let fileInfo = ` File id: ${fileMeta.id}<br>\n Observations: ${fileMeta.gpx.waypointCount}<br>\n Track segments id: ${fileMeta.gpx.segmentCount}<br>\n Name: ${fileMeta.gpx.name}<br>\n Date: ${fileMeta.gpx.dateBegin}<br>\n`;
