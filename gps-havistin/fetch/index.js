@@ -10,6 +10,7 @@ const FileSync = require("lowdb/adapters/FileSync");
 const gmail = require("./mail");
 const gpx2laji = require("./gpx2laji");
 const secrets = require("./secrets");
+const nodemailer = require('nodemailer');
 
 const stringHash = require("string-hash"); // debug
 
@@ -100,7 +101,39 @@ const validateLajiString = (lajiString, functionCallback) => {
 };
 
 const emailResponse = (fileMeta) => {
+  console.log("Debug emailResponse: " + JSON.stringify(fileMeta));
 
+  // https://medium.com/@manojsinghnegi/sending-an-email-using-nodemailer-gmail-7cfa0712a799
+
+  // 2nd option: https://github.com/eleith/emailjs
+
+  let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+          user: secrets.email.address,
+          pass: secrets.email.password
+      }
+  });
+
+  const message = JSON.stringify(fileMeta);
+
+  const mailOptions = {
+      from: secrets.email.address,
+      to: secrets.testEmail,
+      subject: "Havistin: File successfully saved",
+      html: message
+  };
+
+  transporter.sendMail(mailOptions, function (err, info) {
+      if (err) {
+          console.log(err);
+      }
+      else {
+          console.log(info);
+      }
+  });
+
+  console.log("Email sending in progress...")
 }
 
 const attachmentObjectHandler = (attachmentObject) => {
@@ -123,8 +156,12 @@ const attachmentObjectHandler = (attachmentObject) => {
         pluscode: attachmentObject.pluscode,
         status: "invalid",
         validationMessage: validationResult.validationMessage,
-        waypointCount: lajiObject.waypointCount,
-        segmentCount: lajiObject.segmentCount,
+        gpx: {
+          waypointCount: lajiObject.waypointCount,
+          segmentCount: lajiObject.segmentCount,
+          name: lajiObject.name,
+          dateBegin: lajiObject.dateBegin,
+        },
         datetime: nowISO,
       };
 
@@ -149,9 +186,10 @@ const attachmentObjectHandler = (attachmentObject) => {
         // ...and write laji.document to disk
         const filename = `./files_document_archive/${attachmentObject.id}.json`;
         fs.writeFileSync(filename, lajiObject.lajiString);
+
         winston.info(`File converted into laji-document ${filename} with hash ${stringHash(lajiObject.lajiString)}`);
-        emailResponse(fileMeta);
       }
+      emailResponse(fileMeta);
     });
   });
 };
