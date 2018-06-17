@@ -80,32 +80,36 @@ App structure (6/2018):
 
 ## Soon
 - Fetch
-    - Email validation results: use real recipient email, provide link to Havistin
     - Sanitize file names, so that they can be used as get param
     - Test
-        - Viesti lähetetty useisiin osoitteisiin
+        - Vastaanottajana toinenkin osoite -> Parses the file fine
+        - Ei liitettä -> Nothing happens
         - Liitteenä jokin muu kuin gpx
+        - Liitteenä useita gpx-tiedostoja
+        - Liitteenä useita tiedostoja, joista yksi gpx
         - Liitteenä malformed gpx
 - Send
     - Reload db.json at every page load
     - Understand parsing json from api: body-parser module?
     - (Try sending invalid file)
-    - !!! Save sent id's into an array, and read them from an array using loop on handlbards template (will make easier to allow multiple sends per file in the future)
-- Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
-- Separate code into reusable modules, use them through middleware. This means making lajifi_api as module, and using that from middleware, which is being used from route. Document this for future code discussions.
+    - !!! Save sent id's into an array in the db.json, and read them from an array using loop on handlbards template (will make easier to allow multiple sends per file in the future)
 - Sanitize user input?
 
 ### Later
-- Proper logout
-- Automatic linting
-- Testing
-- Debugging w/ debug module
-- Use person token via cookie, using session module?
-    - Use production-ready session store
-- GDPR requirements
-- Logging with custom logger, for distinguishing production and debug logging: https://www.npmjs.com/package/winston
-- Promises instead of callbacks, with sane error handling
-- Styling
+- Non-features
+    - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
+    - Separate code into reusable modules, use them through middleware. This means making lajifi_api as module, and using that from middleware, which is being used from route. Document this for future code discussions.
+    - Use person token via cookie, using session module?
+        - Use production-ready session store
+    - GDPR requirements
+    - Promises instead of callbacks, with sane error handling
+- Dev support
+    - Automatic linting
+    - Testing
+    - Debugging w/ debug module
+- Features etc.
+    - Styling
+    - Proper logout
 - Fetch
     - Käsitellyn (=validoidun) viestin poisto Gmailin inboxista
     - Viestin body documentin notesiin

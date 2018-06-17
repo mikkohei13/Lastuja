@@ -150,7 +150,7 @@ function formatEmail(fileMeta) {
     messageMeta.body = `Hi,<br>\n<br>\nThere was a problem creating a file for Vihko from the following attachment you sent. Error: ‚${fileMeta.validationMessage}<br>\n<br>\nYou can see the file on Havistin at ${secrets.rootUrl} but you cannot send it to Vihko.<br>\n<br>\n`;
   }
 
-  let fileInfo = ` File id: ${fileMeta.id}<br>\n Observations: ${fileMeta.gpx.waypointCount}<br>\n Track segments id: ${fileMeta.gpx.segmentCount}<br>\n Name: ${fileMeta.gpx.name}<br>\n Date: ${fileMeta.gpx.dateBegin}<br>\n`;
+  let fileInfo = ` File id: ${fileMeta.id}<br>\n Observations: ${fileMeta.gpx.waypointCount}<br>\n Track segments: ${fileMeta.gpx.segmentCount}<br>\n Name: ${fileMeta.gpx.name}<br>\n Date: ${fileMeta.gpx.dateBegin}<br>\n`;
 
   messageMeta.body = messageMeta.body + fileInfo + "<br>\n<br>\n" + "Regards,<br>\n  Havistin";
 
@@ -211,7 +211,7 @@ const attachmentObjectHandler = (attachmentObject) => {
         winston.info(`File converted into laji-document ${filename} with hash ${stringHash(lajiObject.lajiString)}`);
       }
 
-      // Email
+      // Email validation results
       winston.info("Args: " + JSON.stringify(args));
       if (args.emailResponse) {
         emailResponse(formatEmail(fileMeta));
