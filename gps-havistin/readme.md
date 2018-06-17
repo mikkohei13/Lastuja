@@ -83,17 +83,17 @@ App structure (6/2018):
 
 ## Soon
 - Fetch
-    - Email validation results
+    - Email validation results: use real sended email, create sensible message, change title and message based on success/failure, provide link to Havistin
     - Sanitize file names, so that they can be used as get param
-    - Locality name from GPX
     - Test
         - Viesti lähetetty useisiin osoitteisiin
         - Liitteenä jokin muu kuin gpx
         - Liitteenä malformed gpx
 - Send
+    - Reload db.json at every page load
     - Understand parsing json from api: body-parser module?
     - (Try sending invalid file)
-    - !!! Save sent id's into an array (will make easier to allow multiple sends in the future)
+    - !!! Save sent id's into an array, and read them from an array using loop on handlbards template (will make easier to allow multiple sends per file in the future)
 - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
 - Separate code into reusable modules, use them through middleware. This means making lajifi_api as module, and using that from middleware, which is being used from route. Document this for future code discussions.
 - Sanitize user input?
@@ -106,8 +106,8 @@ App structure (6/2018):
 - Use person token via cookie, using session module?
     - Use production-ready session store
 - GDPR requirements
+- Logging with custom logger, for distinguishing production and debug logging: https://www.npmjs.com/package/winston
 - Promises instead of callbacks, with sane error handling
-- Save date to db, show on front page
 - Styling
 - Fetch
     - Käsitellyn (=validoidun) viestin poisto Gmailin inboxista

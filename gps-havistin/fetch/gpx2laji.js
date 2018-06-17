@@ -122,6 +122,8 @@ const gpxString2lajiObject = (errorParseGpx, gpxObject) => {
     lajiString: JSON.stringify(lajiString), // TODO: better temp name, e.g. tempLajiObject
     waypointCount: waypoints.waypointCount,
     segmentCount: track.segmentCount,
+    name: track.name,
+    dateBegin: track.dateBegin,
   };
 
   // Returns lajiObject object to the callback function
