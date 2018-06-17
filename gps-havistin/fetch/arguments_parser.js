@@ -1,11 +1,13 @@
-
+/*
+Adds allowed command-line arguments into an object, with dashes removed, e.g. { argument: true }
+*/
 // -----------------------------------------------------------
 // Public functions
 
 function allowedArguments() {
 
-  // Add allowed args here. If arg is found, dashes will be removed and arg is set to true
-  const allowedArgs = ["--emailResponse", "--test"];
+  // Add allowed args here
+  const allowedArgs = ["--emailResponse", "--emailLog", "--test"];
 
   let ret = {};
 

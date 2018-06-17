@@ -42,11 +42,7 @@ This should be run by a cronjob, e.g. every 10 minutes. (Does Gmail set limits o
 
 Run sender from the `send` directory:
 
-    nodemon DEBUG=send:* npm start
-
-or:
-
-    DEBUG=search:* nodemon ./bin/www
+    nodemon index.js
 
 Access using personToken:
 - Get the token using Havistin authenticator: https://www.biomi.org/havistin/
@@ -84,7 +80,7 @@ App structure (6/2018):
 
 ## Soon
 - Fetch
-    - Email validation results: use real sended email, create sensible message, change title and message based on success/failure, provide link to Havistin
+    - Email validation results: use real recipient email, provide link to Havistin
     - Sanitize file names, so that they can be used as get param
     - Test
         - Viesti lähetetty useisiin osoitteisiin

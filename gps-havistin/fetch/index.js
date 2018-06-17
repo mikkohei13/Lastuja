@@ -103,8 +103,8 @@ const validateLajiString = (lajiString, functionCallback) => {
   );
 };
 
-const emailResponse = (fileMeta) => {
-  console.log("Debug emailResponse: " + JSON.stringify(fileMeta));
+const emailResponse = (messageMeta) => {
+//  console.log("Debug emailResponse: " + JSON.stringify(messageMeta));
 
   // https://medium.com/@manojsinghnegi/sending-an-email-using-nodemailer-gmail-7cfa0712a799
 
@@ -118,13 +118,11 @@ const emailResponse = (fileMeta) => {
       }
   });
 
-  const message = JSON.stringify(fileMeta);
-
   const mailOptions = {
       from: secrets.email.address,
       to: secrets.testEmail,
-      subject: "Havistin: File successfully saved",
-      html: message
+      subject: messageMeta.subject,
+      html: messageMeta.body,
   };
 
   transporter.sendMail(mailOptions, function (err, info) {
@@ -137,6 +135,26 @@ const emailResponse = (fileMeta) => {
   });
 
   console.log("Email sending in progress...")
+}
+
+// Turns fileMeta into messageMeta object with body and subject
+function formatEmail(fileMeta) {
+  let messageMeta = {};
+
+  if (fileMeta.status === "valid") {
+    messageMeta.subject = "Havistin: File ready for uploading"
+    messageMeta.body = "Hi there!<br>\n<br>\nFollowing file is ready for uploading to Vihko. Please log in to Havistin at (ADDRESS HERE) to upload the file.<br>\n<br>\n"
+  }
+  else{
+    messageMeta.subject = "Havistin: Problem creating file for upload"
+    messageMeta.body = "Hmm,<br>\n<br>\nThere is a problem creating a file for Vihko from the following attachment you sent. Error: " + fileMeta.validationMessage + " <br>\n<br>\nPlease log in to Havistin at (ADDRESS HERE) to see more details.<br>\n<br>\n"
+  }
+
+  let fileInfo = ` File id: ${fileMeta.id}<br>\n Observations: ${fileMeta.gpx.waypointCount}<br>\n Track segments id: ${fileMeta.gpx.segmentCount}<br>\n Name: ${fileMeta.gpx.name}<br>\n Date: ${fileMeta.gpx.dateBegin}<br>\n`;
+
+  messageMeta.body = messageMeta.body + fileInfo + "<br>\n<br>\n" + "Regards,<br>\n  Havistin";
+
+  return messageMeta;
 }
 
 const attachmentObjectHandler = (attachmentObject) => {
@@ -192,8 +210,14 @@ const attachmentObjectHandler = (attachmentObject) => {
 
         winston.info(`File converted into laji-document ${filename} with hash ${stringHash(lajiObject.lajiString)}`);
       }
+
+      // Email
+      winston.info("Args: " + JSON.stringify(args));
       if (args.emailResponse) {
-        emailResponse(fileMeta);
+        emailResponse(formatEmail(fileMeta));
+      }
+      if (args.emailLog) {
+        winston.info("Email stringifed: " + JSON.stringify(formatEmail(fileMeta)));
       }
     });
   });
