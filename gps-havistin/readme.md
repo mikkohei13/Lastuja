@@ -82,9 +82,9 @@ App structure (6/2018):
 - Fetch
     - Sanitize file names, so that they can be used as get param
     - Test
-        - Vastaanottajana toinenkin osoite -> Parses the file fine
-        - Ei liitettä -> Nothing happens
-        - Liitteenä jokin muu kuin gpx
+        - Several recipients -> Parses the file ok
+        - No attachment -> Skips the email
+        - Attachment is not .gpx -> Skips the email, b
         - Liitteenä useita gpx-tiedostoja
         - Liitteenä useita tiedostoja, joista yksi gpx
         - Liitteenä malformed gpx
@@ -95,6 +95,11 @@ App structure (6/2018):
     - !!! Save sent id's into an array in the db.json, and read them from an array using loop on handlbards template (will make easier to allow multiple sends per file in the future)
 - Sanitize user input?
 
+
+Note about JS:
+- File paths are relative to where script is started from
+
+
 ### Later
 - Non-features
     - Make this one system, with shared node_modules. Keep fetch and send in their own subfolders, and create new folder for shared code, e.g. db models
@@ -102,7 +107,7 @@ App structure (6/2018):
     - Use person token via cookie, using session module?
         - Use production-ready session store
     - GDPR requirements
-    - Promises instead of callbacks, with sane error handling
+    - Promises instead of callbacks, with sane error handling (or await / async?)
 - Dev support
     - Automatic linting
     - Testing

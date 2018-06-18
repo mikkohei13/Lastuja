@@ -223,6 +223,14 @@ const attachmentObjectHandler = (attachmentObject) => {
   });
 };
 
+const validateFilename = (filename) => {
+  if (filename.substring(filename.length - 4) === ".gpx") {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
 
 // -----------------------------------------------------------
 // Main
@@ -257,16 +265,21 @@ gmail.fetchNewAttachments((attachmentObjectArray) => {
       winston.info(`File id ${attachmentObject.id} already in database`);
     }
     else {
-      // Call attachmentObjectHandler
-      // and skip further attachments
+      // Call attachmentObjectHandler,
+      // and skip further attachments, so only one attachment per email is allowed, for the system to work correctly.
       if (i === 0) {
-        winston.info(`Parsing file number ${i}, id ${attachmentObject.id}`);
-        attachmentObjectHandler(attachmentObject);
+        if (validateFilename(attachmentObject.id)) {
+          winston.info(`Parsing file number ${i}, id ${attachmentObject.id}`);
+          attachmentObjectHandler(attachmentObject);
+          i += 1; // This affects that no other files are parsed
+        }
+        else {
+          winston.info(`Skipping non-gpx file number ${i}, id ${attachmentObject.id}`);
+        }
       }
       else {
         winston.info(`Skipping file number ${i}`);
       }
-      i += 1;
     }
   });
 });
