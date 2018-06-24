@@ -46,7 +46,7 @@ const getUserFiles = function getUserFiles(req, res, next) {
 
   let pluscode;
   pluscode = req.lajifi.user.pluscode;
-  pluscode = "test"; // debug
+//  pluscode = "test"; // debug
 
   DbModels.getUserFiles(pluscode, (error, ret) => {
     if (error) {

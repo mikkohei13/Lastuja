@@ -99,35 +99,38 @@ const gpxString2lajiObject = (errorParseGpx, gpxObject) => {
 
   if (errorParseGpx !== null) {
     console.log(`Error parsing GPX file: ${errorParseGpx}`);
+    moduleCallback(errorParseGpx);
   }
+  else
+  {
+    // Waypoints -> Units
+    const waypoints = parseWaypoints(gpxObject);
+    const baseUnits = waypoints.baseUnits;
+    // TODO: consistent use of objects
 
-  // Waypoints -> Units
-  const waypoints = parseWaypoints(gpxObject);
-  const baseUnits = waypoints.baseUnits;
-  // TODO: consistent use of objects
+    // Track -> Geometry
+    const track = parseTrack(gpxObject.tracks);
 
-  // Track -> Geometry
-  const track = parseTrack(gpxObject.tracks);
+    // Get base lajiString and assign values to it
+    const lajiString = baseDocumentParts.baseDocument;
 
-  // Get base lajiString and assign values to it
-  const lajiString = baseDocumentParts.baseDocument;
+    const now = new Date();
+    lajiString.gatherings[0].notes = `${track.name} (parsed by gpx2laji on ${now.toISOString()})`;
+    lajiString.gatherings[0].geometry.geometries[0] = track.geometry;
+    lajiString.gatheringEvent.dateBegin = track.dateBegin;
+    lajiString.gatherings[0].units = baseUnits;
 
-  const now = new Date();
-  lajiString.gatherings[0].notes = `${track.name} (parsed by gpx2laji on ${now.toISOString()})`;
-  lajiString.gatherings[0].geometry.geometries[0] = track.geometry;
-  lajiString.gatheringEvent.dateBegin = track.dateBegin;
-  lajiString.gatherings[0].units = baseUnits;
+    const lajiObject = {
+      lajiString: JSON.stringify(lajiString), // TODO: better temp name, e.g. tempLajiObject
+      waypointCount: waypoints.waypointCount,
+      segmentCount: track.segmentCount,
+      name: track.name,
+      dateBegin: track.dateBegin,
+    };
 
-  const lajiObject = {
-    lajiString: JSON.stringify(lajiString), // TODO: better temp name, e.g. tempLajiObject
-    waypointCount: waypoints.waypointCount,
-    segmentCount: track.segmentCount,
-    name: track.name,
-    dateBegin: track.dateBegin,
-  };
-
-  // Returns lajiObject object to the callback function
-  moduleCallback(null, lajiObject);
+    // Returns lajiObject object to the callback function
+    moduleCallback(null, lajiObject);
+  }
 };
 
 // -----------------------------------------------------------

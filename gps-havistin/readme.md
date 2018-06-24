@@ -84,10 +84,11 @@ App structure (6/2018):
     - Test
         - Several recipients -> Parses the file ok
         - No attachment -> Skips the email
-        - Attachment is not .gpx -> Skips the email, b
-        - Liitteenä useita gpx-tiedostoja
-        - Liitteenä useita tiedostoja, joista yksi gpx
-        - Liitteenä malformed gpx
+        - Attachment is not .gpx -> Skips the attachment
+        - Multiple gpx-attachments in one message -> Ever only parses one of them
+        - Multiple attachments in one message, one of which is gpx -> One gpx is parsed (randomly?)
+        - Malformed gpx attached -> Doesn't parse the file, but DOESN'T MOVE TO NEXT FILE EITHER = Malformed gpx file will stop all new files being processed = bug
+        - kml instead of gpx
 - Send
     - Reload db.json at every page load
     - Understand parsing json from api: body-parser module?
@@ -121,6 +122,10 @@ Note about JS:
     - Map taxon names to codes? How? async/await?
         - key taxonID
         - API https://api.laji.fi/v0/taxa/search?query=TAXONNAME&limit=1&matchType=exact&onlySpecies=false&onlyFinnish=false&onlyInvasive=false&access_token=APITOKEN
+    - Use 3rd party email API, e.g.
+        - Postmark (no free plan)
+        - EmailYak
+        - Mailgun
 - Send
     - Use error template for errors, or disable error template
     - Manually mark file as unsent

@@ -160,8 +160,8 @@ function formatEmail(fileMeta) {
 const attachmentObjectHandler = (attachmentObject) => {
   gpx2laji.parseAttachmentObject(attachmentObject, (errorParseAttachmentObject, lajiObject) => {
     if (errorParseAttachmentObject) {
-      winston.info(`Error parsing GPX file, hash ${stringHash(lajiObject.lajiString)} and error ${errorParseAttachmentObject}`);
-      throw new Error("Error parsing GPX file");
+      winston.warn(`Error parsing GPX file: ${errorParseAttachmentObject}`);
+      return;
     }
 
     // NOW WE HAVE LAJI-DOCUMENT in lajiObject
