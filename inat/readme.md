@@ -60,6 +60,31 @@ updated_since
 - time?
 - is comment an update? is changed community id an update?
 
+How deletions?
+/observations/deleted
+
+## DW API
+
+POST /warehouse/push 
+DELETE /warehouse/push 
+
+Push vai custom solution, e.g. with flat nightly updated table?
+
+### Push
+- Simple for FinBIF
+- If push fails, system needs to log this, so that can be pushed again later
+- Middleware needs
+  - Push, starting from oldest, based on edit time (additions, edits and deletions)
+  - If failure (error code) or timeout, log timedate for that record
+  - After sleep time, restart starting from that datetime
+
+### Custom pull
+- Simpler for source system, can focus on data harmonization
+- If pull fails, DW needs to take care of pulling again, starting from provided datetime
+- Middleware needs:
+  - Since datetime parameter
+  - List additions, updates (persistent id) and deletions (persistent id)
+
 
 
 ## See also
@@ -99,6 +124,20 @@ user->suspended BOOL
 user->orcid 
 user->observations_count
 photos, observation_photos  what's the difference? where to put count?
+
+
+DW:
+- record id: ??
+- userId: inaturalist:id
+
+- quality level in original source:
+  - community verified
+  - neutral
+  - uncertain
+
+Additions to DW:
+- license for each record
+
 
 --
 
