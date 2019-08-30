@@ -78,10 +78,20 @@ Push vai custom solution, e.g. with flat nightly updated table?
   - If failure (error code) or timeout, log timedate for that record
   - After sleep time, restart starting from that datetime
 
+Logic:
+- Api endpoint is called e.g. every 1 hour (the more often, the less obs is handled at a time)
+- Can give parameter for datetime (for debugging), or leave it out
+- If no param, get it from a text file
+- Call inat api with edited datetime, country and other params (tbd), sorted by edited datetime desc
+- Go through obs
+  - For user id's, look match from cache file. If not found, fetch from api and add to cache file
+  - Convert to DW json array
+- Go through json array
+  - Push to DW. If success, log latest edited datetime.
+  - On validation failure, log observation id
+  - On timeout or DW failure, stop the process
+- Use try/catch. On failure, write to log. On success, write to log.
 
-Api endpoint is called e.g. every 24 hours
-Can give parameter for datetime (for debugging), or leave it out
-If no param, get it from a text file
 
 Finland 18976 obs
 
@@ -199,5 +209,6 @@ captive_cultivated
 harrastelija
 mies
 nainen
-
+alaosasto - tarkista taxon rankit
+...käyttää muilla verkko...
 
