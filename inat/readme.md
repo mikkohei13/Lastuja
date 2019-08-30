@@ -78,6 +78,35 @@ Push vai custom solution, e.g. with flat nightly updated table?
   - If failure (error code) or timeout, log timedate for that record
   - After sleep time, restart starting from that datetime
 
+
+Api endpoint is called e.g. every 24 hours
+Can give parameter for datetime (for debugging), or leave it out
+If no param, get it from a text file
+
+Finland 18976 obs
+
+Photos, Finland, through UI (filter out spam & non-verifiable obs)
+Total 18976
+CC0 196
+CC-BY 843
+CC-BY-NC 12383
+CC-BY-SA 8
+CC-BY-ND 0
+CC-BY-NC-SA 602
+CC-BY-NC-ND 28
+no license (calculated from total) 4916 (26%)
+
+Observations, Finland, through API
+Total 20205
+CC0 730
+CC-BY 600
+CC-BY-NC 12525
+CC-BY-SA 4
+CC-BY-ND 0
+CC-BY-NC-SA 595
+CC-BY-NC-ND 30
+no license (calculated from total) 5721 (28%)
+
 ### Custom pull
 - Simpler for source system, can focus on data harmonization
 - If pull fails, DW needs to take care of pulling again, starting from provided datetime
@@ -135,8 +164,16 @@ DW:
   - neutral
   - uncertain
 
-Additions to DW:
+What to do if user changes their observation license?
+- Follow the new license, and delete the observation if new license is ARR
+  - Downside: we lose observations which we legally could keep
+- If license cnages towards more strict (either within CC or from CC to ARR), don't update the record
+  - Downside: we don't get updates, like error corrections
+
+
+Additions needed to DW:
 - license for each record
+- Source annotation data?
 
 
 --
