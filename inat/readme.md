@@ -63,6 +63,32 @@ updated_since
 How deletions?
 /observations/deleted
 
+
+
+Finland 18976 obs
+
+Photos, Finland, through UI (filter out spam & non-verifiable obs)
+Total 18976
+CC0 196
+CC-BY 843
+CC-BY-NC 12383
+CC-BY-SA 8
+CC-BY-ND 0
+CC-BY-NC-SA 602
+CC-BY-NC-ND 28
+no license (calculated from total) 4916 (26%)
+
+Observations, Finland, through API
+Total 20205
+CC0 730
+CC-BY 600
+CC-BY-NC 12525
+CC-BY-SA 4
+CC-BY-ND 0
+CC-BY-NC-SA 595
+CC-BY-NC-ND 30
+no license (calculated from total) 5721 (28%)
+
 ## DW API
 
 POST /warehouse/push 
@@ -93,37 +119,12 @@ Logic:
 - Use try/catch. On failure, write to log. On success, write to log.
 
 
-Finland 18976 obs
-
-Photos, Finland, through UI (filter out spam & non-verifiable obs)
-Total 18976
-CC0 196
-CC-BY 843
-CC-BY-NC 12383
-CC-BY-SA 8
-CC-BY-ND 0
-CC-BY-NC-SA 602
-CC-BY-NC-ND 28
-no license (calculated from total) 4916 (26%)
-
-Observations, Finland, through API
-Total 20205
-CC0 730
-CC-BY 600
-CC-BY-NC 12525
-CC-BY-SA 4
-CC-BY-ND 0
-CC-BY-NC-SA 595
-CC-BY-NC-ND 30
-no license (calculated from total) 5721 (28%)
-
 ### Custom pull
 - Simpler for source system, can focus on data harmonization
 - If pull fails, DW needs to take care of pulling again, starting from provided datetime
 - Middleware needs:
   - Since datetime parameter
   - List additions, updates (persistent id) and deletions (persistent id)
-
 
 
 ## See also
