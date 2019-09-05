@@ -13,7 +13,7 @@ services:
         container_name: devenv-web
 #        env_file:
 #            - .env
-        environment:
+#        environment:
 #            PHP_EXTENSION_MONGODB: 1
 #            PHP_EXTENSION_XDEBUG: 1
         ports:
@@ -21,3 +21,34 @@ services:
         volumes:
             - ./www:/var/www
 #            - ./env:/var/env
+
+    mysql:
+        image: mysql:8.0
+
+        container_name: devenv-db
+        command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: hartolanMarkkinat
+
+#        env_file: 
+#            - ./env/.env-mysql
+        ports:
+            - 3306:3306
+        volumes:
+#            - ./mysqldump:/docker-entrypoint-initdb.d
+            - devenv-mysql-volume:/var/lib/mysql
+
+    adminer:
+        image: adminer:4.7
+
+        container_name: devenv-adminer
+        ports:
+            - 8080:8080
+        environment:
+            ADMINER_DESIGN: lucas-sandery
+        depends_on: 
+            - mysql
+
+volumes:
+    devenv-mysql-volume:
