@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "base64-stream": "^0.1.3",
-    "express": "^4.16.2",
+    "express": "^4.18.2",
     "gpx-parse": "^0.10.4",
     "imap": "^0.8.19",
     "lowdb": "^1.0.0",
