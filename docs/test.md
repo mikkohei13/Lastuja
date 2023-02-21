@@ -1,3 +1,0 @@
-# Test.md
-
-Lorem ipsum...
